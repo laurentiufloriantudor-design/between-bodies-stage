@@ -15,16 +15,16 @@ const FooterSection = () => {
         <div className="md:col-span-4 border-b md:border-b-0 md:border-r border-background/20 px-6 md:px-12 py-16">
           <h4 className="text-lg mb-4 text-background">Contact</h4>
           <p className="font-body text-sm leading-relaxed opacity-60">
-            betweenbodies@contact.com
+            between.bconnections@gmail.com
           </p>
         </div>
 
         <div className="md:col-span-4 px-6 md:px-12 py-16">
-          <h4 className="text-lg mb-4 text-background">Navigare</h4>
+          <h4 className="text-lg mb-4 text-background">Navigate</h4>
           <nav className="flex flex-col gap-2 font-display uppercase text-sm tracking-tighter opacity-60">
             <a href="#workshop" className="hover:opacity-100 transition-opacity">Workshop ↗</a>
-            <a href="#about" className="hover:opacity-100 transition-opacity">Despre ↗</a>
-            <a href="#apply" className="hover:opacity-100 transition-opacity">Aplică ↗</a>
+            <a href="#about" className="hover:opacity-100 transition-opacity">About ↗</a>
+            <a href="#apply" className="hover:opacity-100 transition-opacity">Apply ↗</a>
           </nav>
         </div>
       </div>
