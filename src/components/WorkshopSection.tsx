@@ -1,48 +1,66 @@
 import { Button } from "@/components/ui/button";
+import { useEffect, useRef, useState } from "react";
 
 const WorkshopSection = () => {
   const spotsLeft = 12;
+  const sectionRef = useRef<HTMLElement>(null);
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => { if (entry.isIntersecting) setVisible(true); },
+      { threshold: 0.2 }
+    );
+    if (sectionRef.current) observer.observe(sectionRef.current);
+    return () => observer.disconnect();
+  }, []);
 
   return (
-    <section id="workshop" className="border-b border-foreground">
-      <div className="border-b border-foreground px-6 md:px-12 py-4">
-        <span className="font-display uppercase text-sm tracking-tighter text-muted-foreground">
-          [ Upcoming Workshop ]
-        </span>
-      </div>
+    <section id="workshop" ref={sectionRef} className="relative py-24 md:py-32 px-6 md:px-12 overflow-hidden">
+      {/* Background shape */}
+      <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-teal/8 blob-1 animate-drift-slow" />
 
-      <div className="grid grid-cols-1 md:grid-cols-12 gap-0">
-        <div className="md:col-span-3 border-b md:border-b-0 md:border-r border-foreground px-6 md:px-12 py-10">
-          <h3 className="text-2xl mb-2">Torino</h3>
-          <p className="font-body tabular-nums text-base text-muted-foreground">
+      <div className={`grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-4 relative z-10 transition-all duration-700 ${visible ? 'opacity-100' : 'opacity-0'}`}>
+        {/* Tile 1 — Label + location */}
+        <div className={`${visible ? 'animate-reveal-left' : ''}`}>
+          <span className="font-display text-sm tracking-[0.3em] text-teal block mb-8">Upcoming</span>
+          <h2 className="text-[3.5rem] md:text-[5rem] leading-[0.88] mb-4">Torino</h2>
+          <p className="font-body tabular-nums text-sm text-muted-foreground">
             25.04 — 26.04.2025
           </p>
         </div>
 
-        <div className="md:col-span-6 border-b md:border-b-0 md:border-r border-foreground px-6 md:px-12 py-10">
-          <h2 className="text-4xl md:text-5xl mb-6">Intensive Workshop</h2>
-          <p className="font-body text-base leading-relaxed text-muted-foreground max-w-lg" style={{ textWrap: 'pretty' }}>
-            A two-day intensive workshop dedicated to exploring the relationship between body, space, and stage presence. 
-            We work with movement techniques, improvisation, and group composition.
+        {/* Tile 2 — Description with overlapping coral bar */}
+        <div className={`relative ${visible ? 'animate-reveal-up animate-delay-2' : ''}`}>
+          <div className="absolute -left-4 top-0 w-1 h-full bg-coral" />
+          <h3 className="text-[2.5rem] md:text-[3.5rem] leading-[0.88] mb-6">
+            Intensive<br />Workshop
+          </h3>
+          <p className="font-body text-sm leading-relaxed text-muted-foreground max-w-sm" style={{ textWrap: 'pretty' }}>
+            A two-day intensive dedicated to exploring the relationship between body,
+            space, and stage presence. We work with movement techniques, improvisation,
+            and group composition.
           </p>
-          <div className="mt-6 flex flex-wrap gap-4 font-display uppercase text-sm tracking-tighter">
-            <span className="border border-foreground px-3 py-1">Free of charge</span>
-            <span className="border border-foreground px-3 py-1">2 days</span>
-            <span className="border border-foreground px-3 py-1">Torino, Italy</span>
+          <div className="mt-6 flex flex-wrap gap-3 font-display text-xs tracking-[0.2em]">
+            <span className="bg-navy text-cream px-3 py-1.5">Free</span>
+            <span className="bg-navy text-cream px-3 py-1.5">2 Days</span>
+            <span className="bg-navy text-cream px-3 py-1.5">Torino, IT</span>
           </div>
         </div>
 
-        <div className="md:col-span-3 px-6 md:px-12 py-10 flex flex-col justify-between items-start">
+        {/* Tile 3 — Spots counter + CTA */}
+        <div className={`flex flex-col justify-between ${visible ? 'animate-reveal-right animate-delay-3' : ''}`}>
           <div>
-            <p className="font-display uppercase text-sm tracking-tighter text-muted-foreground mb-2">
-              Spots available
-            </p>
-            <p className="font-display tabular-nums text-5xl">
-              {spotsLeft}<span className="text-muted-foreground text-2xl">/12</span>
-            </p>
+            <span className="font-display text-sm tracking-[0.3em] text-muted-foreground block mb-3">Spots</span>
+            <div className="flex items-baseline gap-1">
+              <span className="font-display tabular-nums text-[6rem] leading-none text-coral">
+                {spotsLeft}
+              </span>
+              <span className="font-display text-[2rem] text-muted-foreground">/12</span>
+            </div>
           </div>
           <a href="#apply">
-            <Button variant="hero" size="lg" className="mt-8 w-full">
+            <Button variant="hero" size="lg" className="mt-8 bg-foreground text-background hover:bg-teal hover:text-foreground border-0 transition-colors duration-500">
               Apply now →
             </Button>
           </a>

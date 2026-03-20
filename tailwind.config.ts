@@ -14,7 +14,7 @@ export default {
     },
     extend: {
       fontFamily: {
-        display: ["'Space Grotesk'", "sans-serif"],
+        display: ["'Bebas Neue'", "sans-serif"],
         body: ["'Inter'", "sans-serif"],
       },
       colors: {
@@ -23,6 +23,19 @@ export default {
         ring: "hsl(var(--ring))",
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
+        teal: {
+          DEFAULT: "#0ABAB5",
+          dark: "#089E9A",
+        },
+        coral: {
+          DEFAULT: "#E8725A",
+          dark: "#D45E46",
+        },
+        navy: {
+          DEFAULT: "#1A2744",
+          light: "#2A3D5E",
+        },
+        cream: "#F0EDE6",
         primary: {
           DEFAULT: "hsl(var(--primary))",
           foreground: "hsl(var(--primary-foreground))",
