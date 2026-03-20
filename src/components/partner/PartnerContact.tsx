@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
+import { supabase } from "@/integrations/supabase/client";
 
 const PartnerContact = () => {
   const ref = useRef<HTMLElement>(null);
@@ -15,9 +16,25 @@ const PartnerContact = () => {
     return () => obs.disconnect();
   }, []);
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setSubmitted(true);
+    const form = e.currentTarget;
+    const data = new FormData(form);
+    try {
+      await supabase.functions.invoke("send-contact-email", {
+        body: {
+          type: "partner",
+          name: data.get("name"),
+          institution: data.get("institution"),
+          city: data.get("city"),
+          country: data.get("country"),
+          message: data.get("message"),
+        },
+      });
+      setSubmitted(true);
+    } catch (err) {
+      console.error("Contact form error:", err);
+    }
   };
 
   return (
