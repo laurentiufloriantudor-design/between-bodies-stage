@@ -1,34 +1,66 @@
-const AboutSection = () => {
-  return (
-    <section id="about" className="border-b border-foreground">
-      <div className="border-b border-foreground px-6 md:px-12 py-4">
-        <span className="font-display uppercase text-sm tracking-tighter text-muted-foreground">
-          [ About the project ]
-        </span>
-      </div>
+import { useEffect, useRef, useState } from "react";
+import heroImage from "@/assets/hero-theater.jpg";
 
-      <div className="grid grid-cols-1 md:grid-cols-12 gap-0">
-        <div className="md:col-span-2" />
-        <div className="md:col-span-8 px-6 md:px-12 py-16 md:py-24">
-          <div className="columns-1 md:columns-2 gap-12">
-            <p className="font-body text-base leading-relaxed mb-6" style={{ textWrap: 'pretty' }}>
-              BetweenBodies explores the physical boundaries and the intersection between performers 
-              in contemporary theatrical space. The project brings together artists from diverse cultural 
+const AboutSection = () => {
+  const sectionRef = useRef<HTMLElement>(null);
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => { if (entry.isIntersecting) setVisible(true); },
+      { threshold: 0.2 }
+    );
+    if (sectionRef.current) observer.observe(sectionRef.current);
+    return () => observer.disconnect();
+  }, []);
+
+  return (
+    <section id="about" ref={sectionRef} className="relative py-24 md:py-32 px-6 md:px-12 overflow-hidden">
+      {/* Accent shapes */}
+      <div className="absolute bottom-12 right-[10%] w-28 h-28 bg-coral rounded-full animate-drift opacity-70" />
+      <div className="absolute top-16 left-[3%] w-3 h-32 bg-teal animate-drift-slow" />
+
+      <div className="relative z-10 grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12">
+        {/* Col 1 — Masked photo */}
+        <div className={`relative ${visible ? 'animate-reveal-left' : 'opacity-0'}`}>
+          <div className="w-full aspect-square blob-2 overflow-hidden max-w-[320px]">
+            <img
+              src={heroImage}
+              alt="Performer silhouette — documentary detail"
+              className="w-full h-full object-cover photo-hover scale-125"
+            />
+          </div>
+          <div className="absolute -bottom-4 -right-4 w-10 h-10 bg-teal animate-drift-reverse" />
+        </div>
+
+        {/* Col 2 + 3 — Text */}
+        <div className={`md:col-span-2 ${visible ? 'animate-reveal-up animate-delay-2' : 'opacity-0'}`}>
+          <span className="font-display text-sm tracking-[0.3em] text-coral block mb-8">About the project</span>
+
+          <h2 className="text-[3rem] md:text-[4.5rem] leading-[0.88] mb-10 max-w-2xl">
+            The space between<br />
+            <span className="text-teal">bodies</span> is where<br />
+            theatre begins
+          </h2>
+
+          <div className="columns-1 md:columns-2 gap-10 max-w-2xl">
+            <p className="font-body text-sm leading-relaxed mb-5 text-muted-foreground" style={{ textWrap: 'pretty' }}>
+              BetweenBodies explores the physical boundaries and the intersection between performers
+              in contemporary theatrical space. The project brings together artists from diverse cultural
               backgrounds to investigate how the body becomes a tool for communication beyond language.
             </p>
-            <p className="font-body text-base leading-relaxed mb-6" style={{ textWrap: 'pretty' }}>
-              Through intensive workshops, BetweenBodies creates a space for experimentation 
-              where participants discover new modes of physical expression, building bridges 
+            <p className="font-body text-sm leading-relaxed mb-5 text-muted-foreground" style={{ textWrap: 'pretty' }}>
+              Through intensive workshops, BetweenBodies creates a space for experimentation
+              where participants discover new modes of physical expression, building bridges
               between European theatrical traditions and contemporary movement practices.
             </p>
-            <p className="font-body text-base leading-relaxed" style={{ textWrap: 'pretty' }}>
-              Each workshop is a unique opportunity to work in community, 
-              to challenge your own limits, and to rediscover the relationship between 
+            <p className="font-body text-sm leading-relaxed text-muted-foreground" style={{ textWrap: 'pretty' }}>
+              Each workshop is a unique opportunity to work in community,
+              to challenge your own limits, and to rediscover the relationship between
               body and space in an international context.
             </p>
           </div>
         </div>
-        <div className="md:col-span-2" />
       </div>
     </section>
   );
