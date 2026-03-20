@@ -23,14 +23,17 @@ const HeroSection = () => {
       <div className="relative z-10 grid grid-cols-1 md:grid-cols-3 gap-0 px-6 md:px-12 pt-8 md:pt-16">
         {/* Col 1 — Title mass */}
         <div className="md:col-span-2 relative">
-          <h1 className="text-[4rem] md:text-[7rem] lg:text-[9rem] leading-[0.88] animate-reveal-up">
-            Your body
+          <h1 className="text-[3.5rem] md:text-[6rem] lg:text-[8rem] leading-[0.88] animate-reveal-up">
+            The space
           </h1>
-          <h1 className="text-[4rem] md:text-[7rem] lg:text-[9rem] leading-[0.88] text-teal animate-reveal-up animate-delay-1">
-            is the
+          <h1 className="text-[3.5rem] md:text-[6rem] lg:text-[8rem] leading-[0.88] text-teal animate-reveal-up animate-delay-1">
+            between is
           </h1>
-          <h1 className="text-[4rem] md:text-[7rem] lg:text-[9rem] leading-[0.88] animate-reveal-up animate-delay-2">
-            architecture
+          <h1 className="text-[3.5rem] md:text-[6rem] lg:text-[8rem] leading-[0.88] animate-reveal-up animate-delay-2">
+            where it
+          </h1>
+          <h1 className="text-[3.5rem] md:text-[6rem] lg:text-[8rem] leading-[0.88] text-coral animate-reveal-up animate-delay-3">
+            happens
           </h1>
 
           {/* Subtitle overlapping the grid */}
