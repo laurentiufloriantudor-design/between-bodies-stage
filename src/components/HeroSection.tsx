@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Menu, X } from "lucide-react";
-import logo from "@/assets/logo-betweenbodies.jpeg";
+import logo from "@/assets/logo-betweenbodies.png";
 import heroImage from "@/assets/hero-theater.jpg";
 
 const navLinks = [
