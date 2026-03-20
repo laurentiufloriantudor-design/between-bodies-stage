@@ -24,9 +24,20 @@ const NewsletterSection = ({ variant = "light" }: NewsletterSectionProps) => {
 
   const isDark = variant === "dark";
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (email.trim()) setSubscribed(true);
+    if (!email.trim()) return;
+    setLoading(true);
+    try {
+      await supabase.functions.invoke("send-contact-email", {
+        body: { type: "newsletter", email },
+      });
+      setSubscribed(true);
+    } catch (err) {
+      console.error("Newsletter error:", err);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
