@@ -10,6 +10,7 @@ const NewsletterSection = ({ variant = "light" }: NewsletterSectionProps) => {
   const ref = useRef<HTMLElement>(null);
   const [visible, setVisible] = useState(false);
   const [subscribed, setSubscribed] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState("");
 
   useEffect(() => {
