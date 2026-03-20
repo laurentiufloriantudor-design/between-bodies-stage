@@ -1,7 +1,18 @@
+import { useState } from "react";
+import { Menu, X } from "lucide-react";
 import logo from "@/assets/logo-betweenbodies.jpeg";
 import heroImage from "@/assets/hero-theater.jpg";
 
+const navLinks = [
+  { label: "Workshop", href: "#workshop" },
+  { label: "About", href: "#about" },
+  { label: "Apply", href: "#apply" },
+  { label: "Partner with us", href: "/partner" },
+];
+
 const HeroSection = () => {
+  const [menuOpen, setMenuOpen] = useState(false);
+
   return (
     <section className="relative min-h-screen overflow-hidden bg-background">
       {/* Floating organic shapes */}
@@ -12,13 +23,37 @@ const HeroSection = () => {
       {/* Nav */}
       <nav className="relative z-10 flex items-center justify-between px-6 md:px-12 py-6">
         <img src={logo} alt="BetweenBodies logo" className="h-10 w-auto" />
-        <div className="hidden md:flex gap-8 font-display text-lg tracking-wide">
-          <a href="#workshop" className="text-foreground hover:text-teal transition-colors duration-500">Workshop</a>
-          <a href="#about" className="text-foreground hover:text-teal transition-colors duration-500">About</a>
-          <a href="#apply" className="text-foreground hover:text-teal transition-colors duration-500">Apply</a>
-          <a href="/partner" className="text-foreground hover:text-teal transition-colors duration-500">Partner</a>
-        </div>
+        <button
+          onClick={() => setMenuOpen(!menuOpen)}
+          className="relative z-50 w-10 h-10 flex items-center justify-center text-foreground hover:text-teal transition-colors duration-300 active:scale-95"
+          aria-label="Toggle menu"
+        >
+          {menuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+        </button>
       </nav>
+
+      {/* Dropdown menu */}
+      <div
+        className={`absolute top-0 right-0 z-40 w-64 bg-background/95 backdrop-blur-sm shadow-lg transition-all duration-500 ease-out origin-top-right ${
+          menuOpen
+            ? "opacity-100 scale-100 translate-y-0"
+            : "opacity-0 scale-95 -translate-y-2 pointer-events-none"
+        }`}
+        style={{ marginTop: "4.5rem", marginRight: "1.5rem" }}
+      >
+        <div className="flex flex-col py-4">
+          {navLinks.map((link) => (
+            <a
+              key={link.label}
+              href={link.href}
+              onClick={() => setMenuOpen(false)}
+              className="px-8 py-3 font-display text-base tracking-[0.15em] text-foreground hover:text-teal hover:bg-foreground/5 transition-all duration-300"
+            >
+              {link.label}
+            </a>
+          ))}
+        </div>
+      </div>
 
       {/* Main content */}
       <div className="relative z-10 grid grid-cols-1 md:grid-cols-3 gap-0 px-6 md:px-12 pt-8 md:pt-16">
