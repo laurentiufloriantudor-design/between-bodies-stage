@@ -1,14 +1,9 @@
 import { useState, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
 
+const GOOGLE_FORM_URL = "https://docs.google.com/forms/d/e/1FAIpQLSfusB6Q9_URoR4U433sFxkW0JMmijQIZR1uQpD0zA9Xk2XH2g/viewform";
+
 const ApplySection = () => {
-  const [submitted, setSubmitted] = useState(false);
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    experience: "",
-    motivation: "",
-  });
   const sectionRef = useRef<HTMLElement>(null);
   const [visible, setVisible] = useState(false);
 
@@ -20,25 +15,6 @@ const ApplySection = () => {
     if (sectionRef.current) observer.observe(sectionRef.current);
     return () => observer.disconnect();
   }, []);
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    setSubmitted(true);
-  };
-
-  if (submitted) {
-    return (
-      <section id="apply" className="relative py-24 md:py-32 px-6 md:px-12">
-        <div className="max-w-xl animate-reveal-up">
-          <div className="w-16 h-16 bg-teal rounded-full mb-8" />
-          <h2 className="text-[3rem] md:text-[4.5rem] leading-[0.88] mb-6">Application received</h2>
-          <p className="font-body text-sm leading-relaxed text-muted-foreground">
-            Thank you for your interest. We will contact you soon with further details about the Torino workshop.
-          </p>
-        </div>
-      </section>
-    );
-  }
 
   return (
     <section id="apply" ref={sectionRef} className="relative py-24 md:py-32 px-6 md:px-12 overflow-hidden">
@@ -70,69 +46,22 @@ const ApplySection = () => {
           </div>
         </div>
 
-        {/* Right — Form */}
-        <div className={`md:col-span-2 ${visible ? 'animate-reveal-up animate-delay-2' : ''}`}>
-          <form onSubmit={handleSubmit} className="max-w-lg space-y-8">
-            <div>
-              <label className="font-display text-sm tracking-[0.2em] block mb-3">
-                Full name *
-              </label>
-              <input
-                type="text"
-                required
-                value={formData.name}
-                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                className="w-full border-b-2 border-foreground bg-transparent py-3 font-body text-sm outline-none focus:border-teal transition-colors duration-500"
-              />
-            </div>
-
-            <div>
-              <label className="font-display text-sm tracking-[0.2em] block mb-3">
-                Email *
-              </label>
-              <input
-                type="email"
-                required
-                value={formData.email}
-                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                className="w-full border-b-2 border-foreground bg-transparent py-3 font-body text-sm outline-none focus:border-teal transition-colors duration-500"
-              />
-            </div>
-
-            <div>
-              <label className="font-display text-sm tracking-[0.2em] block mb-3">
-                Theatre experience
-              </label>
-              <input
-                type="text"
-                value={formData.experience}
-                onChange={(e) => setFormData({ ...formData, experience: e.target.value })}
-                className="w-full border-b-2 border-foreground bg-transparent py-3 font-body text-sm outline-none focus:border-teal transition-colors duration-500"
-              />
-            </div>
-
-            <div>
-              <label className="font-display text-sm tracking-[0.2em] block mb-3">
-                Motivation *
-              </label>
-              <textarea
-                required
-                rows={3}
-                value={formData.motivation}
-                onChange={(e) => setFormData({ ...formData, motivation: e.target.value })}
-                className="w-full border-b-2 border-foreground bg-transparent py-3 font-body text-sm outline-none focus:border-teal transition-colors duration-500 resize-none"
-              />
-            </div>
-
-            <Button
-              variant="hero"
-              size="lg"
-              type="submit"
-              className="bg-foreground text-background hover:bg-coral hover:text-cream border-0 transition-colors duration-500 active:scale-[0.97]"
-            >
-              Submit application →
-            </Button>
-          </form>
+        {/* Right — CTA */}
+        <div className={`md:col-span-2 flex items-center ${visible ? 'animate-reveal-up animate-delay-2' : ''}`}>
+          <div className="max-w-lg">
+            <p className="font-body text-sm leading-relaxed text-muted-foreground mb-8" style={{ textWrap: 'pretty' }}>
+              To apply, fill in the application form. You will be contacted with further details about the Torino workshop.
+            </p>
+            <a href={GOOGLE_FORM_URL} target="_blank" rel="noopener noreferrer">
+              <Button
+                variant="hero"
+                size="lg"
+                className="bg-foreground text-background hover:bg-coral hover:text-cream border-0 transition-colors duration-500 active:scale-[0.97]"
+              >
+                Open application form →
+              </Button>
+            </a>
+          </div>
         </div>
       </div>
     </section>
