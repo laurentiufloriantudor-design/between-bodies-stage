@@ -16,6 +16,7 @@ const HeroSection = () => {
           <a href="#workshop" className="text-foreground hover:text-teal transition-colors duration-500">Workshop</a>
           <a href="#about" className="text-foreground hover:text-teal transition-colors duration-500">About</a>
           <a href="#apply" className="text-foreground hover:text-teal transition-colors duration-500">Apply</a>
+          <a href="/partner" className="text-foreground hover:text-teal transition-colors duration-500">Partner</a>
         </div>
       </nav>
 
