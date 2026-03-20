@@ -52,12 +52,10 @@ const WorkshopSection = () => {
         <div className={`flex flex-col justify-between ${visible ? 'animate-reveal-right animate-delay-3' : ''}`}>
           <div>
             <span className="font-display text-sm tracking-[0.3em] text-muted-foreground block mb-3">Spots</span>
-            <div className="flex items-baseline gap-1">
-              <span className="font-display tabular-nums text-[6rem] leading-none text-coral">
-                {spotsLeft}
-              </span>
-              <span className="font-display text-[2rem] text-muted-foreground">/12</span>
-            </div>
+            <span className="font-display tabular-nums text-[6rem] leading-none text-coral block">
+              {spotsLeft}
+            </span>
+            <span className="font-display text-sm tracking-[0.15em] text-muted-foreground mt-1 block">Available</span>
           </div>
           <a href="#apply">
             <Button variant="hero" size="lg" className="mt-8 bg-foreground text-background hover:bg-teal hover:text-foreground border-0 transition-colors duration-500">
