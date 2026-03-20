@@ -42,6 +42,7 @@ const NewsletterSection = ({ variant = "light" }: NewsletterSectionProps) => {
 
   return (
     <section
+      id="newsletter"
       ref={ref}
       className={`relative py-20 md:py-28 px-6 md:px-12 overflow-hidden ${
         isDark ? "bg-foreground text-cream" : "bg-background text-foreground"
