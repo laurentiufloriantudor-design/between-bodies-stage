@@ -11,7 +11,7 @@ const PartnerHero = () => {
       {/* Nav */}
       <nav className="relative z-10 flex items-center justify-between px-6 md:px-12 py-6">
         <a href="/">
-          <img src={logo} alt="BetweenBodies" className="h-20 w-auto invert" />
+          <img src={logo} alt="BetweenBodies" className="h-40 w-auto invert" />
         </a>
         <div className="hidden md:flex gap-8 font-display text-lg tracking-wide text-cream/70">
           <a href="/" className="hover:text-teal transition-colors duration-500">Home</a>
