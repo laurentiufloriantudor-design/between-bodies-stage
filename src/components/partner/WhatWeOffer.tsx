@@ -9,7 +9,7 @@ const offers = [
   {
     label: "02",
     title: "International profile",
-    desc: "Directed by Laurențiu Tudor, with a network spanning Romania, Italy, and beyond. Your programme gains an international dimension.",
+    desc: "Directed by Laurențiu Tudor, with a network spanning Romania, Italy, Germany, and beyond. Your programme gains an international dimension.",
   },
   {
     label: "03",
