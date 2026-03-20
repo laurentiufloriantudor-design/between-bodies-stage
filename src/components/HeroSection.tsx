@@ -23,7 +23,7 @@ const HeroSection = () => {
 
       {/* Nav */}
       <nav className="relative z-10 flex items-center justify-between px-6 md:px-12 py-6">
-        <img src={logo} alt="BetweenBodies logo" className="h-10 w-auto" />
+        <img src={logo} alt="BetweenBodies logo" className="h-20 w-auto" />
         <button
           onClick={() => setMenuOpen(!menuOpen)}
           className="relative z-50 w-10 h-10 flex items-center justify-center text-foreground hover:text-teal transition-colors duration-300 active:scale-95"
