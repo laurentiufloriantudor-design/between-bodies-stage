@@ -7,6 +7,7 @@ const navLinks = [
   { label: "Workshop", href: "#workshop" },
   { label: "About", href: "#about" },
   { label: "Apply", href: "#apply" },
+  { label: "Newsletter", href: "#newsletter" },
   { label: "Partner with us", href: "/partner" },
 ];
 
