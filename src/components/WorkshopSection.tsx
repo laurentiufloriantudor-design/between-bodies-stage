@@ -42,6 +42,7 @@ const WorkshopSection = () => {
             and group composition.
           </p>
           <div className="mt-6 flex flex-wrap gap-3 font-display text-xs tracking-[0.2em]">
+            <span className="bg-coral text-cream px-3 py-1.5">Fully Booked</span>
             <span className="bg-navy text-cream px-3 py-1.5">Free</span>
             <span className="bg-navy text-cream px-3 py-1.5">2 Days</span>
             <span className="bg-navy text-cream px-3 py-1.5">Torino, IT</span>
