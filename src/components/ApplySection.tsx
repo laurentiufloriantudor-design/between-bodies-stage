@@ -25,17 +25,16 @@ const ApplySection = () => {
       <div className={`relative z-10 grid grid-cols-1 md:grid-cols-3 gap-12 transition-all duration-700 ${visible ? 'opacity-100' : 'opacity-0'}`}>
         {/* Left — Info */}
         <div className={`${visible ? 'animate-reveal-left' : ''}`}>
-          <span className="font-display text-sm tracking-[0.3em] text-teal block mb-8">Apply</span>
+          <span className="font-display text-sm tracking-[0.3em] text-coral block mb-8">Closed</span>
           <h2 className="text-[3rem] md:text-[4rem] leading-[0.88] mb-6">
             Torino<br />Intensive
           </h2>
           <p className="font-body text-sm leading-relaxed text-muted-foreground mb-6" style={{ textWrap: 'pretty' }}>
-            The workshop is open to actors, performers, arts students, and anyone
-            interested in exploring the body in the scenic space.
+            The workshop is now fully booked. Thank you to everyone who applied — we truly appreciate your interest.
           </p>
           <div className="space-y-2 font-display text-sm tracking-[0.15em]">
             <p className="flex items-center gap-2">
-              <span className="w-2 h-2 bg-coral inline-block" /> 12 spots available
+              <span className="w-2 h-2 bg-coral inline-block" /> Fully booked
             </p>
             <p className="flex items-center gap-2">
               <span className="w-2 h-2 bg-coral inline-block" /> Free of charge
