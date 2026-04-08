@@ -1,0 +1,82 @@
+import { useEffect, useRef, useState } from "react";
+import { Button } from "@/components/ui/button";
+
+const ResidencyTeaser = () => {
+  const sectionRef = useRef<HTMLElement>(null);
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => { if (entry.isIntersecting) setVisible(true); },
+      { threshold: 0.2 }
+    );
+    if (sectionRef.current) observer.observe(sectionRef.current);
+    return () => observer.disconnect();
+  }, []);
+
+  return (
+    <section
+      ref={sectionRef}
+      className="relative py-24 md:py-32 px-6 md:px-12 overflow-hidden bg-navy text-cream"
+    >
+      {/* Decorative shapes */}
+      <div className="absolute top-8 right-[10%] w-32 h-32 rounded-full bg-teal/10 animate-drift-slow" />
+      <div className="absolute bottom-12 left-[5%] w-48 h-48 blob-2 bg-coral/8 animate-drift-reverse" />
+
+      <div className={`relative z-10 max-w-3xl transition-all duration-700 ${visible ? 'opacity-100' : 'opacity-0'}`}>
+        {/* Coming Soon badge + label */}
+        <div className={`flex items-center gap-4 mb-8 ${visible ? 'animate-reveal-left' : ''}`}>
+          <span className="font-display text-sm tracking-[0.3em] text-teal">Summer 2025</span>
+          <span className="font-display text-xs tracking-[0.2em] bg-coral text-cream px-3 py-1.5">
+            Coming Soon
+          </span>
+        </div>
+
+        {/* Title */}
+        <h2 className={`text-[3rem] md:text-[5rem] leading-[0.88] mb-3 ${visible ? 'animate-reveal-up' : ''}`}>
+          One-Week<br />Residency
+        </h2>
+        <p className={`font-body tabular-nums text-sm text-cream/50 mb-10 ${visible ? 'animate-reveal-up animate-delay-1' : ''}`}>
+          Torino, IT — Dates TBA
+        </p>
+
+        {/* Body */}
+        <div className={`space-y-5 font-body text-sm leading-relaxed text-cream/70 max-w-xl ${visible ? 'animate-reveal-up animate-delay-2' : ''}`} style={{ textWrap: 'pretty' }}>
+          <p>
+            A week-long immersion into the Between Bodies practice. We begin by dissolving the social mask — releasing habit, softening armour — and awakening a finer attention to the body's weight, breath, and impulse. From there, the work opens into contact improvisation: listening through skin, finding and losing balance together, letting movement arise from genuine physical dialogue.
+          </p>
+          <p>
+            As trust deepens across the week, we move toward shared presence and choral work — the group as a single breathing organism — weaving in text as material that lives in the body rather than the mind.
+          </p>
+          <p>
+            The residency format allows us to explore territory the shorter workshops cannot reach: sustained two-person scenes. Here we work with the relational and physical dynamics that emerge when two bodies stay in a dramatic situation long enough for something real to surface — beyond the first impulse, beyond the comfortable, into the alive.
+          </p>
+          <p>
+            Dates and registration details will be announced soon.
+          </p>
+        </div>
+
+        {/* CTA */}
+        <div className={`mt-10 flex flex-wrap gap-4 ${visible ? 'animate-reveal-up animate-delay-3' : ''}`}>
+          <Button
+            variant="outline"
+            size="lg"
+            className="border-cream/30 text-cream hover:bg-teal hover:text-foreground hover:border-teal"
+            onClick={() => document.getElementById("newsletter")?.scrollIntoView({ behavior: "smooth" })}
+          >
+            Subscribe for Updates
+          </Button>
+        </div>
+
+        {/* Tags */}
+        <div className={`mt-8 flex flex-wrap gap-3 font-display text-xs tracking-[0.2em] ${visible ? 'animate-reveal-up animate-delay-4' : ''}`}>
+          <span className="bg-navy-light text-cream/60 px-3 py-1.5 border border-cream/10">7 Days</span>
+          <span className="bg-navy-light text-cream/60 px-3 py-1.5 border border-cream/10">Residency</span>
+          <span className="bg-navy-light text-cream/60 px-3 py-1.5 border border-cream/10">Torino, IT</span>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+export default ResidencyTeaser;
