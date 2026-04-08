@@ -20,6 +20,19 @@ const ResidencyTeaser = () => {
       ref={sectionRef}
       className="relative py-24 md:py-32 px-6 md:px-12 overflow-hidden bg-navy text-cream"
     >
+      {/* Background image */}
+      <div className="absolute inset-0">
+        <img
+          src={residencyImg}
+          alt=""
+          loading="lazy"
+          width={1920}
+          height={1080}
+          className="w-full h-full object-cover opacity-30"
+        />
+        <div className="absolute inset-0 bg-gradient-to-r from-navy via-navy/90 to-navy/60" />
+      </div>
+
       {/* Decorative shapes */}
       <div className="absolute top-8 right-[10%] w-32 h-32 rounded-full bg-teal/10 animate-drift-slow" />
       <div className="absolute bottom-12 left-[5%] w-48 h-48 blob-2 bg-coral/8 animate-drift-reverse" />
