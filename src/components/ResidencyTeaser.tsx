@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
+import residencyImg from "@/assets/residency-blur.jpg";
 
 const ResidencyTeaser = () => {
   const sectionRef = useRef<HTMLElement>(null);
