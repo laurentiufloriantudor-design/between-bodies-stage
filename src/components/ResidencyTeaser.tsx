@@ -88,7 +88,7 @@ const ResidencyTeaser = () => {
               loading="lazy"
               width={1920}
               height={1080}
-              className="w-full h-full object-cover photo-hover"
+              className="w-full h-full object-cover grayscale contrast-[1.2]"
             />
           </div>
         </div>
