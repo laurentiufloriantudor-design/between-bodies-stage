@@ -52,17 +52,14 @@ const WorkshopSection = () => {
         {/* Tile 3 — Spots counter + CTA */}
         <div className={`flex flex-col justify-between ${visible ? 'animate-reveal-right animate-delay-3' : ''}`}>
           <div>
-            <span className="font-display text-sm tracking-[0.3em] text-muted-foreground block mb-3">Spots</span>
-            <span className="font-display tabular-nums text-[6rem] leading-none text-coral block">
-              {spotsLeft}
+            <span className="font-display text-sm tracking-[0.3em] text-coral block mb-3">Applications Closed</span>
+            <span className="font-display text-[2.5rem] md:text-[3rem] leading-[0.95] block mb-4">
+              Fully<br />Booked
             </span>
-            <span className="font-display text-sm tracking-[0.15em] text-muted-foreground mt-1 block">Available</span>
+            <p className="font-body text-sm leading-relaxed text-muted-foreground max-w-xs" style={{ textWrap: 'pretty' }}>
+              Thank you to all the participants who applied. We look forward to seeing you in Torino!
+            </p>
           </div>
-          <a href="#apply">
-            <Button variant="hero" size="lg" className="mt-8 bg-foreground text-background hover:bg-teal hover:text-foreground border-0 transition-colors duration-500">
-              Apply now →
-            </Button>
-          </a>
         </div>
       </div>
     </section>

@@ -49,15 +49,15 @@ const ApplySection = () => {
         <div className={`md:col-span-2 flex items-center ${visible ? 'animate-reveal-up animate-delay-2' : ''}`}>
           <div className="max-w-lg">
             <p className="font-body text-sm leading-relaxed text-muted-foreground mb-8" style={{ textWrap: 'pretty' }}>
-              To apply, fill in the application form. You will be contacted with further details about the Torino workshop.
+              Applications for the Torino Intensive are now closed. Stay tuned for future workshops — subscribe to our newsletter to be the first to know.
             </p>
-            <a href={GOOGLE_FORM_URL} target="_blank" rel="noopener noreferrer">
+            <a href="#newsletter">
               <Button
                 variant="hero"
                 size="lg"
-                className="bg-foreground text-background hover:bg-coral hover:text-cream border-0 transition-colors duration-500 active:scale-[0.97]"
+                className="bg-foreground text-background hover:bg-teal hover:text-foreground border-0 transition-colors duration-500 active:scale-[0.97]"
               >
-                Open application form →
+                Subscribe to newsletter →
               </Button>
             </a>
           </div>
