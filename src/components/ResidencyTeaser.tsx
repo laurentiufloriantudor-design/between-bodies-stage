@@ -81,14 +81,16 @@ const ResidencyTeaser = () => {
 
         {/* Right: image */}
         <div className={`w-full md:w-[45%] flex-shrink-0 ${visible ? 'animate-reveal-right animate-delay-2' : ''}`}>
-          <img
-            src={residencyImg}
-            alt="Two bodies in motion, dissolved into gesture and light"
-            loading="lazy"
-            width={1920}
-            height={1080}
-            className="w-full h-auto object-cover photo-hover"
-          />
+          <div className="blob-3 overflow-hidden">
+            <img
+              src={residencyImg}
+              alt="Two bodies in motion, dissolved into gesture and light"
+              loading="lazy"
+              width={1920}
+              height={1080}
+              className="w-full h-full object-cover photo-hover"
+            />
+          </div>
         </div>
       </div>
     </section>
