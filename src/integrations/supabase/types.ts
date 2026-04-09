@@ -14,7 +14,33 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      newsletter_subscribers: {
+        Row: {
+          confirmation_token: string | null
+          confirmed: boolean | null
+          confirmed_at: string | null
+          created_at: string | null
+          email: string
+          id: string
+        }
+        Insert: {
+          confirmation_token?: string | null
+          confirmed?: boolean | null
+          confirmed_at?: string | null
+          created_at?: string | null
+          email: string
+          id?: string
+        }
+        Update: {
+          confirmation_token?: string | null
+          confirmed?: boolean | null
+          confirmed_at?: string | null
+          created_at?: string | null
+          email?: string
+          id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
