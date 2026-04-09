@@ -6,12 +6,14 @@ interface NewsletterSectionProps {
   variant?: "light" | "dark";
 }
 
-const NewsletterSection = ({ variant = "light" }: NewsletterSectionProps) => {
+const NewsletterSection = ({ variant = "dark" }: NewsletterSectionProps) => {
   const ref = useRef<HTMLElement>(null);
   const [visible, setVisible] = useState(false);
-  const [subscribed, setSubscribed] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState("");
+  const [gdprChecked, setGdprChecked] = useState(false);
+  const [error, setError] = useState("");
 
   useEffect(() => {
     const obs = new IntersectionObserver(
@@ -22,108 +24,170 @@ const NewsletterSection = ({ variant = "light" }: NewsletterSectionProps) => {
     return () => obs.disconnect();
   }, []);
 
-  const isDark = variant === "dark";
+  const validateEmail = (email: string) =>
+    /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!email.trim()) return;
+    setError("");
+
+    if (!email.trim()) {
+      setError("Please enter your email address.");
+      return;
+    }
+    if (!validateEmail(email)) {
+      setError("Please enter a valid email address.");
+      return;
+    }
+    if (!gdprChecked) {
+      setError("Please agree to receive updates before subscribing.");
+      return;
+    }
+
     setLoading(true);
     try {
       await supabase.functions.invoke("send-contact-email", {
         body: { type: "newsletter", email },
       });
-      setSubscribed(true);
+      setSubmitted(true);
     } catch (err) {
       console.error("Newsletter error:", err);
+      setError("Something went wrong. Please try again.");
     } finally {
       setLoading(false);
     }
   };
 
+  const isDark = variant === "dark";
+
   return (
     <section
       id="newsletter"
       ref={ref}
-      className={`relative py-20 md:py-28 px-6 md:px-12 overflow-hidden ${
-        isDark ? "bg-foreground text-cream" : "bg-background text-foreground"
-      }`}
+      className="relative py-24 md:py-32 px-6 md:px-12 overflow-hidden"
+      style={{ backgroundColor: "#162836" }}
     >
-      {/* Accent shape */}
+      {/* Organic blob shapes */}
       <div
-        className={`absolute top-10 right-[8%] w-20 h-20 rounded-full animate-drift-slow ${
-          isDark ? "bg-teal/15" : "bg-coral/15"
-        }`}
+        className="absolute top-[-60px] right-[-40px] w-[280px] h-[280px] rounded-full opacity-10 animate-drift-slow"
+        style={{ backgroundColor: "#68AEB3" }}
+      />
+      <div
+        className="absolute bottom-[-40px] left-[5%] w-[200px] h-[200px] opacity-8 animate-drift-slow"
+        style={{
+          backgroundColor: "#E1664D",
+          opacity: 0.08,
+          borderRadius: "60% 40% 50% 50% / 50% 60% 40% 50%",
+        }}
+      />
+      <div
+        className="absolute top-[40%] left-[60%] w-[120px] h-[120px] opacity-6 animate-drift-slow"
+        style={{
+          backgroundColor: "#68AEB3",
+          opacity: 0.06,
+          borderRadius: "40% 60% 55% 45% / 55% 45% 60% 40%",
+        }}
       />
 
-      <div className={`relative z-10 max-w-xl transition-all duration-700 ${visible ? 'opacity-100' : 'opacity-0'}`}>
-        {subscribed ? (
+      <div
+        className={`relative z-10 max-w-xl transition-all duration-700 ${
+          visible ? "opacity-100" : "opacity-0"
+        }`}
+      >
+        {submitted ? (
           <div className="animate-reveal-up">
-            <div className="w-8 h-[2px] bg-teal mb-6" />
-            <h2 className="text-[2.5rem] md:text-[3.5rem] leading-[0.88] mb-4">
-              You're in
+            <div className="w-10 h-[2px] mb-6" style={{ backgroundColor: "#68AEB3" }} />
+            <h2
+              className="font-display text-[2.5rem] md:text-[3.5rem] leading-[0.88] mb-4 uppercase tracking-wide"
+              style={{ color: "#E7E9DA" }}
+            >
+              You're in the circle
             </h2>
-            <p className={`font-body text-sm ${isDark ? 'text-cream/50' : 'text-muted-foreground'}`}>
-              See you at the next edition.
+            <p className="font-body text-sm" style={{ color: "rgba(231,233,218,0.5)" }}>
+              Check your inbox to confirm your subscription.
             </p>
           </div>
         ) : (
           <>
             <h2
-              className={`text-[2.5rem] md:text-[4rem] leading-[0.88] mb-4 ${
+              className={`font-display text-[2.8rem] md:text-[4.5rem] leading-[0.85] mb-3 uppercase tracking-wide ${
                 visible ? "animate-reveal-up" : ""
               }`}
+              style={{ color: "#E7E9DA" }}
             >
-              Don't miss the<br />
-              <span className="text-coral">next edition</span>
+              Enter the<br />
+              <span style={{ color: "#68AEB3" }}>Circle</span>
             </h2>
             <p
               className={`font-body text-sm leading-relaxed mb-10 ${
-                isDark ? "text-cream/50" : "text-muted-foreground"
-              } ${visible ? "animate-reveal-up animate-delay-1" : ""}`}
-              style={{ textWrap: "pretty" }}
+                visible ? "animate-reveal-up animate-delay-1" : ""
+              }`}
+              style={{ color: "rgba(231,233,218,0.5)", textWrap: "pretty" as any }}
             >
-              New cities, open applications, and project updates — straight to your inbox.
+              Receive updates on upcoming laboratories, residencies, and open calls.
             </p>
 
             <form
               onSubmit={handleSubmit}
-              className={`flex flex-col sm:flex-row gap-4 ${
-                visible ? "animate-reveal-up animate-delay-2" : ""
-              }`}
+              className={`space-y-5 ${visible ? "animate-reveal-up animate-delay-2" : ""}`}
             >
-              <input
-                type="email"
-                required
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="Your email"
-                className={`flex-1 bg-transparent border-b py-3 font-body text-sm focus:outline-none transition-colors duration-300 ${
-                  isDark
-                    ? "border-cream/20 text-cream placeholder:text-cream/30 focus:border-teal"
-                    : "border-foreground/20 text-foreground placeholder:text-muted-foreground focus:border-teal"
-                }`}
-              />
-              <Button
-                type="submit"
-                variant="hero"
-                size="lg"
-                className={`shrink-0 transition-colors duration-500 border-0 ${
-                  isDark
-                    ? "bg-cream text-foreground hover:bg-teal hover:text-foreground"
-                    : "bg-foreground text-background hover:bg-teal hover:text-foreground"
-                }`}
-              >
-                Subscribe
-              </Button>
-            </form>
+              <div className="flex flex-col sm:flex-row gap-4">
+                <input
+                  type="email"
+                  required
+                  value={email}
+                  onChange={(e) => {
+                    setEmail(e.target.value);
+                    setError("");
+                  }}
+                  placeholder="Your email"
+                  className="flex-1 bg-transparent border-b py-3 font-body text-sm focus:outline-none transition-colors duration-300"
+                  style={{
+                    borderColor: "rgba(231,233,218,0.2)",
+                    color: "#E7E9DA",
+                  }}
+                />
+                <Button
+                  type="submit"
+                  disabled={loading}
+                  className="shrink-0 h-12 px-8 font-display tracking-[0.15em] uppercase text-base rounded-none border-0 transition-all duration-500 active:scale-[0.97]"
+                  style={{
+                    backgroundColor: "#68AEB3",
+                    color: "#162836",
+                  }}
+                >
+                  {loading ? "…" : "Subscribe"}
+                </Button>
+              </div>
 
-            <p
-              className={`font-body text-[11px] mt-4 ${
-                isDark ? "text-cream/25" : "text-muted-foreground/50"
-              }`}
-            >
-              No spam. Unsubscribe anytime.
-            </p>
+              {error && (
+                <p className="font-body text-xs" style={{ color: "#E1664D" }}>
+                  {error}
+                </p>
+              )}
+
+              <label className="flex items-start gap-3 cursor-pointer group">
+                <input
+                  type="checkbox"
+                  checked={gdprChecked}
+                  onChange={(e) => {
+                    setGdprChecked(e.target.checked);
+                    setError("");
+                  }}
+                  className="mt-0.5 h-4 w-4 rounded-sm border appearance-none cursor-pointer shrink-0"
+                  style={{
+                    borderColor: "rgba(231,233,218,0.3)",
+                    backgroundColor: gdprChecked ? "#68AEB3" : "transparent",
+                  }}
+                />
+                <span
+                  className="font-body text-[11px] leading-relaxed"
+                  style={{ color: "rgba(231,233,218,0.35)" }}
+                >
+                  I agree to receive updates from Between Bodies. I can unsubscribe at any time.
+                </span>
+              </label>
+            </form>
           </>
         )}
       </div>
