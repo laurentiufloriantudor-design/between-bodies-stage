@@ -51,12 +51,21 @@ const NewsletterSection = ({ variant = "dark" }: NewsletterSectionProps) => {
 
     setLoading(true);
     try {
-      await supabase.functions.invoke("send-contact-email", {
-        body: { type: "newsletter", email },
+      emailjs.init(PUBLIC_KEY);
+
+      await emailjs.send(SERVICE_ID, TEMPLATE_NOTIFICATION, {
+        subscriber_email: email,
+        reply_to: email,
       });
+
+      await emailjs.send(SERVICE_ID, TEMPLATE_CONFIRMATION, {
+        to_email: email,
+        reply_to: "between.bconnections@gmail.com",
+      });
+
       setSubmitted(true);
     } catch (err) {
-      console.error("Newsletter error:", err);
+      console.error("EmailJS error:", err);
       setError("Something went wrong. Please try again.");
     } finally {
       setLoading(false);
