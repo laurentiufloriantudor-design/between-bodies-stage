@@ -1,4 +1,5 @@
 import logo from "@/assets/logo-betweenbodies.jpeg";
+import T from "@/components/T";
 
 const FooterSection = () => {
   return (

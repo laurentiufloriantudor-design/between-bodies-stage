@@ -3,6 +3,7 @@ import { Menu, X } from "lucide-react";
 import logo from "@/assets/logo-betweenbodies.png";
 import heroImage from "@/assets/hero-theater.jpg";
 import LanguageSelector from "@/components/LanguageSelector";
+import T from "@/components/T";
 
 const navLinks = [
   { label: "Workshop", href: "#workshop" },
@@ -66,23 +67,21 @@ const HeroSection = () => {
         {/* Col 1 — Title mass */}
         <div className="md:col-span-2 relative">
           <h1 className="text-[3.5rem] md:text-[6rem] lg:text-[8rem] leading-[0.88] animate-reveal-up">
-            The space
+            <T>The space</T>
           </h1>
           <h1 className="text-[3.5rem] md:text-[6rem] lg:text-[8rem] leading-[0.88] text-teal animate-reveal-up animate-delay-1">
-            between is
+            <T>between is</T>
           </h1>
           <h1 className="text-[3.5rem] md:text-[6rem] lg:text-[8rem] leading-[0.88] animate-reveal-up animate-delay-2">
-            where it
+            <T>where it</T>
           </h1>
           <h1 className="text-[3.5rem] md:text-[6rem] lg:text-[8rem] leading-[0.88] text-coral animate-reveal-up animate-delay-3">
-            happens
+            <T>happens</T>
           </h1>
 
-          {/* Subtitle overlapping the grid */}
           <div className="mt-8 md:mt-12 max-w-md animate-reveal-up animate-delay-4">
             <p className="font-body text-sm md:text-base leading-relaxed text-muted-foreground" style={{ textWrap: 'pretty' }}>
-              International body-based theatre workshops. Investigating the space
-              between performers in contemporary theatrical space.
+              <T>International body-based theatre workshops. Investigating the space between performers in contemporary theatrical space.</T>
             </p>
           </div>
         </div>
@@ -108,7 +107,7 @@ const HeroSection = () => {
         <div className="flex items-center gap-6 animate-reveal-up animate-delay-5">
           <div className="w-12 h-[2px] bg-foreground" />
           <span className="font-display text-sm tracking-[0.3em] text-muted-foreground">
-            Space is the text
+            <T>Space is the text</T>
           </span>
           <div className="flex-1 h-[2px] bg-foreground/10" />
         </div>
