@@ -42,7 +42,7 @@ const ResidencyTeaser = () => {
           </div>
 
           <div className={`mt-10 flex flex-wrap gap-4 ${visible ? 'animate-reveal-up animate-delay-3' : ''}`}>
-            <Button variant="outline" size="lg" className="border-cream/30 text-cream hover:bg-teal hover:text-foreground hover:border-teal" onClick={() => document.getElementById("newsletter")?.scrollIntoView({ behavior: "smooth" })}>
+            <Button variant="outline" size="lg" className="border-cream/30 text-cream pointer-events-none" onClick={() => document.getElementById("newsletter")?.scrollIntoView({ behavior: "smooth" })}>
               Subscribe for Updates
             </Button>
           </div>
