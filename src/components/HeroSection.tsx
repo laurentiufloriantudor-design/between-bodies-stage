@@ -2,6 +2,8 @@ import { useState } from "react";
 import { Menu, X } from "lucide-react";
 import logo from "@/assets/logo-betweenbodies.png";
 import heroImage from "@/assets/hero-theater.jpg";
+import LanguageSelector from "@/components/LanguageSelector";
+import heroImage from "@/assets/hero-theater.jpg";
 
 const navLinks = [
   { label: "Workshop", href: "#workshop" },
