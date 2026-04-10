@@ -56,7 +56,7 @@ const HeroSection = () => {
               onClick={() => setMenuOpen(false)}
               className="px-8 py-3 font-display text-base tracking-[0.15em] text-foreground hover:text-teal hover:bg-foreground/5 transition-all duration-300"
             >
-              {link.label}
+              <T>{link.label}</T>
             </a>
           ))}
         </div>
