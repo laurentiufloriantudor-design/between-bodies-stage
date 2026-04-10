@@ -10,11 +10,11 @@ const ArticleHero = () => {
       {/* Back nav */}
       <div className="relative z-10 px-6 md:px-12 pt-6">
         <Link
-          to="/"
+          to="/notes-from-the-room"
           className="inline-flex items-center gap-2 font-display text-sm tracking-[0.15em] text-cream/50 hover:text-teal transition-colors duration-300"
         >
           <ArrowLeft className="w-4 h-4" />
-          Back to Between Bodies
+          All Articles
         </Link>
       </div>
 
