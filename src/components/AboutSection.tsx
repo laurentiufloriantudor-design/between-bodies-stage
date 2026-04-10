@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from "react";
 import heroImage from "@/assets/hero-theater.jpg";
-import T from "@/components/T";
 
 const AboutSection = () => {
   const sectionRef = useRef<HTMLElement>(null);
@@ -33,23 +32,23 @@ const AboutSection = () => {
         </div>
 
         <div className={`md:col-span-2 ${visible ? 'animate-reveal-up animate-delay-2' : 'opacity-0'}`}>
-          <span className="font-display text-sm tracking-[0.3em] text-coral block mb-8"><T>About the project</T></span>
+          <span className="font-display text-sm tracking-[0.3em] text-coral block mb-8">About the project</span>
 
           <h2 className="text-[3rem] md:text-[4.5rem] leading-[0.88] mb-10 max-w-2xl">
-            <T>The space between</T><br />
-            <span className="text-teal"><T>bodies</T></span> <T>is where</T><br />
-            <T>theatre begins</T>
+            The space between<br />
+            <span className="text-teal">bodies</span> is where<br />
+            theatre begins
           </h2>
 
           <div className="columns-1 md:columns-2 gap-10 max-w-2xl">
             <p className="font-body text-sm leading-relaxed mb-5 text-muted-foreground" style={{ textWrap: 'pretty' }}>
-              <T>BetweenBodies explores the physical boundaries and the intersection between performers in contemporary theatrical space. The project brings together artists from diverse cultural backgrounds to investigate how the body becomes a tool for communication beyond language.</T>
+              BetweenBodies explores the physical boundaries and the intersection between performers in contemporary theatrical space. The project brings together artists from diverse cultural backgrounds to investigate how the body becomes a tool for communication beyond language.
             </p>
             <p className="font-body text-sm leading-relaxed mb-5 text-muted-foreground" style={{ textWrap: 'pretty' }}>
-              <T>Through intensive workshops, BetweenBodies creates a space for experimentation where participants discover new modes of physical expression, building bridges between European theatrical traditions and contemporary movement practices.</T>
+              Through intensive workshops, BetweenBodies creates a space for experimentation where participants discover new modes of physical expression, building bridges between European theatrical traditions and contemporary movement practices.
             </p>
             <p className="font-body text-sm leading-relaxed text-muted-foreground" style={{ textWrap: 'pretty' }}>
-              <T>Each workshop is a unique opportunity to work in community, to challenge your own limits, and to rediscover the relationship between body and space in an international context.</T>
+              Each workshop is a unique opportunity to work in community, to challenge your own limits, and to rediscover the relationship between body and space in an international context.
             </p>
           </div>
         </div>
