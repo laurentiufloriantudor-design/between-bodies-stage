@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from "react";
 import facilitatorPhoto from "@/assets/facilitator-laurentiu.jpg";
-import T from "@/components/T";
 
 const FacilitatorSection = () => {
   const sectionRef = useRef<HTMLElement>(null);
@@ -36,7 +35,7 @@ const FacilitatorSection = () => {
         </div>
 
         <div className={`md:col-span-2 ${visible ? 'animate-reveal-up animate-delay-2' : ''}`}>
-          <span className="font-display text-sm tracking-[0.3em] text-coral block mb-6"><T>Facilitator</T></span>
+          <span className="font-display text-sm tracking-[0.3em] text-coral block mb-6">Facilitator</span>
 
           <h2 className="text-[3rem] md:text-[5rem] leading-[0.88] mb-4">
             Laurențiu
@@ -47,20 +46,20 @@ const FacilitatorSection = () => {
 
           <div className="max-w-xl">
             <p className="font-body text-sm leading-relaxed text-muted-foreground mb-5" style={{ textWrap: 'pretty' }}>
-              <T>Theatre director and acting trainer with over 15 years of experience, working across institutional theatres, independent companies, and international collaborations — including with artists such as Declan Donnellan and Robert Wilson.</T>
+              Theatre director and acting trainer with over 15 years of experience, working across institutional theatres, independent companies, and international collaborations — including with artists such as Declan Donnellan and Robert Wilson.
             </p>
             <p className="font-body text-sm leading-relaxed text-muted-foreground mb-5" style={{ textWrap: 'pretty' }}>
-              <T>His current work focuses on the relationship between the body, impulse, and direct experience. Rather than following a fixed method, he builds processes that emerge from the encounter between people in the room — shifting the focus from analysis to presence, from performing well to responding to what is actually happening.</T>
+              His current work focuses on the relationship between the body, impulse, and direct experience. Rather than following a fixed method, he builds processes that emerge from the encounter between people in the room — shifting the focus from analysis to presence, from performing well to responding to what is actually happening.
             </p>
             <p className="font-body text-sm leading-relaxed text-muted-foreground" style={{ textWrap: 'pretty' }}>
-              <T>Drawing on physical expression and somatic awareness, he creates non-hierarchical environments where vulnerability is part of the work, habits are questioned, and instinct is given space to lead.</T>
+              Drawing on physical expression and somatic awareness, he creates non-hierarchical environments where vulnerability is part of the work, habits are questioned, and instinct is given space to lead.
             </p>
           </div>
 
           <div className="mt-10 flex flex-wrap gap-3 font-display text-xs tracking-[0.2em]">
-            <span className="bg-navy text-cream px-3 py-1.5"><T>Director</T></span>
-            <span className="bg-navy text-cream px-3 py-1.5"><T>Acting Trainer</T></span>
-            <span className="bg-navy text-cream px-3 py-1.5">15+ <T>Years</T></span>
+            <span className="bg-navy text-cream px-3 py-1.5">Director</span>
+            <span className="bg-navy text-cream px-3 py-1.5">Acting Trainer</span>
+            <span className="bg-navy text-cream px-3 py-1.5">15+ Years</span>
           </div>
         </div>
       </div>
