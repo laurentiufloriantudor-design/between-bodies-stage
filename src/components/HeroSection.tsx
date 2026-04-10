@@ -24,27 +24,7 @@ const HeroSection = () => {
         </button>
       </nav>
 
-      <div
-        className={`absolute top-0 right-0 z-40 w-64 bg-background/95 backdrop-blur-sm shadow-lg transition-all duration-500 ease-out origin-top-right ${
-          menuOpen
-            ? "opacity-100 scale-100 translate-y-0"
-            : "opacity-0 scale-95 -translate-y-2 pointer-events-none"
-        }`}
-        style={{ marginTop: "4.5rem", marginRight: "1.5rem" }}
-      >
-        <div className="flex flex-col py-4">
-          {navLinks.map((link) => (
-            <a
-              key={link.label}
-              href={link.href}
-              onClick={() => setMenuOpen(false)}
-              className="px-8 py-3 font-display text-base tracking-[0.15em] text-foreground hover:text-teal hover:bg-foreground/5 transition-all duration-300"
-            >
-              {link.label}
-            </a>
-          ))}
-        </div>
-      </div>
+      <ChoreographicMenu isOpen={menuOpen} onClose={() => setMenuOpen(false)} />
 
       <div className="relative z-10 grid grid-cols-1 md:grid-cols-3 gap-0 px-6 md:px-12 pt-8 md:pt-16">
         <div className="md:col-span-2 relative">
