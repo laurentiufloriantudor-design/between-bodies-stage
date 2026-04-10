@@ -2,15 +2,7 @@ import { useState } from "react";
 import { Menu, X } from "lucide-react";
 import logo from "@/assets/logo-betweenbodies.png";
 import heroImage from "@/assets/hero-theater.jpg";
-
-const navLinks = [
-  { label: "Workshop", href: "#workshop" },
-  { label: "About", href: "#about" },
-  { label: "Apply", href: "#apply" },
-  { label: "Newsletter", href: "#newsletter" },
-  { label: "Notes from the Room", href: "/notes-from-the-room" },
-  { label: "Partner with us", href: "/partner" },
-];
+import ChoreographicMenu from "./ChoreographicMenu";
 
 const HeroSection = () => {
   const [menuOpen, setMenuOpen] = useState(false);
