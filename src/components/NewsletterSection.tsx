@@ -1,6 +1,11 @@
 import { useState, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
-import { supabase } from "@/integrations/supabase/client";
+import emailjs from "@emailjs/browser";
+
+const PUBLIC_KEY = "akJ6lEAJfj6FeaIBj";
+const SERVICE_ID = "service_zg4g6af";
+const TEMPLATE_NOTIFICATION = "template_87tez54";
+const TEMPLATE_CONFIRMATION = "template_nlffuj5";
 
 interface NewsletterSectionProps {
   variant?: "light" | "dark";
@@ -46,12 +51,21 @@ const NewsletterSection = ({ variant = "dark" }: NewsletterSectionProps) => {
 
     setLoading(true);
     try {
-      await supabase.functions.invoke("send-contact-email", {
-        body: { type: "newsletter", email },
+      emailjs.init(PUBLIC_KEY);
+
+      await emailjs.send(SERVICE_ID, TEMPLATE_NOTIFICATION, {
+        subscriber_email: email,
+        reply_to: email,
       });
+
+      await emailjs.send(SERVICE_ID, TEMPLATE_CONFIRMATION, {
+        to_email: email,
+        reply_to: "between.bconnections@gmail.com",
+      });
+
       setSubmitted(true);
     } catch (err) {
-      console.error("Newsletter error:", err);
+      console.error("EmailJS error:", err);
       setError("Something went wrong. Please try again.");
     } finally {
       setLoading(false);
@@ -97,12 +111,10 @@ const NewsletterSection = ({ variant = "dark" }: NewsletterSectionProps) => {
         {submitted ? (
           <div className="animate-reveal-up">
             <div className="w-10 h-[2px] mb-6" style={{ backgroundColor: "#68AEB3" }} />
-            <h2
-              className="font-display text-[2.5rem] md:text-[3.5rem] leading-[0.88] mb-4 uppercase tracking-wide"
-              style={{ color: "#E7E9DA" }}
-            >
-              You're in the circle
-            </h2>
+            <p className="font-display text-[2.5rem] md:text-[3.5rem] leading-[0.88] mb-4 uppercase tracking-wide"
+              style={{ color: "#E7E9DA" }}>
+              Thank you, we'll be in touch.
+            </p>
             <p className="font-body text-sm" style={{ color: "rgba(231,233,218,0.5)" }}>
               Check your inbox to confirm your subscription.
             </p>
@@ -156,7 +168,7 @@ const NewsletterSection = ({ variant = "dark" }: NewsletterSectionProps) => {
                     color: "#162836",
                   }}
                 >
-                  {loading ? "…" : "Subscribe"}
+                  {loading ? "…" : "Stay up to date"}
                 </Button>
               </div>
 
