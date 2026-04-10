@@ -2,6 +2,8 @@ import { useState } from "react";
 import { Menu, X } from "lucide-react";
 import logo from "@/assets/logo-betweenbodies.png";
 import heroImage from "@/assets/hero-theater.jpg";
+import LanguageSelector from "@/components/LanguageSelector";
+import T from "@/components/T";
 
 const navLinks = [
   { label: "Workshop", href: "#workshop" },
@@ -25,13 +27,16 @@ const HeroSection = () => {
       {/* Nav */}
       <nav className="relative z-10 flex items-center justify-between px-6 md:px-12 py-6">
         <img src={logo} alt="BetweenBodies logo" className="h-40 w-auto" />
-        <button
-          onClick={() => setMenuOpen(!menuOpen)}
-          className="relative z-50 w-10 h-10 flex items-center justify-center text-foreground hover:text-teal transition-colors duration-300 active:scale-95"
-          aria-label="Toggle menu"
-        >
-          {menuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-        </button>
+        <div className="flex items-center gap-4">
+          <LanguageSelector />
+          <button
+            onClick={() => setMenuOpen(!menuOpen)}
+            className="relative z-50 w-10 h-10 flex items-center justify-center text-foreground hover:text-teal transition-colors duration-300 active:scale-95"
+            aria-label="Toggle menu"
+          >
+            {menuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+          </button>
+        </div>
       </nav>
 
       {/* Dropdown menu */}
@@ -51,7 +56,7 @@ const HeroSection = () => {
               onClick={() => setMenuOpen(false)}
               className="px-8 py-3 font-display text-base tracking-[0.15em] text-foreground hover:text-teal hover:bg-foreground/5 transition-all duration-300"
             >
-              {link.label}
+              <T>{link.label}</T>
             </a>
           ))}
         </div>
@@ -62,23 +67,21 @@ const HeroSection = () => {
         {/* Col 1 — Title mass */}
         <div className="md:col-span-2 relative">
           <h1 className="text-[3.5rem] md:text-[6rem] lg:text-[8rem] leading-[0.88] animate-reveal-up">
-            The space
+            <T>The space</T>
           </h1>
           <h1 className="text-[3.5rem] md:text-[6rem] lg:text-[8rem] leading-[0.88] text-teal animate-reveal-up animate-delay-1">
-            between is
+            <T>between is</T>
           </h1>
           <h1 className="text-[3.5rem] md:text-[6rem] lg:text-[8rem] leading-[0.88] animate-reveal-up animate-delay-2">
-            where it
+            <T>where it</T>
           </h1>
           <h1 className="text-[3.5rem] md:text-[6rem] lg:text-[8rem] leading-[0.88] text-coral animate-reveal-up animate-delay-3">
-            happens
+            <T>happens</T>
           </h1>
 
-          {/* Subtitle overlapping the grid */}
           <div className="mt-8 md:mt-12 max-w-md animate-reveal-up animate-delay-4">
             <p className="font-body text-sm md:text-base leading-relaxed text-muted-foreground" style={{ textWrap: 'pretty' }}>
-              International body-based theatre workshops. Investigating the space
-              between performers in contemporary theatrical space.
+              <T>International body-based theatre workshops. Investigating the space between performers in contemporary theatrical space.</T>
             </p>
           </div>
         </div>
@@ -104,7 +107,7 @@ const HeroSection = () => {
         <div className="flex items-center gap-6 animate-reveal-up animate-delay-5">
           <div className="w-12 h-[2px] bg-foreground" />
           <span className="font-display text-sm tracking-[0.3em] text-muted-foreground">
-            Space is the text
+            <T>Space is the text</T>
           </span>
           <div className="flex-1 h-[2px] bg-foreground/10" />
         </div>

@@ -9,11 +9,13 @@ import NotFound from "./pages/NotFound.tsx";
 import NotesFromTheRoom from "./pages/NotesFromTheRoom.tsx";
 import WhenTheBodyKnowsFirst from "./pages/WhenTheBodyKnowsFirst.tsx";
 import ThreeStoriesAtOnce from "./pages/ThreeStoriesAtOnce.tsx";
+import { LanguageProvider } from "./contexts/LanguageContext";
 
 const queryClient = new QueryClient();
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
+    <LanguageProvider>
     <TooltipProvider>
       <Toaster />
       <Sonner />
@@ -30,6 +32,7 @@ const App = () => (
         </Routes>
       </BrowserRouter>
     </TooltipProvider>
+    </LanguageProvider>
   </QueryClientProvider>
 );
 

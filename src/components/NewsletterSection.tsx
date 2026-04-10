@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import emailjs from "@emailjs/browser";
+import T from "@/components/T";
 
 const PUBLIC_KEY = "akJ6lEAJfj6FeaIBj";
 const SERVICE_ID = "service_zg4g6af";
@@ -72,8 +73,6 @@ const NewsletterSection = ({ variant = "dark" }: NewsletterSectionProps) => {
     }
   };
 
-  const isDark = variant === "dark";
-
   return (
     <section
       id="newsletter"
@@ -81,7 +80,6 @@ const NewsletterSection = ({ variant = "dark" }: NewsletterSectionProps) => {
       className="relative py-24 md:py-32 px-6 md:px-12 overflow-hidden"
       style={{ backgroundColor: "#162836" }}
     >
-      {/* Organic blob shapes */}
       <div
         className="absolute top-[-60px] right-[-40px] w-[280px] h-[280px] rounded-full opacity-10 animate-drift-slow"
         style={{ backgroundColor: "#68AEB3" }}
@@ -113,10 +111,10 @@ const NewsletterSection = ({ variant = "dark" }: NewsletterSectionProps) => {
             <div className="w-10 h-[2px] mb-6" style={{ backgroundColor: "#68AEB3" }} />
             <p className="font-display text-[2.5rem] md:text-[3.5rem] leading-[0.88] mb-4 uppercase tracking-wide"
               style={{ color: "#E7E9DA" }}>
-              Thank you, we'll be in touch.
+              <T>Thank you, we'll be in touch.</T>
             </p>
             <p className="font-body text-sm" style={{ color: "rgba(231,233,218,0.5)" }}>
-              Check your inbox to confirm your subscription.
+              <T>Check your inbox to confirm your subscription.</T>
             </p>
           </div>
         ) : (
@@ -127,8 +125,8 @@ const NewsletterSection = ({ variant = "dark" }: NewsletterSectionProps) => {
               }`}
               style={{ color: "#E7E9DA" }}
             >
-              Enter the<br />
-              <span style={{ color: "#68AEB3" }}>Circle</span>
+              <T>Enter the</T><br />
+              <span style={{ color: "#68AEB3" }}><T>Circle</T></span>
             </h2>
             <p
               className={`font-body text-sm leading-relaxed mb-10 ${
@@ -136,7 +134,7 @@ const NewsletterSection = ({ variant = "dark" }: NewsletterSectionProps) => {
               }`}
               style={{ color: "rgba(231,233,218,0.5)", textWrap: "pretty" as any }}
             >
-              Receive updates on upcoming laboratories, residencies, and open calls.
+              <T>Receive updates on upcoming laboratories, residencies, and open calls.</T>
             </p>
 
             <form
@@ -168,7 +166,7 @@ const NewsletterSection = ({ variant = "dark" }: NewsletterSectionProps) => {
                     color: "#162836",
                   }}
                 >
-                  {loading ? "…" : "Stay up to date"}
+                  {loading ? "…" : <T>Stay up to date</T>}
                 </Button>
               </div>
 
@@ -196,7 +194,7 @@ const NewsletterSection = ({ variant = "dark" }: NewsletterSectionProps) => {
                   className="font-body text-[11px] leading-relaxed"
                   style={{ color: "rgba(231,233,218,0.35)" }}
                 >
-                  I agree to receive updates from Between Bodies. I can unsubscribe at any time.
+                  <T>I agree to receive updates from Between Bodies. I can unsubscribe at any time.</T>
                 </span>
               </label>
             </form>
