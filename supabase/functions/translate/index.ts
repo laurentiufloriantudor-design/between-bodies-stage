@@ -2,15 +2,60 @@ import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
+  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type, x-supabase-client-platform, x-supabase-client-platform-version, x-supabase-client-runtime, x-supabase-client-runtime-version",
 };
+
+function extractJsonArray(raw: string, expectedLength: number): string[] {
+  // Strip markdown fences
+  let cleaned = raw.replace(/```json\s*/gi, "").replace(/```\s*/g, "").trim();
+
+  // Try to find a JSON array
+  const arrStart = cleaned.indexOf("[");
+  const arrEnd = cleaned.lastIndexOf("]");
+
+  if (arrStart !== -1 && arrEnd > arrStart) {
+    const candidate = cleaned.substring(arrStart, arrEnd + 1);
+    try {
+      const parsed = JSON.parse(candidate);
+      if (Array.isArray(parsed)) {
+        // Ensure all items are strings and length matches
+        const result = parsed.map((item: unknown) => String(item ?? ""));
+        // If model returned too many, trim; if too few, pad with originals
+        return result.slice(0, expectedLength);
+      }
+    } catch {
+      // Try fixing trailing commas and control chars
+      const fixed = candidate
+        .replace(/,\s*]/g, "]")
+        .replace(/[\x00-\x1F\x7F]/g, "");
+      try {
+        const parsed = JSON.parse(fixed);
+        if (Array.isArray(parsed)) {
+          return parsed.map((item: unknown) => String(item ?? "")).slice(0, expectedLength);
+        }
+      } catch { /* fall through */ }
+    }
+  }
+
+  // If only one text was sent and model returned a plain string, wrap it
+  if (expectedLength === 1) {
+    // Remove quotes if wrapped
+    const unquoted = cleaned.replace(/^["']|["']$/g, "").trim();
+    if (unquoted.length > 0) {
+      return [unquoted];
+    }
+  }
+
+  // Fallback: return null to signal failure
+  return [];
+}
 
 serve(async (req) => {
   if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
 
   try {
     const { texts, targetLang } = await req.json();
-    
+
     if (!texts || !targetLang || !Array.isArray(texts)) {
       return new Response(JSON.stringify({ error: "Invalid request" }), {
         status: 400,
@@ -24,11 +69,7 @@ serve(async (req) => {
       });
     }
 
-    const langMap: Record<string, string> = {
-      it: "Italian",
-      ro: "Romanian",
-    };
-
+    const langMap: Record<string, string> = { it: "Italian", ro: "Romanian" };
     const langName = langMap[targetLang];
     if (!langName) {
       return new Response(JSON.stringify({ error: "Unsupported language" }), {
@@ -53,47 +94,45 @@ serve(async (req) => {
         messages: [
           {
             role: "system",
-            content: `You are a professional translator. Translate the following numbered texts from English to ${langName}. Return ONLY a valid JSON array of strings, where each element is the translation of the corresponding numbered input. Preserve any HTML tags. Do not add explanations. Keep proper nouns (names, places, project names like "Between Bodies", "STORM", "Shakespeare") as-is unless they have well-known translations.`,
+            content: `You are a translator. Translate the numbered English texts to ${langName}. Return ONLY a JSON array of strings with exactly ${texts.length} element(s). No explanation, no markdown, no code blocks. Example for 2 inputs: ["translation1","translation2"]. Keep proper nouns like "Between Bodies", "STORM", "Shakespeare" unchanged.`,
           },
-          {
-            role: "user",
-            content: numberedTexts,
-          },
+          { role: "user", content: numberedTexts },
         ],
       }),
     });
 
     if (!response.ok) {
-      if (response.status === 429) {
-        return new Response(JSON.stringify({ error: "Rate limited, try again later" }), {
-          status: 429,
-          headers: { ...corsHeaders, "Content-Type": "application/json" },
-        });
-      }
-      if (response.status === 402) {
-        return new Response(JSON.stringify({ error: "Credits exhausted" }), {
-          status: 402,
-          headers: { ...corsHeaders, "Content-Type": "application/json" },
-        });
-      }
+      const status = response.status;
       const t = await response.text();
-      console.error("AI error:", response.status, t);
-      throw new Error("AI gateway error");
-    }
-
-    const data = await response.json();
-    const content = data.choices?.[0]?.message?.content || "[]";
-    
-    // Extract JSON array from the response
-    const jsonMatch = content.match(/\[[\s\S]*\]/);
-    if (!jsonMatch) {
-      console.error("Failed to parse translations:", content);
+      if (status === 429) {
+        return new Response(JSON.stringify({ error: "Rate limited" }), {
+          status: 429, headers: { ...corsHeaders, "Content-Type": "application/json" },
+        });
+      }
+      if (status === 402) {
+        return new Response(JSON.stringify({ error: "Credits exhausted" }), {
+          status: 402, headers: { ...corsHeaders, "Content-Type": "application/json" },
+        });
+      }
+      console.error("AI error:", status, t);
+      // Fallback: return originals
       return new Response(JSON.stringify({ translations: texts }), {
         headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
     }
 
-    const translations = JSON.parse(jsonMatch[0]);
+    const data = await response.json();
+    const content = data.choices?.[0]?.message?.content || "";
+
+    const translations = extractJsonArray(content, texts.length);
+
+    // If extraction failed or length mismatch, return originals
+    if (translations.length < texts.length) {
+      console.error("Parse issue, returning originals. Raw:", content);
+      return new Response(JSON.stringify({ translations: texts }), {
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
 
     return new Response(JSON.stringify({ translations }), {
       headers: { ...corsHeaders, "Content-Type": "application/json" },
