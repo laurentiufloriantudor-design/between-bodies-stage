@@ -31,7 +31,7 @@ const ArticleHero = () => {
 
         {/* Subtitle */}
         <p className="font-body text-base md:text-lg text-cream/65 max-w-[600px] mx-auto mb-10 font-light leading-relaxed">
-          Notes from a physical theatre practice in three countries — on presence, impulse, and what happens when you stop performing Shakespeare and start inhabiting him.
+          Notes from a physical theatre practice in three countries, on presence, impulse, and what happens when you stop performing Shakespeare and start inhabiting him.
         </p>
 
         {/* Meta */}
@@ -46,7 +46,7 @@ const ArticleHero = () => {
         {/* Project tag */}
         <div className="mt-12 max-w-[760px] mx-auto text-left bg-navy-light border-l-[3px] border-teal px-6 md:px-8 py-5 rounded-r">
           <p className="font-body text-[0.82rem] text-cream/60 leading-relaxed">
-            <strong className="text-teal font-medium">STORM</strong> — Shakespeare and Theatre for Outlasting Resilience in Mental Health — is a Creative Europe project developed in partnership between Teatro Stabile del Veneto (Italy), Teatrul Național "Marin Sorescu" Craiova (Romania), fringe ensemble Bonn (Germany), and Fondazione Fitzcarraldo, with the support of the Department of General Psychology at the University of Padova. The project explores the intersection of Shakespearean theatre and the mental health of young adults, through participatory creative processes culminating in an international co-production.
+            <strong className="text-teal font-medium">STORM</strong>, Shakespeare and Theatre for Outlasting Resilience in Mental Health, is a Creative Europe project developed in partnership between Teatro Stabile del Veneto (Italy), Teatrul Național "Marin Sorescu" Craiova (Romania), fringe ensemble Bonn (Germany), and Fondazione Fitzcarraldo, with the support of the Department of General Psychology at the University of Padova. The project explores the intersection of Shakespearean theatre and the mental health of young adults, through participatory creative processes culminating in an international co-production.
           </p>
         </div>
       </div>
