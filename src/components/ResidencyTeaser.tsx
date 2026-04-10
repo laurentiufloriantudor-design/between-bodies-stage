@@ -41,10 +41,10 @@ const ResidencyTeaser = () => {
             <p>Dates and registration details will be announced soon.</p>
           </div>
 
-          <div className={`mt-10 ${visible ? 'animate-reveal-up animate-delay-3' : ''}`}>
-            <span className="inline-block border border-cream/30 text-cream px-6 py-3 font-display tracking-[0.15em] text-sm">
+          <div className={`mt-10 flex flex-wrap gap-4 ${visible ? 'animate-reveal-up animate-delay-3' : ''}`}>
+            <Button variant="outline" size="lg" className="border-cream/30 text-cream hover:bg-teal hover:text-foreground hover:border-teal" onClick={() => document.getElementById("newsletter")?.scrollIntoView({ behavior: "smooth" })}>
               Subscribe for Updates
-            </span>
+            </Button>
           </div>
 
           <div className={`mt-8 flex flex-wrap gap-3 font-display text-xs tracking-[0.2em] ${visible ? 'animate-reveal-up animate-delay-4' : ''}`}>
