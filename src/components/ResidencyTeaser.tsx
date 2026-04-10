@@ -28,7 +28,7 @@ const ResidencyTeaser = () => {
           </div>
 
           <h2 className={`text-[3rem] md:text-[5rem] leading-[0.88] mb-3 ${visible ? 'animate-reveal-up' : ''}`}>
-            One-Week Residency
+            One-Week Intensive Workshop
           </h2>
           <p className={`font-body tabular-nums text-sm text-cream/50 mb-10 ${visible ? 'animate-reveal-up animate-delay-1' : ''}`}>
             Torino, IT — Dates TBA
@@ -37,7 +37,7 @@ const ResidencyTeaser = () => {
           <div className={`space-y-5 font-body text-sm leading-relaxed text-cream/70 max-w-xl ${visible ? 'animate-reveal-up animate-delay-2' : ''}`} style={{ textWrap: 'pretty' }}>
             <p>A week-long immersion into the Between Bodies practice. We begin by dissolving the social mask — releasing habit, softening armour — and awakening a finer attention to the body's weight, breath, and impulse. From there, the work opens into contact improvisation: listening through skin, finding and losing balance together, letting movement arise from genuine physical dialogue.</p>
             <p>As trust deepens across the week, we move toward shared presence and choral work — the group as a single breathing organism — weaving in text as material that lives in the body rather than the mind.</p>
-            <p>The residency format allows us to explore territory the shorter workshops cannot reach: sustained two-person scenes. Here we work with the relational and physical dynamics that emerge when two bodies stay in a dramatic situation long enough for something real to surface — beyond the first impulse, beyond the comfortable, into the alive.</p>
+            <p>The intensive format allows us to explore territory the shorter workshops cannot reach: sustained two-person scenes. Here we work with the relational and physical dynamics that emerge when two bodies stay in a dramatic situation long enough for something real to surface — beyond the first impulse, beyond the comfortable, into the alive.</p>
             <p>Dates and registration details will be announced soon.</p>
           </div>
 
@@ -49,7 +49,7 @@ const ResidencyTeaser = () => {
 
           <div className={`mt-8 flex flex-wrap gap-3 font-display text-xs tracking-[0.2em] ${visible ? 'animate-reveal-up animate-delay-4' : ''}`}>
             <span className="bg-navy-light text-cream/60 px-3 py-1.5 border border-cream/10">7 Days</span>
-            <span className="bg-navy-light text-cream/60 px-3 py-1.5 border border-cream/10">Residency</span>
+            <span className="bg-navy-light text-cream/60 px-3 py-1.5 border border-cream/10">Intensive</span>
             <span className="bg-navy-light text-cream/60 px-3 py-1.5 border border-cream/10">Torino, IT</span>
           </div>
         </div>
