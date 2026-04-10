@@ -1,6 +1,11 @@
 import { useState, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
-import { supabase } from "@/integrations/supabase/client";
+import emailjs from "@emailjs/browser";
+
+const PUBLIC_KEY = "akJ6lEAJfj6FeaIBj";
+const SERVICE_ID = "service_zg4g6af";
+const TEMPLATE_NOTIFICATION = "template_87tez54";
+const TEMPLATE_CONFIRMATION = "template_nlffuj5";
 
 interface NewsletterSectionProps {
   variant?: "light" | "dark";
