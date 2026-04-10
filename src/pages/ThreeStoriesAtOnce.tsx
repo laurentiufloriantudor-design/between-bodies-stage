@@ -216,8 +216,23 @@ const ArticleBody = () => (
     <div className="pt-8 border-t-2 border-navy">
       <h3 className="font-display text-xl text-navy mb-1.5 normal-case">Laurențiu Tudor</h3>
       <p className="font-body text-[0.85rem] text-muted-foreground leading-relaxed">
-        Theatre director, pedagogue, and artistic researcher with over 16 years of professional practice. He leads Between Bodies, an independent international series of physical theatre laboratories and residencies. The first laboratory took place in Turin on 6–8 March 2025.
+        Theatre director, pedagogue, and artistic researcher with over 16 years of professional practice. Associate director on productions by Declan Donnellan (Hamlet, Oedipus Rex) and Robert Wilson. Artistic Consultant at Teatrul Național "Marin Sorescu" Craiova and Executive Producer of the International Shakespeare Festival Craiova. He leads Between Bodies, an international series of physical theatre laboratories and residencies.
       </p>
+    </div>
+
+    {/* --- Tags --- */}
+    <div className="mt-12 flex flex-wrap gap-2 items-center">
+      <span className="font-display text-[0.7rem] uppercase tracking-[0.1em] text-muted-foreground mr-2">
+        Topics
+      </span>
+      {["Physical theatre", "Applied theatre", "Contact improvisation", "Laban", "Grotowski", "Somatic work", "Presence training", "Devised theatre"].map((t) => (
+        <span
+          key={t}
+          className="font-body text-[0.75rem] px-3 py-1 border border-muted text-muted-foreground rounded-sm hover:border-teal hover:text-navy transition-colors duration-300"
+        >
+          {t}
+        </span>
+      ))}
     </div>
   </article>
 );
