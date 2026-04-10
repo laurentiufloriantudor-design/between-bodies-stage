@@ -11,20 +11,20 @@ const FooterSection = () => {
         <div>
           <img src={logo} alt="BetweenBodies" className="h-12 w-auto mb-6" />
           <p className="font-body text-xs leading-relaxed opacity-50">
-            Body-based theatre workshops.<br />
-            Investigating the space between.
+            <T>Body-based theatre workshops.</T><br />
+            <T>Investigating the space between.</T>
           </p>
         </div>
 
         <div>
-          <h4 className="text-lg mb-4 tracking-[0.15em]">Contact</h4>
+          <h4 className="text-lg mb-4 tracking-[0.15em]"><T>Contact</T></h4>
           <p className="font-body text-xs leading-relaxed opacity-50">
             between.bconnections@gmail.com
           </p>
         </div>
 
         <div>
-          <h4 className="text-lg mb-4 tracking-[0.15em]">Navigate</h4>
+          <h4 className="text-lg mb-4 tracking-[0.15em]"><T>Navigate</T></h4>
           <nav className="flex flex-col gap-2 font-display text-sm tracking-[0.15em] opacity-50">
             <a href="#workshop" className="hover:opacity-100 hover:text-teal transition-all duration-500">Workshop</a>
             <a href="#about" className="hover:opacity-100 hover:text-teal transition-all duration-500">About</a>
