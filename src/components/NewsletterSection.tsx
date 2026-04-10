@@ -168,7 +168,7 @@ const NewsletterSection = ({ variant = "dark" }: NewsletterSectionProps) => {
                     color: "#162836",
                   }}
                 >
-                  {loading ? "…" : "Subscribe"}
+                  {loading ? "…" : "Stay up to date"}
                 </Button>
               </div>
 
