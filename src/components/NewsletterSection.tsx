@@ -111,12 +111,10 @@ const NewsletterSection = ({ variant = "dark" }: NewsletterSectionProps) => {
         {submitted ? (
           <div className="animate-reveal-up">
             <div className="w-10 h-[2px] mb-6" style={{ backgroundColor: "#68AEB3" }} />
-            <h2
-              className="font-display text-[2.5rem] md:text-[3.5rem] leading-[0.88] mb-4 uppercase tracking-wide"
-              style={{ color: "#E7E9DA" }}
-            >
-              You're in the circle
-            </h2>
+            <p className="font-display text-[2.5rem] md:text-[3.5rem] leading-[0.88] mb-4 uppercase tracking-wide"
+              style={{ color: "#E7E9DA" }}>
+              Thank you, we'll be in touch.
+            </p>
             <p className="font-body text-sm" style={{ color: "rgba(231,233,218,0.5)" }}>
               Check your inbox to confirm your subscription.
             </p>
