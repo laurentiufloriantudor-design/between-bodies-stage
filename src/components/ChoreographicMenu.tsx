@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, useCallback } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const navLinks = [
@@ -173,7 +173,6 @@ const ChoreographicMenu = ({ isOpen, onClose }: Props) => {
                 onClick={() => handleClick(link.href)}
                 className="relative block w-full text-left py-2 md:py-3 overflow-visible"
                 style={{
-                  cursor: "none",
                   opacity: itemsVisible[i] ? (someoneHovered && !isHovered ? 0.25 : 1) : 0,
                   transform: itemsVisible[i]
                     ? "none"
