@@ -1,15 +1,15 @@
-import HeroSection from "@/components/HeroSection";
+import ApplySection from "@/components/ApplySection";
 import NewsletterSection from "@/components/NewsletterSection";
 import FooterSection from "@/components/FooterSection";
 
-const Index = () => {
+const Apply = () => {
   return (
     <div className="min-h-screen bg-background text-foreground">
-      <HeroSection />
+      <ApplySection />
       <NewsletterSection variant="light" />
       <FooterSection />
     </div>
   );
 };
 
-export default Index;
+export default Apply;
