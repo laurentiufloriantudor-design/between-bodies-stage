@@ -5,6 +5,7 @@ import heroImage from "@/assets/hero-theater.jpg";
 import ChoreographicMenu from "./ChoreographicMenu";
 import FloatingNav from "./FloatingNav";
 import AttentionElement from "./AttentionElement";
+import DancingText from "./DancingText";
 
 const HeroSection = () => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -42,22 +43,22 @@ const HeroSection = () => {
         <div className="md:col-span-2 relative">
           <AttentionElement seed={10} radius={450} maxShift={6} opacityFloor={0.7} scaleRange={[0.992, 1.005]}>
             <h1 className="text-[3.5rem] md:text-[6rem] lg:text-[8rem] leading-[0.88] animate-reveal-up">
-              The space
+              <DancingText>The space</DancingText>
             </h1>
           </AttentionElement>
           <AttentionElement seed={11} radius={450} maxShift={8} opacityFloor={0.7} scaleRange={[0.992, 1.005]}>
             <h1 className="text-[3.5rem] md:text-[6rem] lg:text-[8rem] leading-[0.88] text-teal animate-reveal-up animate-delay-1">
-              between is
+              <DancingText>between is</DancingText>
             </h1>
           </AttentionElement>
           <AttentionElement seed={12} radius={450} maxShift={6} opacityFloor={0.7} scaleRange={[0.992, 1.005]}>
             <h1 className="text-[3.5rem] md:text-[6rem] lg:text-[8rem] leading-[0.88] animate-reveal-up animate-delay-2">
-              where it
+              <DancingText>where it</DancingText>
             </h1>
           </AttentionElement>
           <AttentionElement seed={13} radius={450} maxShift={10} opacityFloor={0.65} scaleRange={[0.99, 1.008]}>
             <h1 className="text-[3.5rem] md:text-[6rem] lg:text-[8rem] leading-[0.88] text-coral animate-reveal-up animate-delay-3">
-              happens
+              <DancingText>happens</DancingText>
             </h1>
           </AttentionElement>
 
