@@ -22,7 +22,7 @@ const WorkshopSection = () => {
           <span className="font-display text-sm tracking-[0.3em] text-teal block mb-8">Upcoming</span>
           <h2 className="text-[3.5rem] md:text-[5rem] leading-[0.88] mb-4">Torino</h2>
           <p className="font-body tabular-nums text-sm text-muted-foreground">
-            25.04 — 26.04.2025
+            25.04 — 26.04.2026
           </p>
         </div>
 
