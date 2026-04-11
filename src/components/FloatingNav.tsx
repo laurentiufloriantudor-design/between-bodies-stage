@@ -21,11 +21,20 @@ interface BodyState {
 // ─── Config ───────────────────────────────────────────────────────────────────
 
 const NAV_ITEMS: NavItem[] = [
-  { label: "Workshop",            href: "#workshop",              size: 20, homeX: 0.48, homeY: 0.06 },
-  { label: "About",               href: "#about",                 size: 18, homeX: 0.70, homeY: 0.06 },
-  { label: "Apply",               href: "#apply",                 size: 22, homeX: 0.52, homeY: 0.35 },
-  { label: "Notes from the Room", href: "/notes-from-the-room",   size: 14, homeX: 0.52, homeY: 0.52 },
-  { label: "Partner with Us",     href: "/partner",               size: 16, homeX: 0.52, homeY: 0.68 },
+  { label: "Workshop",            href: "#workshop",              size: 20, homeX: 0.45, homeY: 0.05 },
+  { label: "About",               href: "#about",                 size: 18, homeX: 0.72, homeY: 0.08 },
+  { label: "Apply",               href: "#apply",                 size: 22, homeX: 0.54, homeY: 0.38 },
+  { label: "Notes from the Room", href: "/notes-from-the-room",   size: 14, homeX: 0.49, homeY: 0.55 },
+  { label: "Partner with Us",     href: "/partner",               size: 16, homeX: 0.56, homeY: 0.70 },
+];
+
+// Idle drift parameters per item — desynchronized organic floating
+const IDLE_DRIFT = [
+  { xAmp: 6,  yAmp: 4,  period: 5200, phase: 0 },
+  { xAmp: 4,  yAmp: 7,  period: 6100, phase: 1200 },
+  { xAmp: 5,  yAmp: 3,  period: 4800, phase: 2800 },
+  { xAmp: 7,  yAmp: 5,  period: 5700, phase: 800 },
+  { xAmp: 3,  yAmp: 6,  period: 6500, phase: 2000 },
 ];
 
 const PHYSICS = {
@@ -86,11 +95,18 @@ export default function FloatingNav() {
       });
     }
 
+    const now = Date.now();
+
     st.forEach((s, i) => {
       let fx = 0, fy = 0;
       const item = NAV_ITEMS[i];
+      const drift = IDLE_DRIFT[i];
 
-      fx += (item.homeX * w - s.x) * spring;
+      // Idle drift — subtle organic floating when cursor is away
+      const driftX = Math.sin((now + drift.phase) / drift.period) * drift.xAmp * 0.008;
+      const driftY = Math.cos((now + drift.phase * 1.3) / (drift.period * 0.8)) * drift.yAmp * 0.008;
+      fx += driftX;
+      fy += driftY;
       fy += (item.homeY * h - s.y) * spring;
 
       if (inside) {
