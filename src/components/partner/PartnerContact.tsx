@@ -56,10 +56,10 @@ const PartnerContact = () => {
           <div className="animate-reveal-up">
             <div className="w-8 h-[2px] bg-teal mb-6" />
             <p className="font-display text-[1.8rem] leading-[0.92] mb-3">
-              Message sent
+              Something landed.
             </p>
             <p className="font-body text-sm text-cream/50">
-              We'll be in touch soon. Thank you for your interest.
+              We'll pick it up from our end.
             </p>
           </div>
         ) : (
