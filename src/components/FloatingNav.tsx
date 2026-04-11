@@ -16,6 +16,9 @@ interface BodyState {
   y: number;
   vx: number;
   vy: number;
+  // per-item organic delay & personality
+  responseDelay: number;   // 0-1, how quickly this item reacts
+  influence: number;       // current interpolated influence (0 = idle, 1 = full effect)
 }
 
 // ─── Config ───────────────────────────────────────────────────────────────────
@@ -37,16 +40,33 @@ const IDLE_DRIFT = [
   { xAmp: 3,  yAmp: 6,  period: 6500, phase: 2000 },
 ];
 
+// Per-item personality: reaction speed varies so movement feels desynchronized
+const ITEM_PERSONALITY = [
+  { responseLag: 0.012, jitterAmp: 0.3 },   // Workshop — moderate
+  { responseLag: 0.018, jitterAmp: 0.5 },   // About — slower, more hesitant
+  { responseLag: 0.008, jitterAmp: 0.2 },   // Apply — quicker
+  { responseLag: 0.022, jitterAmp: 0.6 },   // Notes — slowest, most organic
+  { responseLag: 0.015, jitterAmp: 0.4 },   // Partner — moderate
+];
+
 const PHYSICS = {
-  attractRadius: 180,
-  attractForce: 25,
-  repelRadius: 180,
-  repelForce: 15,
-  interMinDist: 140,
-  interRepelForce: 8000,
-  spring: 0.05,
-  damping: 0.78,
-  maxSpeed: 8,
+  // How close cursor must be to "activate" the isolation behavior
+  activationRadius: 220,
+  // The focused item: how strongly it anchors in place
+  anchorSpring: 0.12,
+  // Non-focused items: attraction toward each other (clustering)
+  clusterForce: 0.6,
+  // Non-focused items: repulsion away from the focused item
+  avoidFocusForce: 2.8,
+  avoidFocusRadius: 300,
+  // Inter-item minimum distance (prevent overlap within the cluster)
+  interMinDist: 90,
+  interRepelForce: 4000,
+  // Home spring — pulls items back to rest when idle
+  homeSpring: 0.035,
+  // Damping and limits
+  damping: 0.88,
+  maxSpeed: 5,
   wallPad: 40,
 };
 
@@ -60,16 +80,19 @@ export default function FloatingNav() {
   const rafRef = useRef<number>(0);
   const linkRefs = useRef<(HTMLElement | null)[]>([]);
   const breatheRafs = useRef<number[]>([]);
+  const focusedRef = useRef<number>(-1);
 
   const initState = useCallback(() => {
     const hero = heroRef.current;
     if (!hero) return;
     const { offsetWidth: w, offsetHeight: h } = hero;
-    stateRef.current = NAV_ITEMS.map((item) => ({
+    stateRef.current = NAV_ITEMS.map((item, i) => ({
       x: item.homeX * w,
       y: item.homeY * h,
       vx: 0,
       vy: 0,
+      responseDelay: ITEM_PERSONALITY[i].responseLag,
+      influence: 0,
     }));
   }, []);
 
@@ -79,9 +102,14 @@ export default function FloatingNav() {
     const { offsetWidth: w, offsetHeight: h } = hero;
     const { x: mx, y: my, inside } = mouseRef.current;
     const st = stateRef.current;
-    const { attractRadius, attractForce, repelRadius, repelForce,
-            interMinDist, interRepelForce,
-            spring, damping, maxSpeed, wallPad } = PHYSICS;
+    const {
+      activationRadius, anchorSpring,
+      clusterForce, avoidFocusForce, avoidFocusRadius,
+      interMinDist, interRepelForce,
+      homeSpring, damping, maxSpeed, wallPad,
+    } = PHYSICS;
+
+    const now = Date.now();
 
     // Find which item is closest to cursor
     let closestIdx = -1;
@@ -93,40 +121,87 @@ export default function FloatingNav() {
         const dist = Math.sqrt(dx * dx + dy * dy);
         if (dist < closestDist) { closestDist = dist; closestIdx = i; }
       });
+      // Only activate if cursor is close enough
+      if (closestDist > activationRadius * 1.5) closestIdx = -1;
     }
 
-    const now = Date.now();
+    // Store for visual feedback
+    focusedRef.current = closestIdx;
+
+    // Compute cluster centroid of non-focused items (their current average position)
+    let cx = 0, cy = 0, count = 0;
+    st.forEach((s, i) => {
+      if (i === closestIdx) return;
+      cx += s.x;
+      cy += s.y;
+      count++;
+    });
+    if (count > 0) { cx /= count; cy /= count; }
 
     st.forEach((s, i) => {
       let fx = 0, fy = 0;
       const item = NAV_ITEMS[i];
       const drift = IDLE_DRIFT[i];
+      const personality = ITEM_PERSONALITY[i];
 
-      // Idle drift — subtle organic floating when cursor is away
+      // Determine target influence (0 = no effect, 1 = full isolation behavior)
+      const targetInfluence = closestIdx >= 0 ? 1 : 0;
+      // Ease influence with per-item response lag
+      const lag = personality.responseLag;
+      s.influence += (targetInfluence - s.influence) * lag;
+
+      // Clamp tiny values
+      if (s.influence < 0.001) s.influence = 0;
+
+      // Idle drift — always present, subtle organic floating
       const driftX = Math.sin((now + drift.phase) / drift.period) * drift.xAmp * 0.008;
       const driftY = Math.cos((now + drift.phase * 1.3) / (drift.period * 0.8)) * drift.yAmp * 0.008;
       fx += driftX;
       fy += driftY;
-      fy += (item.homeY * h - s.y) * spring;
 
-      if (inside) {
-        const dx = mx - s.x;
-        const dy = my - s.y;
-        const dist = Math.sqrt(dx * dx + dy * dy) || 1;
+      // Per-item micro-jitter for organic imperfection
+      const jx = Math.sin(now * 0.0013 + i * 2.1) * personality.jitterAmp * s.influence * 0.15;
+      const jy = Math.cos(now * 0.0017 + i * 3.7) * personality.jitterAmp * s.influence * 0.15;
+      fx += jx;
+      fy += jy;
 
-        if (i === closestIdx && dist < attractRadius) {
-          // Closest item: attract toward cursor
-          const strength = (1 - dist / attractRadius) * attractForce / dist;
-          fx += dx * strength;
-          fy += dy * strength;
-        } else if (i !== closestIdx && dist < repelRadius) {
-          // Other items: gently repel away from cursor
-          const strength = (1 - dist / repelRadius) * repelForce / dist;
-          fx -= dx * strength;
-          fy -= dy * strength;
+      if (i === closestIdx) {
+        // ─── FOCUSED ITEM: anchor in place, become grounded ───
+        const homeX = item.homeX * w;
+        const homeY = item.homeY * h;
+        fx += (homeX - s.x) * anchorSpring * (1 + s.influence * 2);
+        fy += (homeY - s.y) * anchorSpring * (1 + s.influence * 2);
+      } else {
+        // ─── NON-FOCUSED ITEMS: cluster together, avoid the focused one ───
+
+        // Home spring (weaker when influence is high — items are free to drift into cluster)
+        const homeFactor = homeSpring * (1 - s.influence * 0.7);
+        fx += (item.homeX * w - s.x) * homeFactor;
+        fy += (item.homeY * h - s.y) * homeFactor;
+
+        if (closestIdx >= 0 && s.influence > 0.01) {
+          const focused = st[closestIdx];
+
+          // 1) Gentle attraction toward cluster centroid
+          const toCx = cx - s.x;
+          const toCy = cy - s.y;
+          const toCDist = Math.sqrt(toCx * toCx + toCy * toCy) || 1;
+          fx += (toCx / toCDist) * clusterForce * s.influence;
+          fy += (toCy / toCDist) * clusterForce * s.influence;
+
+          // 2) Repulsion away from the focused item
+          const awayX = s.x - focused.x;
+          const awayY = s.y - focused.y;
+          const awayDist = Math.sqrt(awayX * awayX + awayY * awayY) || 1;
+          if (awayDist < avoidFocusRadius) {
+            const strength = (1 - awayDist / avoidFocusRadius) * avoidFocusForce * s.influence;
+            fx += (awayX / awayDist) * strength;
+            fy += (awayY / awayDist) * strength;
+          }
         }
       }
 
+      // Inter-item repulsion (prevent overlap, always active)
       st.forEach((other, j) => {
         if (i === j) return;
         const dx = s.x - other.x;
@@ -139,6 +214,7 @@ export default function FloatingNav() {
         }
       });
 
+      // Integrate
       s.vx = (s.vx + fx) * damping;
       s.vy = (s.vy + fy) * damping;
       const speed = Math.sqrt(s.vx * s.vx + s.vy * s.vy);
@@ -149,15 +225,32 @@ export default function FloatingNav() {
       s.x += s.vx;
       s.y += s.vy;
 
+      // Wall constraints
       if (s.x < wallPad) s.vx += (wallPad - s.x) * 0.4;
       if (s.x > w - wallPad) s.vx -= (s.x - w + wallPad) * 0.4;
       if (s.y < wallPad) s.vy += (wallPad - s.y) * 0.4;
       if (s.y > h - wallPad) s.vy -= (s.y - h + wallPad) * 0.4;
 
+      // Apply position
       const el = linkRefs.current[i];
       if (el) {
         el.style.left = `${s.x}px`;
         el.style.top = `${s.y}px`;
+
+        // Visual: focused item gets slightly more opaque/present, others recede
+        const label = el.querySelector<HTMLSpanElement>(".bb-label");
+        if (label) {
+          if (i === closestIdx) {
+            const o = 1;
+            label.style.opacity = `${o}`;
+          } else if (closestIdx >= 0) {
+            // Others fade slightly — the more influence, the more they recede
+            const o = 1 - s.influence * 0.3;
+            label.style.opacity = `${o}`;
+          } else {
+            label.style.opacity = "1";
+          }
+        }
       }
     });
 
@@ -286,7 +379,7 @@ export default function FloatingNav() {
               textTransform: "uppercase",
               color: "#1A2744",
               whiteSpace: "nowrap",
-              transition: "color 0.2s ease, letter-spacing 0.3s ease",
+              transition: "color 0.2s ease, letter-spacing 0.3s ease, opacity 0.6s ease",
             }}
           >
             {item.label}
