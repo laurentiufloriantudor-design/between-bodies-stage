@@ -21,19 +21,19 @@ interface BodyState {
 // ─── Config ───────────────────────────────────────────────────────────────────
 
 const NAV_ITEMS: NavItem[] = [
-  { label: "Workshop",            href: "#workshop",              size: 14, homeX: 0.63, homeY: 0.18 },
-  { label: "About",               href: "#about",                 size: 12, homeX: 0.78, homeY: 0.30 },
-  { label: "Apply",               href: "#apply",                 size: 16, homeX: 0.67, homeY: 0.50 },
-  { label: "Notes from the Room", href: "/notes-from-the-room",   size: 11, homeX: 0.83, homeY: 0.63 },
-  { label: "Partner with Us",     href: "/partner",               size: 12, homeX: 0.61, homeY: 0.72 },
+  { label: "Workshop",            href: "#workshop",              size: 42, homeX: 0.63, homeY: 0.18 },
+  { label: "About",               href: "#about",                 size: 36, homeX: 0.78, homeY: 0.30 },
+  { label: "Apply",               href: "#apply",                 size: 48, homeX: 0.67, homeY: 0.50 },
+  { label: "Notes from the Room", href: "/notes-from-the-room",   size: 33, homeX: 0.83, homeY: 0.63 },
+  { label: "Partner with Us",     href: "/partner",               size: 36, homeX: 0.61, homeY: 0.72 },
 ];
 
 const PHYSICS = {
-  repelRadius: 140,
-  repelForce: 60,
-  interMinDist: 95,
-  interRepelForce: 4200,
-  spring: 0.052,
+  attractRadius: 200,
+  attractForce: 40,
+  interMinDist: 120,
+  interRepelForce: 5000,
+  spring: 0.045,
   damping: 0.78,
   maxSpeed: 10,
   wallPad: 40,
@@ -68,7 +68,7 @@ export default function FloatingNav() {
     const { offsetWidth: w, offsetHeight: h } = hero;
     const { x: mx, y: my, inside } = mouseRef.current;
     const st = stateRef.current;
-    const { repelRadius, repelForce, interMinDist, interRepelForce,
+    const { attractRadius, attractForce, interMinDist, interRepelForce,
             spring, damping, maxSpeed, wallPad } = PHYSICS;
 
     st.forEach((s, i) => {
@@ -78,12 +78,13 @@ export default function FloatingNav() {
       fx += (item.homeX * w - s.x) * spring;
       fy += (item.homeY * h - s.y) * spring;
 
+      // Cursor attraction (items move TOWARD cursor)
       if (inside) {
-        const dx = s.x - mx;
-        const dy = s.y - my;
+        const dx = mx - s.x;
+        const dy = my - s.y;
         const dist = Math.sqrt(dx * dx + dy * dy) || 1;
-        if (dist < repelRadius) {
-          const strength = (1 - dist / repelRadius) * repelForce / dist;
+        if (dist < attractRadius) {
+          const strength = (1 - dist / attractRadius) * attractForce / dist;
           fx += dx * strength;
           fy += dy * strength;
         }
