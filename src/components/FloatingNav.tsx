@@ -239,7 +239,7 @@ export default function FloatingNav() {
         <button
           key={item.label}
           ref={(el) => { linkRefs.current[i] = el; }}
-          onClick={() => handleClick(item.href)}
+          onClick={(e) => handleClick(e, item.href)}
           className="pointer-events-auto"
           style={{
             position: "absolute",
