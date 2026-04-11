@@ -2,9 +2,9 @@ import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const navLinks = [
-  { label: "Workshop", href: "#workshop", entry: "slide-left-sharp" },
-  { label: "About", href: "#about", entry: "descend-tremor" },
-  { label: "Apply", href: "#apply", entry: "slide-left-delayed" },
+  { label: "Workshop", href: "/workshop", entry: "slide-left-sharp" },
+  { label: "About", href: "/about", entry: "descend-tremor" },
+  { label: "Apply", href: "/apply", entry: "slide-left-delayed" },
   { label: "Newsletter", href: "#newsletter", entry: "descend-slow" },
   { label: "Notes from the Room", href: "/notes-from-the-room", entry: "slide-left-sharp" },
   { label: "Partner with us", href: "/partner", entry: "descend-tremor" },

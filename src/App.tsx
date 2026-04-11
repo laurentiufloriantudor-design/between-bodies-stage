@@ -6,6 +6,9 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import GlobalCursor from "./components/GlobalCursor";
 import PageTransition from "./components/PageTransition";
 import Index from "./pages/Index.tsx";
+import Workshop from "./pages/Workshop.tsx";
+import About from "./pages/About.tsx";
+import Apply from "./pages/Apply.tsx";
 import PartnerWithUs from "./pages/PartnerWithUs.tsx";
 import NotFound from "./pages/NotFound.tsx";
 import NotesFromTheRoom from "./pages/NotesFromTheRoom.tsx";
@@ -24,6 +27,9 @@ const App = () => (
         <PageTransition />
         <Routes>
           <Route path="/" element={<Index />} />
+          <Route path="/workshop" element={<Workshop />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/apply" element={<Apply />} />
           <Route path="/partner" element={<PartnerWithUs />} />
           <Route path="/notes-from-the-room" element={<NotesFromTheRoom />} />
           <Route path="/notes-from-the-room/when-the-body-knows-first" element={<WhenTheBodyKnowsFirst />} />

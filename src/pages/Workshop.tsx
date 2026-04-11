@@ -1,15 +1,15 @@
-import HeroSection from "@/components/HeroSection";
+import ResidencyTeaser from "@/components/ResidencyTeaser";
 import NewsletterSection from "@/components/NewsletterSection";
 import FooterSection from "@/components/FooterSection";
 
-const Index = () => {
+const Workshop = () => {
   return (
     <div className="min-h-screen bg-background text-foreground">
-      <HeroSection />
+      <ResidencyTeaser />
       <NewsletterSection variant="light" />
       <FooterSection />
     </div>
   );
 };
 
-export default Index;
+export default Workshop;

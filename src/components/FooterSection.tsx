@@ -30,9 +30,9 @@ const FooterSection = () => {
           <div>
             <h4 className="text-lg mb-4 tracking-[0.15em]">Navigate</h4>
             <nav className="flex flex-col gap-2 font-display text-sm tracking-[0.15em] opacity-50">
-              <a href="#workshop" className="hover:opacity-100 hover:text-teal transition-all duration-500">Workshop</a>
-              <a href="#about" className="hover:opacity-100 hover:text-teal transition-all duration-500">About</a>
-              <a href="#apply" className="hover:opacity-100 hover:text-teal transition-all duration-500">Apply</a>
+              <a href="/workshop" className="hover:opacity-100 hover:text-teal transition-all duration-500">Workshop</a>
+              <a href="/about" className="hover:opacity-100 hover:text-teal transition-all duration-500">About</a>
+              <a href="/apply" className="hover:opacity-100 hover:text-teal transition-all duration-500">Apply</a>
               <a href="/notes-from-the-room" className="hover:opacity-100 hover:text-teal transition-all duration-500">Notes from the Room</a>
               <a href="/partner" className="hover:opacity-100 hover:text-teal transition-all duration-500">Partner</a>
             </nav>
