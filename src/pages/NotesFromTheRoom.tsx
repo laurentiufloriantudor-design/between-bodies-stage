@@ -123,7 +123,7 @@ const GlitchTitle = ({ light }: { light: LightState }) => {
       </span>
       {/* Base text */}
       <span className="relative group-hover:translate-x-[0.3px] group-hover:-translate-y-[0.2px] transition-transform duration-700"
-        style={{ color: "#F0EDE6", textShadow: neonShadow, transition: "text-shadow 1.8s ease" }}>
+        style={{ color: "#0ABAB5", textShadow: neonShadow, transition: "text-shadow 1.8s ease" }}>
         {GLITCH_TEXT}
       </span>
     </h1>
