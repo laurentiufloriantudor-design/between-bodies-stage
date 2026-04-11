@@ -44,9 +44,7 @@ const NotesFromTheRoom = () => {
         </div>
 
         <div className="relative z-10 text-center px-6 md:px-12 pt-12 pb-16">
-          <h1 className="font-display text-[clamp(2.2rem,5vw,3.8rem)] leading-[1.05] text-cream max-w-[760px] mx-auto mb-5">
-            Notes from the Room
-          </h1>
+          <GlitchTitle />
           <p className="font-body text-base md:text-lg text-cream/65 max-w-[600px] mx-auto font-light leading-relaxed">
             Reflections on practice, presence, and the space between bodies.
           </p>
