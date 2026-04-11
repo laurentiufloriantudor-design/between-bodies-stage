@@ -36,7 +36,7 @@ export default function GlobalCursor() {
   }, []);
 
   const isDark = location.pathname !== "/";
-  const color = isDark ? "#E7E9DA" : "#162836";
+  const strokeColor = isDark ? "#E7E9DA" : "#162836";
 
   return (
     <div
@@ -47,13 +47,12 @@ export default function GlobalCursor() {
         width: 40, height: 40,
         pointerEvents: "none",
         zIndex: 9999,
-        mixBlendMode: "difference",
       }}
     >
       <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <circle cx="18" cy="20" r="14" stroke={color} strokeWidth="1.2"/>
-        <circle cx="24" cy="20" r="14" stroke={color} strokeWidth="1.2"/>
-        <circle cx="21" cy="20" r="4.5" fill={color}/>
+        <circle cx="18" cy="20" r="14" stroke={strokeColor} strokeWidth="1.4"/>
+        <circle cx="24" cy="20" r="14" stroke={strokeColor} strokeWidth="1.4"/>
+        <circle cx="21" cy="20" r="4.5" fill="#E1664D"/>
       </svg>
     </div>
   );
