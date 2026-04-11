@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 
 const editions = [
-  { city: "Craiova", country: "RO", year: "2024" },
-  { city: "Padova", country: "IT", year: "2025" },
+  { city: "Craiova", country: "RO", year: "2025" },
+  { city: "Padova", country: "IT", year: "2026" },
   { city: "Bonn", country: "DE", year: "2026" },
   { city: "Torino", country: "IT", year: "2026" },
   { city: "Your city", country: "??", year: "2026/27", upcoming: true },
