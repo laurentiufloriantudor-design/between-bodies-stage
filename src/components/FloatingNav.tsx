@@ -42,11 +42,11 @@ const IDLE_DRIFT = [
 
 // Per-item personality: reaction speed varies so movement feels desynchronized
 const ITEM_PERSONALITY = [
-  { responseLag: 0.012, jitterAmp: 0.3 },   // Workshop — moderate
-  { responseLag: 0.018, jitterAmp: 0.5 },   // About — slower, more hesitant
-  { responseLag: 0.008, jitterAmp: 0.2 },   // Apply — quicker
-  { responseLag: 0.022, jitterAmp: 0.6 },   // Notes — slowest, most organic
-  { responseLag: 0.015, jitterAmp: 0.4 },   // Partner — moderate
+  { responseLag: 0.06, jitterAmp: 0.3 },   // Workshop — moderate
+  { responseLag: 0.07, jitterAmp: 0.5 },   // About — slightly varied
+  { responseLag: 0.05, jitterAmp: 0.2 },   // Apply — quicker
+  { responseLag: 0.08, jitterAmp: 0.6 },   // Notes — slowest, most organic
+  { responseLag: 0.065, jitterAmp: 0.4 },   // Partner — moderate
 ];
 
 const PHYSICS = {
@@ -55,9 +55,9 @@ const PHYSICS = {
   // The focused item: how strongly it anchors in place
   anchorSpring: 0.12,
   // Non-focused items: attraction toward each other (clustering)
-  clusterForce: 0.6,
+  clusterForce: 1.4,
   // Non-focused items: repulsion away from the focused item
-  avoidFocusForce: 2.8,
+  avoidFocusForce: 5.0,
   avoidFocusRadius: 300,
   // Inter-item minimum distance (prevent overlap within the cluster)
   interMinDist: 90,
@@ -241,14 +241,19 @@ export default function FloatingNav() {
         const label = el.querySelector<HTMLSpanElement>(".bb-label");
         if (label) {
           if (i === closestIdx) {
-            const o = 1;
-            label.style.opacity = `${o}`;
+            label.style.opacity = "1";
+            label.style.color = "#E8725A";
           } else if (closestIdx >= 0) {
-            // Others fade slightly — the more influence, the more they recede
-            const o = 1 - s.influence * 0.3;
+            const o = 1 - s.influence * 0.15;
             label.style.opacity = `${o}`;
+            // Lerp color toward turquoise (#2dd4a8) based on influence
+            const r = Math.round(26 + (45 - 26) * s.influence);
+            const g = Math.round(39 + (212 - 39) * s.influence);
+            const b = Math.round(68 + (168 - 68) * s.influence);
+            label.style.color = `rgb(${r},${g},${b})`;
           } else {
             label.style.opacity = "1";
+            label.style.color = "#1A2744";
           }
         }
       }
