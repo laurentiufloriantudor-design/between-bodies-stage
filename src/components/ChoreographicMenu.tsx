@@ -123,9 +123,15 @@ const ChoreographicMenu = ({ isOpen, onClose }: Props) => {
       {/* Custom cursor ring */}
       <div
         ref={cursorRef}
-        className="fixed top-0 left-0 w-10 h-10 rounded-full border border-teal/60 pointer-events-none z-[60] mix-blend-difference"
-        style={{ transition: "width 0.3s, height 0.3s" }}
-      />
+        className="fixed top-0 left-0 pointer-events-none z-[60] mix-blend-difference"
+        style={{ width: 40, height: 40 }}
+      >
+        <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
+          <circle cx="20" cy="20" r="17" stroke="currentColor" strokeWidth="1.5" className="text-teal/60" />
+          <circle cx="20" cy="20" r="5" stroke="currentColor" strokeWidth="1.2" className="text-teal/60" />
+          <circle cx="20" cy="7" r="2" fill="currentColor" className="text-teal/60" />
+        </svg>
+      </div>
 
       {/* Close button */}
       <button
