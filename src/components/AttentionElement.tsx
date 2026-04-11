@@ -2,7 +2,7 @@ import { useRef, useEffect, memo } from "react";
 import { getAttentionState } from "@/hooks/useAttentionField";
 
 interface AttentionElementProps {
-  children: React.ReactNode;
+  children?: React.ReactNode;
   className?: string;
   /** How far the cursor's influence reaches (px). Default 500 */
   radius?: number;
