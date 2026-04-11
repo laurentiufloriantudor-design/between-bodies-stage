@@ -21,11 +21,11 @@ interface BodyState {
 // ─── Config ───────────────────────────────────────────────────────────────────
 
 const NAV_ITEMS: NavItem[] = [
-  { label: "Workshop",            href: "#workshop",              size: 22, homeX: 0.48, homeY: 0.06 },
+  { label: "Workshop",            href: "#workshop",              size: 20, homeX: 0.48, homeY: 0.06 },
   { label: "About",               href: "#about",                 size: 18, homeX: 0.70, homeY: 0.06 },
-  { label: "Apply",               href: "#apply",                 size: 22, homeX: 0.12, homeY: 0.75 },
-  { label: "Notes from the Room", href: "/notes-from-the-room",   size: 16, homeX: 0.12, homeY: 0.83 },
-  { label: "Partner with Us",     href: "/partner",               size: 16, homeX: 0.35, homeY: 0.79 },
+  { label: "Apply",               href: "#apply",                 size: 22, homeX: 0.52, homeY: 0.35 },
+  { label: "Notes from the Room", href: "/notes-from-the-room",   size: 14, homeX: 0.52, homeY: 0.52 },
+  { label: "Partner with Us",     href: "/partner",               size: 16, homeX: 0.52, homeY: 0.68 },
 ];
 
 const PHYSICS = {
