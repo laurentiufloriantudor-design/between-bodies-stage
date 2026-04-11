@@ -60,11 +60,13 @@ const GlitchTitle = ({ light }: { light: LightState }) => {
     return () => clearTimeout(t);
   }, []);
 
+  const [hovered, setHovered] = useState(false);
+
   useEffect(() => {
     let raf: number;
     let last = 0;
     const tick = (now: number) => {
-      if (now - last > 3000 + Math.random() * 5000) {
+      if (!hovered && now - last > 3000 + Math.random() * 5000) {
         last = now;
         setFlicker(0.7 + Math.random() * 0.15);
         setTimeout(() => setFlicker(1), 80 + Math.random() * 120);
@@ -73,57 +75,66 @@ const GlitchTitle = ({ light }: { light: LightState }) => {
     };
     raf = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(raf);
-  }, []);
+  }, [hovered]);
 
-  const cyanOpBase = light.cyan * light.intensity;
-  const magentaOpBase = light.magenta * light.intensity;
+  // When hovered: neon "off" — dim, no glow. When not hovered: lit.
+  const on = !hovered;
+  const dimFactor = on ? 1 : 0.08;
 
-  const neonShadow = [
-    `0 0 2px rgba(255,255,255,${0.6 * light.intensity})`,
-    `0 0 4px rgba(255,255,255,${0.4 * light.intensity})`,
-    `0 0 8px rgba(0,245,255,${0.35 * cyanOpBase})`,
-    `0 0 16px rgba(0,245,255,${0.2 * cyanOpBase})`,
-    `0 0 32px rgba(0,245,255,${0.1 * cyanOpBase})`,
-    `0 0 12px rgba(255,43,214,${0.2 * magentaOpBase})`,
-    `0 0 28px rgba(255,43,214,${0.1 * magentaOpBase})`,
-    `0 0 60px rgba(255,43,214,${0.05 * magentaOpBase})`,
-  ].join(", ");
+  const cyanOpBase = light.cyan * light.intensity * dimFactor;
+  const magentaOpBase = light.magenta * light.intensity * dimFactor;
 
-  // Chromatic separation increases with light intensity
-  const sep = 1.5 * light.intensity;
+  const neonShadow = on
+    ? [
+        `0 0 2px rgba(255,255,255,${0.6 * light.intensity})`,
+        `0 0 4px rgba(255,255,255,${0.4 * light.intensity})`,
+        `0 0 8px rgba(0,245,255,${0.35 * light.cyan * light.intensity})`,
+        `0 0 16px rgba(0,245,255,${0.2 * light.cyan * light.intensity})`,
+        `0 0 32px rgba(0,245,255,${0.1 * light.cyan * light.intensity})`,
+        `0 0 12px rgba(255,43,214,${0.2 * light.magenta * light.intensity})`,
+        `0 0 28px rgba(255,43,214,${0.1 * light.magenta * light.intensity})`,
+        `0 0 60px rgba(255,43,214,${0.05 * light.magenta * light.intensity})`,
+      ].join(", ")
+    : "none";
+
+  const sep = on ? 1.5 * light.intensity : 0;
+  const baseColor = on ? "#0ABAB5" : "#1A2744";
+  const baseOpacity = resolved ? (on ? flicker : 0.35) : 0;
 
   return (
     <h1
-      className="relative font-display text-[clamp(2.2rem,5vw,3.8rem)] leading-[1.05] max-w-[760px] mx-auto mb-5 select-none group"
+      className="relative font-display text-[clamp(2.2rem,5vw,3.8rem)] leading-[1.05] max-w-[760px] mx-auto mb-5 select-none cursor-pointer"
       style={{
-        opacity: resolved ? flicker : 0,
+        opacity: baseOpacity,
         filter: resolved ? "blur(0px)" : "blur(6px)",
-        transition: "opacity 0.15s ease-out, filter 1.4s ease-out",
+        transition: "opacity 0.6s ease-out, filter 1.4s ease-out",
       }}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
     >
       {/* Diffuse cyan */}
       <span className="absolute inset-0 pointer-events-none" aria-hidden="true"
-        style={{ color: "#00F5FF", opacity: cyanOpBase, transform: `translate(${-sep}px, ${-sep * 0.67}px)`, filter: "blur(6px)", textShadow: `0 0 12px #00F5FF, 0 0 24px #00F5FF`, transition: "opacity 1.8s ease, transform 1.8s ease" }}>
+        style={{ color: "#00F5FF", opacity: cyanOpBase, transform: `translate(${-sep}px, ${-sep * 0.67}px)`, filter: "blur(6px)", textShadow: on ? `0 0 12px #00F5FF, 0 0 24px #00F5FF` : "none", transition: "all 1.2s ease" }}>
         {GLITCH_TEXT}
       </span>
       {/* Diffuse magenta */}
       <span className="absolute inset-0 pointer-events-none" aria-hidden="true"
-        style={{ color: "#FF2BD6", opacity: magentaOpBase, transform: `translate(${sep}px, ${sep * 0.67}px)`, filter: "blur(6px)", textShadow: `0 0 12px #FF2BD6, 0 0 24px #FF2BD6`, transition: "opacity 1.8s ease, transform 1.8s ease" }}>
+        style={{ color: "#FF2BD6", opacity: magentaOpBase, transform: `translate(${sep}px, ${sep * 0.67}px)`, filter: "blur(6px)", textShadow: on ? `0 0 12px #FF2BD6, 0 0 24px #FF2BD6` : "none", transition: "all 1.2s ease" }}>
         {GLITCH_TEXT}
       </span>
       {/* Mid cyan */}
       <span className="absolute inset-0 pointer-events-none" aria-hidden="true"
-        style={{ color: "#00F5FF", opacity: cyanOpBase * 1.2, transform: "translate(-0.5px, -0.5px)", filter: "blur(2px)", transition: "opacity 1.8s ease" }}>
+        style={{ color: "#00F5FF", opacity: cyanOpBase * 1.2, transform: "translate(-0.5px, -0.5px)", filter: "blur(2px)", transition: "opacity 1.2s ease" }}>
         {GLITCH_TEXT}
       </span>
       {/* Mid magenta */}
       <span className="absolute inset-0 pointer-events-none" aria-hidden="true"
-        style={{ color: "#FF2BD6", opacity: magentaOpBase * 0.8, transform: "translate(0.5px, 0.5px)", filter: "blur(2px)", transition: "opacity 1.8s ease" }}>
+        style={{ color: "#FF2BD6", opacity: magentaOpBase * 0.8, transform: "translate(0.5px, 0.5px)", filter: "blur(2px)", transition: "opacity 1.2s ease" }}>
         {GLITCH_TEXT}
       </span>
       {/* Base text */}
-      <span className="relative group-hover:translate-x-[0.3px] group-hover:-translate-y-[0.2px] transition-transform duration-700"
-        style={{ color: "#0ABAB5", textShadow: neonShadow, transition: "text-shadow 1.8s ease" }}>
+      <span className="relative transition-all duration-[1200ms]"
+        style={{ color: baseColor, textShadow: neonShadow }}>
         {GLITCH_TEXT}
       </span>
     </h1>
