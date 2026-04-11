@@ -59,7 +59,7 @@ const FacilitatorSection = () => {
           <div className="mt-10 flex flex-wrap gap-3 font-display text-xs tracking-[0.2em]">
             <span className="bg-navy text-cream px-3 py-1.5">Director</span>
             <span className="bg-navy text-cream px-3 py-1.5">Acting Trainer</span>
-            <span className="bg-navy text-cream px-3 py-1.5">15+ Years</span>
+            <span className="bg-navy text-cream px-3 py-1.5">16+ Years</span>
           </div>
         </div>
       </div>
