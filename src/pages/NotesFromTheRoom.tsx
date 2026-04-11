@@ -22,8 +22,11 @@ const articles = [
   },
 ];
 
+const GLITCH_TEXT = "N 0 T Ξ S   F R 0 M   T H Ξ   R 0 0 M";
+
 const GlitchTitle = () => {
   const [resolved, setResolved] = useState(false);
+  const [flicker, setFlicker] = useState(1);
   const titleRef = useRef<HTMLHeadingElement>(null);
 
   useEffect(() => {
@@ -31,48 +34,113 @@ const GlitchTitle = () => {
     return () => clearTimeout(t);
   }, []);
 
+  // Subtle random flicker
+  useEffect(() => {
+    let raf: number;
+    let last = 0;
+    const tick = (now: number) => {
+      if (now - last > 3000 + Math.random() * 5000) {
+        last = now;
+        setFlicker(0.7 + Math.random() * 0.15);
+        setTimeout(() => setFlicker(1), 80 + Math.random() * 120);
+      }
+      raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, []);
+
+  const neonShadow = [
+    // inner white-hot core
+    "0 0 2px rgba(255,255,255,0.95)",
+    "0 0 4px rgba(255,255,255,0.8)",
+    // mid cyan glow
+    "0 0 8px rgba(0,245,255,0.7)",
+    "0 0 16px rgba(0,245,255,0.5)",
+    "0 0 32px rgba(0,245,255,0.3)",
+    // outer magenta glow
+    "0 0 12px rgba(255,43,214,0.4)",
+    "0 0 28px rgba(255,43,214,0.25)",
+    "0 0 60px rgba(255,43,214,0.15)",
+  ].join(", ");
+
   return (
     <h1
       ref={titleRef}
-      className={`relative font-display text-[clamp(2.2rem,5vw,3.8rem)] leading-[1.05] max-w-[760px] mx-auto mb-5 select-none group transition-all duration-1000 ${
-        resolved ? "opacity-100" : "opacity-0 blur-[6px]"
-      }`}
-      style={{ filter: resolved ? "blur(0px)" : "blur(6px)", transition: "opacity 1.2s ease-out, filter 1.4s ease-out" }}
+      className={`relative font-display text-[clamp(2.2rem,5vw,3.8rem)] leading-[1.05] max-w-[760px] mx-auto mb-5 select-none group`}
+      style={{
+        opacity: resolved ? flicker : 0,
+        filter: resolved ? "blur(0px)" : "blur(6px)",
+        transition: "opacity 0.15s ease-out, filter 1.4s ease-out",
+      }}
     >
-      {/* Cyan glow layer */}
+      {/* Diffuse outer glow layer - cyan */}
       <span
         className="absolute inset-0 pointer-events-none"
         aria-hidden="true"
         style={{
-          color: "#0ABAB5",
-          opacity: 0.12,
-          transform: "translate(-1px, -1px)",
-          filter: "blur(2px)",
+          color: "#00F5FF",
+          opacity: 0.5,
+          transform: "translate(-1.5px, -1px)",
+          filter: "blur(6px)",
+          textShadow: "0 0 20px #00F5FF, 0 0 40px #00F5FF",
         }}
       >
-        N 0 T Ξ S {"  "}FR 0 M{"  "}T H Ξ{"  "}R 0 0 M
+        {GLITCH_TEXT}
       </span>
 
-      {/* Magenta glow layer */}
+      {/* Diffuse outer glow layer - magenta */}
       <span
         className="absolute inset-0 pointer-events-none"
         aria-hidden="true"
         style={{
-          color: "#E8725A",
-          opacity: 0.08,
-          transform: "translate(1px, 1px)",
+          color: "#FF2BD6",
+          opacity: 0.35,
+          transform: "translate(1.5px, 1px)",
+          filter: "blur(6px)",
+          textShadow: "0 0 20px #FF2BD6, 0 0 40px #FF2BD6",
+        }}
+      >
+        {GLITCH_TEXT}
+      </span>
+
+      {/* Mid cyan glow */}
+      <span
+        className="absolute inset-0 pointer-events-none"
+        aria-hidden="true"
+        style={{
+          color: "#00F5FF",
+          opacity: 0.6,
+          transform: "translate(-0.5px, -0.5px)",
           filter: "blur(2px)",
         }}
       >
-        N 0 T Ξ S {"  "}FR 0 M{"  "}T H Ξ{"  "}R 0 0 M
+        {GLITCH_TEXT}
       </span>
 
-      {/* Base text */}
-      <span className="relative text-cream/95 group-hover:translate-x-[0.3px] group-hover:-translate-y-[0.2px] transition-transform duration-700">
-        N<span className="inline-block w-[0.15em]" />0 T Ξ S{" "}
-        <span className="text-cream/40 text-[0.5em] align-middle tracking-[0.3em]">FROM</span>{" "}
-        T H Ξ{" "}
-        R 0 0 M
+      {/* Mid magenta glow */}
+      <span
+        className="absolute inset-0 pointer-events-none"
+        aria-hidden="true"
+        style={{
+          color: "#FF2BD6",
+          opacity: 0.3,
+          transform: "translate(0.5px, 0.5px)",
+          filter: "blur(2px)",
+        }}
+      >
+        {GLITCH_TEXT}
+      </span>
+
+      {/* Base text - white-hot core with full neon shadow stack */}
+      <span
+        className="relative group-hover:translate-x-[0.3px] group-hover:-translate-y-[0.2px] transition-transform duration-700"
+        style={{
+          color: "#F0EDE6",
+          textShadow: neonShadow,
+        }}
+      >
+        {GLITCH_TEXT}
       </span>
     </h1>
   );
