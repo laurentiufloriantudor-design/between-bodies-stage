@@ -22,7 +22,7 @@ const articles = [
   },
 ];
 
-const GLITCH_TEXT = "N 0 T Ξ S   F R 0 M   T H Ξ   R 0 0 M";
+const GLITCH_TEXT = "N0TΞS FROM THΞ R00M";
 
 const GlitchTitle = () => {
   const [resolved, setResolved] = useState(false);
@@ -50,18 +50,15 @@ const GlitchTitle = () => {
     return () => cancelAnimationFrame(raf);
   }, []);
 
-  const neonShadow = [
-    // inner white-hot core
-    "0 0 2px rgba(255,255,255,0.95)",
-    "0 0 4px rgba(255,255,255,0.8)",
-    // mid cyan glow
-    "0 0 8px rgba(0,245,255,0.7)",
-    "0 0 16px rgba(0,245,255,0.5)",
-    "0 0 32px rgba(0,245,255,0.3)",
-    // outer magenta glow
-    "0 0 12px rgba(255,43,214,0.4)",
-    "0 0 28px rgba(255,43,214,0.25)",
-    "0 0 60px rgba(255,43,214,0.15)",
+    const neonShadow = [
+    "0 0 2px rgba(255,255,255,0.6)",
+    "0 0 4px rgba(255,255,255,0.4)",
+    "0 0 8px rgba(0,245,255,0.35)",
+    "0 0 16px rgba(0,245,255,0.2)",
+    "0 0 32px rgba(0,245,255,0.1)",
+    "0 0 12px rgba(255,43,214,0.2)",
+    "0 0 28px rgba(255,43,214,0.1)",
+    "0 0 60px rgba(255,43,214,0.05)",
   ].join(", ");
 
   return (
@@ -80,10 +77,10 @@ const GlitchTitle = () => {
         aria-hidden="true"
         style={{
           color: "#00F5FF",
-          opacity: 0.5,
+          opacity: 0.25,
           transform: "translate(-1.5px, -1px)",
           filter: "blur(6px)",
-          textShadow: "0 0 20px #00F5FF, 0 0 40px #00F5FF",
+          textShadow: "0 0 12px #00F5FF, 0 0 24px #00F5FF",
         }}
       >
         {GLITCH_TEXT}
@@ -95,10 +92,10 @@ const GlitchTitle = () => {
         aria-hidden="true"
         style={{
           color: "#FF2BD6",
-          opacity: 0.35,
+          opacity: 0.18,
           transform: "translate(1.5px, 1px)",
           filter: "blur(6px)",
-          textShadow: "0 0 20px #FF2BD6, 0 0 40px #FF2BD6",
+          textShadow: "0 0 12px #FF2BD6, 0 0 24px #FF2BD6",
         }}
       >
         {GLITCH_TEXT}
@@ -110,7 +107,7 @@ const GlitchTitle = () => {
         aria-hidden="true"
         style={{
           color: "#00F5FF",
-          opacity: 0.6,
+          opacity: 0.3,
           transform: "translate(-0.5px, -0.5px)",
           filter: "blur(2px)",
         }}
@@ -124,7 +121,7 @@ const GlitchTitle = () => {
         aria-hidden="true"
         style={{
           color: "#FF2BD6",
-          opacity: 0.3,
+          opacity: 0.15,
           transform: "translate(0.5px, 0.5px)",
           filter: "blur(2px)",
         }}
