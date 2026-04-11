@@ -246,10 +246,10 @@ export default function FloatingNav() {
           } else if (closestIdx >= 0) {
             const o = 1 - s.influence * 0.15;
             label.style.opacity = `${o}`;
-            // Lerp color toward turquoise (#2dd4a8) based on influence
-            const r = Math.round(26 + (45 - 26) * s.influence);
-            const g = Math.round(39 + (212 - 39) * s.influence);
-            const b = Math.round(68 + (168 - 68) * s.influence);
+            // Lerp color toward teal (#0ABAB5) based on influence
+            const r = Math.round(26 + (10 - 26) * s.influence);
+            const g = Math.round(39 + (186 - 39) * s.influence);
+            const b = Math.round(68 + (181 - 68) * s.influence);
             label.style.color = `rgb(${r},${g},${b})`;
           } else {
             label.style.opacity = "1";
