@@ -111,7 +111,6 @@ const ChoreographicMenu = ({ isOpen, onClose }: Props) => {
     <div
       ref={containerRef}
       className="fixed inset-0 z-50 flex items-center justify-center"
-      style={{ cursor: "none" }}
     >
       {/* Background */}
       <div
@@ -120,30 +119,16 @@ const ChoreographicMenu = ({ isOpen, onClose }: Props) => {
         onClick={onClose}
       />
 
-      {/* Custom cursor ring */}
-      <div
-        ref={cursorRef}
-        className="fixed top-0 left-0 pointer-events-none z-[60] mix-blend-difference"
-        style={{ width: 40, height: 40 }}
-      >
-        <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
-          <circle cx="20" cy="20" r="17" stroke="currentColor" strokeWidth="1.5" className="text-teal/60" />
-          <circle cx="20" cy="20" r="5" stroke="currentColor" strokeWidth="1.2" className="text-teal/60" />
-          <circle cx="20" cy="7" r="2" fill="currentColor" className="text-teal/60" />
-        </svg>
-      </div>
-
       {/* Close button */}
       <button
         onClick={onClose}
         className="absolute top-6 right-6 md:right-12 z-[55] text-cream/60 hover:text-cream transition-colors duration-500 font-display text-sm tracking-[0.3em]"
-        style={{ cursor: "none" }}
       >
         Close
       </button>
 
       {/* Menu items */}
-      <nav className="relative z-[55] flex flex-col items-start gap-2 md:gap-3 px-8 md:px-16 w-full max-w-3xl" style={{ cursor: "none" }}>
+      <nav className="relative z-[55] flex flex-col items-start gap-2 md:gap-3 px-8 md:px-16 w-full max-w-3xl">
         {navLinks.map((link, i) => {
           const tremor = tremors[i];
           const isHovered = hoveredIndex === i;
