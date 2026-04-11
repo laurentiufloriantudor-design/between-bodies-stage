@@ -21,8 +21,8 @@ const ResidencyTeaser = () => {
       <AttentionElement seed={30} radius={600} maxShift={20} opacityFloor={0.3} className="absolute top-8 right-[10%] w-32 h-32 rounded-full bg-teal/10 animate-drift-slow" />
       <AttentionElement seed={31} radius={600} maxShift={25} opacityFloor={0.3} className="absolute bottom-12 left-[5%] w-48 h-48 blob-2 bg-coral/8 animate-drift-reverse" />
 
-      <div className={`relative z-10 flex flex-col md:flex-row items-start gap-10 md:gap-16 transition-all duration-700 ${visible ? 'opacity-100' : 'opacity-0'}`}>
-        <div className="flex-1 min-w-0">
+      <div className={`relative z-10 grid grid-cols-1 md:grid-cols-[1fr_auto] gap-10 md:gap-16 transition-all duration-700 ${visible ? 'opacity-100' : 'opacity-0'}`}>
+        <div className="min-w-0">
           <AttentionElement seed={32} radius={400} maxShift={5} opacityFloor={0.7}>
             <div className={`flex items-center gap-4 mb-8 ${visible ? 'animate-reveal-left' : ''}`}>
               <span className="font-display text-sm tracking-[0.3em] text-teal">Summer 2026</span>
@@ -68,7 +68,7 @@ const ResidencyTeaser = () => {
         </div>
 
         <AttentionElement seed={38} radius={550} maxShift={16} opacityFloor={0.55} scaleRange={[0.98, 1.01]}>
-          <div className={`w-full flex-shrink-0 ${visible ? 'animate-reveal-right animate-delay-2' : ''}`}>
+          <div className={`w-full md:w-80 lg:w-96 flex-shrink-0 ${visible ? 'animate-reveal-right animate-delay-2' : ''}`}>
             <div className="blob-3 overflow-hidden">
               <img src={residencyImg} alt="Two bodies in motion, dissolved into gesture and light" loading="lazy" width={1920} height={1080} className="w-full h-full object-cover grayscale contrast-[1.2]" />
             </div>
