@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
 import FooterSection from "@/components/FooterSection";
@@ -22,6 +22,62 @@ const articles = [
   },
 ];
 
+const GlitchTitle = () => {
+  const [resolved, setResolved] = useState(false);
+  const titleRef = useRef<HTMLHeadingElement>(null);
+
+  useEffect(() => {
+    const t = setTimeout(() => setResolved(true), 100);
+    return () => clearTimeout(t);
+  }, []);
+
+  return (
+    <h1
+      ref={titleRef}
+      className={`relative font-display text-[clamp(2.2rem,5vw,3.8rem)] leading-[1.05] max-w-[760px] mx-auto mb-5 select-none group transition-all duration-1000 ${
+        resolved ? "opacity-100" : "opacity-0 blur-[6px]"
+      }`}
+      style={{ filter: resolved ? "blur(0px)" : "blur(6px)", transition: "opacity 1.2s ease-out, filter 1.4s ease-out" }}
+    >
+      {/* Cyan glow layer */}
+      <span
+        className="absolute inset-0 pointer-events-none"
+        aria-hidden="true"
+        style={{
+          color: "#0ABAB5",
+          opacity: 0.12,
+          transform: "translate(-1px, -1px)",
+          filter: "blur(2px)",
+        }}
+      >
+        N 0 T Ξ S {"  "}FR 0 M{"  "}T H Ξ{"  "}R 0 0 M
+      </span>
+
+      {/* Magenta glow layer */}
+      <span
+        className="absolute inset-0 pointer-events-none"
+        aria-hidden="true"
+        style={{
+          color: "#E8725A",
+          opacity: 0.08,
+          transform: "translate(1px, 1px)",
+          filter: "blur(2px)",
+        }}
+      >
+        N 0 T Ξ S {"  "}FR 0 M{"  "}T H Ξ{"  "}R 0 0 M
+      </span>
+
+      {/* Base text */}
+      <span className="relative text-cream/95 group-hover:translate-x-[0.3px] group-hover:-translate-y-[0.2px] transition-transform duration-700">
+        N<span className="inline-block w-[0.15em]" />0 T Ξ S{" "}
+        <span className="text-cream/40 text-[0.5em] align-middle tracking-[0.3em]">FROM</span>{" "}
+        T H Ξ{" "}
+        R 0 0 M
+      </span>
+    </h1>
+  );
+};
+
 const NotesFromTheRoom = () => {
   useEffect(() => {
     document.title = "Notes from the Room | Between Bodies";
@@ -44,9 +100,7 @@ const NotesFromTheRoom = () => {
         </div>
 
         <div className="relative z-10 text-center px-6 md:px-12 pt-12 pb-16">
-          <h1 className="font-display text-[clamp(2.2rem,5vw,3.8rem)] leading-[1.05] text-cream max-w-[760px] mx-auto mb-5">
-            Notes from the Room
-          </h1>
+          <GlitchTitle />
           <p className="font-body text-base md:text-lg text-cream/65 max-w-[600px] mx-auto font-light leading-relaxed">
             Reflections on practice, presence, and the space between bodies.
           </p>
