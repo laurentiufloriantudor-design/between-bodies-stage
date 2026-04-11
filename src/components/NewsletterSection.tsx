@@ -24,7 +24,7 @@ const NewsletterSection = ({ variant = "dark" }: NewsletterSectionProps) => {
   useEffect(() => {
     const obs = new IntersectionObserver(
       ([e]) => { if (e.isIntersecting) setVisible(true); },
-      { threshold: 0.2 }
+      { threshold: 0.05 }
     );
     if (ref.current) obs.observe(ref.current);
     return () => obs.disconnect();
