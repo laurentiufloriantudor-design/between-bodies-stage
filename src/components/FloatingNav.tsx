@@ -95,11 +95,18 @@ export default function FloatingNav() {
       });
     }
 
+    const now = Date.now();
+
     st.forEach((s, i) => {
       let fx = 0, fy = 0;
       const item = NAV_ITEMS[i];
+      const drift = IDLE_DRIFT[i];
 
-      fx += (item.homeX * w - s.x) * spring;
+      // Idle drift — subtle organic floating when cursor is away
+      const driftX = Math.sin((now + drift.phase) / drift.period) * drift.xAmp * 0.008;
+      const driftY = Math.cos((now + drift.phase * 1.3) / (drift.period * 0.8)) * drift.yAmp * 0.008;
+      fx += driftX;
+      fy += driftY;
       fy += (item.homeY * h - s.y) * spring;
 
       if (inside) {
