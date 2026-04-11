@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import heroImage from "@/assets/hero-theater.jpg";
+import aboutPerformers from "@/assets/about-performers.jpg";
 
 const AboutSection = () => {
   const sectionRef = useRef<HTMLElement>(null);
@@ -23,7 +23,7 @@ const AboutSection = () => {
         <div className={`relative ${visible ? 'animate-reveal-left' : 'opacity-0'}`}>
           <div className="w-full aspect-square blob-2 overflow-hidden max-w-[320px]">
             <img
-              src={heroImage}
+              src={aboutPerformers}
               alt="Performer silhouette — documentary detail"
               className="w-full h-full object-cover photo-hover scale-125"
             />
