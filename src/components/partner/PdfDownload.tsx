@@ -60,7 +60,7 @@ const PdfDownload = () => {
                 Collaboration<br />Proposal
               </span>
               <span className="font-display tabular-nums text-[10px] tracking-[0.2em] text-teal mt-4">
-                2025 / 2026
+                2026 / 2027
               </span>
             </div>
           </div>
