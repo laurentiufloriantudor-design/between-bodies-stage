@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import heroImage from "@/assets/hero-theater.jpg";
+import aboutPerformers from "@/assets/about-performers.jpg";
 
 const AboutSection = () => {
   const sectionRef = useRef<HTMLElement>(null);
