@@ -8,7 +8,7 @@ const PartnerFooter = () => {
           <img src={logo} alt="BetweenBodies" className="h-8 w-auto invert" />
         </a>
         <p className="font-body text-[10px] text-cream/30 tabular-nums">
-          © 2025 BetweenBodies. All rights reserved.
+          © 2026 BetweenBodies. All rights reserved.
         </p>
         <a
           href="mailto:between.bconnections@gmail.com"
