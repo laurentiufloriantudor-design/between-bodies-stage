@@ -29,6 +29,8 @@ interface BodyState {
   lastFocusedTime: number;
   // Was this item recently focused (not just nearby)?
   wasFocused: boolean;
+  // Depth-based perceptual fading: 0 = fully present, 1 = maximally receded
+  fadeDepth: number;
 }
 
 // ─── Config ───────────────────────────────────────────────────────────────────
@@ -50,12 +52,12 @@ const IDLE_DRIFT = [
 ];
 
 const ITEM_PERSONALITY = [
-  { responseLag: 0.06,  jitterAmp: 0.3, colorDelay: 140, warmthDecay: 0.012, isRebel: false },
-  { responseLag: 0.07,  jitterAmp: 0.5, colorDelay: 180, warmthDecay: 0.010, isRebel: false },
-  { responseLag: 0.05,  jitterAmp: 0.2, colorDelay: 120, warmthDecay: 0.014, isRebel: false },
-  // "Notes from the Room" — the rebel: longer delays, slower decay, resists grouping
-  { responseLag: 0.12,  jitterAmp: 0.8, colorDelay: 320, warmthDecay: 0.006, isRebel: true },
-  { responseLag: 0.065, jitterAmp: 0.4, colorDelay: 160, warmthDecay: 0.011, isRebel: false },
+  { responseLag: 0.06,  jitterAmp: 0.3, colorDelay: 140, warmthDecay: 0.012, isRebel: false, fadeFloor: 0.32, fadeRate: 0.04  },
+  { responseLag: 0.07,  jitterAmp: 0.5, colorDelay: 180, warmthDecay: 0.010, isRebel: false, fadeFloor: 0.28, fadeRate: 0.035 },
+  { responseLag: 0.05,  jitterAmp: 0.2, colorDelay: 120, warmthDecay: 0.014, isRebel: false, fadeFloor: 0.35, fadeRate: 0.045 },
+  // "Notes from the Room" — the rebel: fades less, resists disappearing
+  { responseLag: 0.12,  jitterAmp: 0.8, colorDelay: 320, warmthDecay: 0.006, isRebel: true,  fadeFloor: 0.45, fadeRate: 0.02  },
+  { responseLag: 0.065, jitterAmp: 0.4, colorDelay: 160, warmthDecay: 0.011, isRebel: false, fadeFloor: 0.30, fadeRate: 0.038 },
 ];
 
 // Color easing rate
@@ -116,6 +118,7 @@ export default function FloatingNav() {
       memoryOffsetY: 0,
       lastFocusedTime: 0,
       wasFocused: false,
+      fadeDepth: 0,
     }));
   }, []);
 
@@ -241,6 +244,25 @@ export default function FloatingNav() {
       if (s.colorInfluence < 0.001) s.colorInfluence = 0;
       if (s.colorInfluence > 0.999) s.colorInfluence = 1;
 
+      // ─── Depth-based perceptual fading ───
+      // Non-focused items fade; focused stays fully present
+      if (closestIdx >= 0 && i !== closestIdx) {
+        // Proximity of cursor to the focused item modulates fade depth
+        const focusedItem = st[closestIdx];
+        const dxF = mx - focusedItem.x;
+        const dyF = my - focusedItem.y;
+        const cursorProximity = Math.sqrt(dxF * dxF + dyF * dyF);
+        // Closer cursor = deeper fade for others (0–1 range)
+        const proximityFactor = Math.max(0, 1 - cursorProximity / (activationRadius * 1.5));
+        const targetFade = proximityFactor;
+        s.fadeDepth += (targetFade - s.fadeDepth) * personality.fadeRate;
+      } else {
+        // Focused item or no focus: ease back to full presence
+        s.fadeDepth += (0 - s.fadeDepth) * 0.018;
+      }
+      if (s.fadeDepth < 0.003) s.fadeDepth = 0;
+      if (s.fadeDepth > 0.997) s.fadeDepth = 1;
+
       // ─── Idle drift ───
       const driftX = Math.sin((now + drift.phase) / drift.period) * drift.xAmp * 0.008;
       const driftY = Math.cos((now + drift.phase * 1.3) / (drift.period * 0.8)) * drift.yAmp * 0.008;
@@ -336,8 +358,18 @@ export default function FloatingNav() {
           // Agitation adds color instability
           const agitationShimmer = agitation * (Math.sin(now * 0.003 + i * 5.3) * 0.08);
 
+          // ─── Compute depth-based opacity ───
+          // Each item has a unique floor so they never fade identically
+          // Add micro-variation so fading feels organic, not uniform
+          const fadeVariation = Math.sin(now * 0.0011 + i * 3.7) * 0.03
+                              + Math.cos(now * 0.0023 + i * 5.1) * 0.02;
+          const fadeFloor = personality.fadeFloor;
+          // opacity: 1 when fadeDepth=0, drops to fadeFloor when fadeDepth=1
+          const depthOpacity = 1 - s.fadeDepth * (1 - fadeFloor) + fadeVariation * s.fadeDepth;
+          const clampedOpacity = Math.max(fadeFloor, Math.min(1, depthOpacity));
+
           if (i === closestIdx) {
-            // Focused: transition toward coral with living fluctuation
+            // Focused: fully present, transition toward coral
             const shimmer = Math.sin(now * 0.002 + i * 1.7) * 0.04 + Math.sin(now * 0.0037) * 0.02 + agitationShimmer;
             const intensity = Math.min(1, ci + shimmer);
             const r = Math.round(NAVY.r + (CORAL.r - NAVY.r) * intensity);
@@ -346,12 +378,11 @@ export default function FloatingNav() {
             label.style.color = `rgb(${r},${g},${b})`;
             label.style.opacity = "1";
           } else if (closestIdx >= 0) {
-            // Non-focused: transition toward teal
+            // Non-focused: teal + depth fading
             const shimmer = Math.sin(now * 0.0019 + i * 2.3) * 0.05
                           + Math.cos(now * 0.0031 + i * 4.1) * 0.03
                           + agitationShimmer;
             const intensity = Math.max(0, Math.min(1, ci + shimmer));
-            // Rebel has more unstable color
             const rebelFlutter = personality.isRebel
               ? Math.sin(now * 0.0047 + 7.3) * 0.12 + Math.cos(now * 0.0023) * 0.06
               : 0;
@@ -360,12 +391,10 @@ export default function FloatingNav() {
             const g = Math.round(NAVY.g + (TEAL.g - NAVY.g) * finalIntensity);
             const b = Math.round(NAVY.b + (TEAL.b - NAVY.b) * finalIntensity);
             label.style.color = `rgb(${r},${g},${b})`;
-            const o = 1 - ci * 0.15;
-            label.style.opacity = `${o}`;
+            label.style.opacity = `${clampedOpacity}`;
           } else {
-            // Idle: fade back, but with residual warmth
+            // Idle: fade back with residual warmth; opacity recovers via fadeDepth easing
             if (warmth > 0.005) {
-              // Blend navy toward a muted warm tone based on residual warmth
               const baseR = ci > 0.001 ? NAVY.r + (TEAL.r - NAVY.r) * ci : NAVY.r;
               const baseG = ci > 0.001 ? NAVY.g + (TEAL.g - NAVY.g) * ci : NAVY.g;
               const baseB = ci > 0.001 ? NAVY.b + (TEAL.b - NAVY.b) * ci : NAVY.b;
@@ -381,7 +410,8 @@ export default function FloatingNav() {
             } else {
               label.style.color = `rgb(${NAVY.r},${NAVY.g},${NAVY.b})`;
             }
-            label.style.opacity = "1";
+            // Opacity slowly recovers (fadeDepth eases back to 0)
+            label.style.opacity = `${clampedOpacity}`;
           }
         }
       }
