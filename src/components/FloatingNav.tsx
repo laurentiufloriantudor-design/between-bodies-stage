@@ -21,11 +21,11 @@ interface BodyState {
 // ─── Config ───────────────────────────────────────────────────────────────────
 
 const NAV_ITEMS: NavItem[] = [
-  { label: "Workshop",            href: "#workshop",              size: 20, homeX: 0.62, homeY: 0.22 },
-  { label: "About",               href: "#about",                 size: 18, homeX: 0.72, homeY: 0.30 },
-  { label: "Apply",               href: "#apply",                 size: 22, homeX: 0.54, homeY: 0.38 },
-  { label: "Notes from the Room", href: "/notes-from-the-room",   size: 14, homeX: 0.49, homeY: 0.55 },
-  { label: "Partner with Us",     href: "/partner",               size: 16, homeX: 0.56, homeY: 0.70 },
+  { label: "Workshop",            href: "#workshop",              size: 40, homeX: 0.62, homeY: 0.22 },
+  { label: "About",               href: "#about",                 size: 36, homeX: 0.72, homeY: 0.30 },
+  { label: "Apply",               href: "#apply",                 size: 44, homeX: 0.54, homeY: 0.38 },
+  { label: "Notes from the Room", href: "/notes-from-the-room",   size: 28, homeX: 0.49, homeY: 0.55 },
+  { label: "Partner with Us",     href: "/partner",               size: 32, homeX: 0.56, homeY: 0.70 },
 ];
 
 // Idle drift parameters per item — desynchronized organic floating
