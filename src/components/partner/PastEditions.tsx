@@ -1,10 +1,10 @@
 import { useEffect, useRef, useState } from "react";
 
 const editions = [
-  { city: "Craiova", country: "RO", year: "2025" },
-  { city: "Padova", country: "IT", year: "2026" },
-  { city: "Torino", country: "IT", year: "2026" },
+  { city: "Craiova", country: "RO", year: "2024" },
+  { city: "Padova", country: "IT", year: "2025" },
   { city: "Bonn", country: "DE", year: "2026" },
+  { city: "Torino", country: "IT", year: "2026" },
   { city: "Your city", country: "??", year: "2026/27", upcoming: true },
 ];
 
@@ -27,10 +27,10 @@ const PastEditions = () => {
 
       <div className={`relative z-10 transition-all duration-700 ${visible ? 'opacity-100' : 'opacity-0'}`}>
         <span className="font-display text-sm tracking-[0.3em] text-teal block mb-6">
-          Editions
+          Recent Work
         </span>
         <h2 className={`text-[2.5rem] md:text-[4rem] leading-[0.88] mb-16 ${visible ? 'animate-reveal-up' : ''}`}>
-          Where we've<br />been
+          Recent Work
         </h2>
 
         <div className="flex flex-wrap gap-6 md:gap-10">
