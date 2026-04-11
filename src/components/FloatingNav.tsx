@@ -21,21 +21,23 @@ interface BodyState {
 // ─── Config ───────────────────────────────────────────────────────────────────
 
 const NAV_ITEMS: NavItem[] = [
-  { label: "Workshop",            href: "#workshop",              size: 42, homeX: 0.63, homeY: 0.18 },
-  { label: "About",               href: "#about",                 size: 36, homeX: 0.78, homeY: 0.30 },
-  { label: "Apply",               href: "#apply",                 size: 48, homeX: 0.67, homeY: 0.50 },
-  { label: "Notes from the Room", href: "/notes-from-the-room",   size: 33, homeX: 0.83, homeY: 0.63 },
-  { label: "Partner with Us",     href: "/partner",               size: 36, homeX: 0.61, homeY: 0.72 },
+  { label: "Workshop",            href: "#workshop",              size: 20, homeX: 0.48, homeY: 0.06 },
+  { label: "About",               href: "#about",                 size: 18, homeX: 0.70, homeY: 0.06 },
+  { label: "Apply",               href: "#apply",                 size: 22, homeX: 0.52, homeY: 0.35 },
+  { label: "Notes from the Room", href: "/notes-from-the-room",   size: 14, homeX: 0.52, homeY: 0.52 },
+  { label: "Partner with Us",     href: "/partner",               size: 16, homeX: 0.52, homeY: 0.68 },
 ];
 
 const PHYSICS = {
-  attractRadius: 200,
-  attractForce: 40,
-  interMinDist: 120,
-  interRepelForce: 5000,
-  spring: 0.045,
+  attractRadius: 180,
+  attractForce: 25,
+  repelRadius: 180,
+  repelForce: 15,
+  interMinDist: 140,
+  interRepelForce: 8000,
+  spring: 0.05,
   damping: 0.78,
-  maxSpeed: 10,
+  maxSpeed: 8,
   wallPad: 40,
 };
 
@@ -68,8 +70,21 @@ export default function FloatingNav() {
     const { offsetWidth: w, offsetHeight: h } = hero;
     const { x: mx, y: my, inside } = mouseRef.current;
     const st = stateRef.current;
-    const { attractRadius, attractForce, interMinDist, interRepelForce,
+    const { attractRadius, attractForce, repelRadius, repelForce,
+            interMinDist, interRepelForce,
             spring, damping, maxSpeed, wallPad } = PHYSICS;
+
+    // Find which item is closest to cursor
+    let closestIdx = -1;
+    let closestDist = Infinity;
+    if (inside) {
+      st.forEach((s, i) => {
+        const dx = mx - s.x;
+        const dy = my - s.y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        if (dist < closestDist) { closestDist = dist; closestIdx = i; }
+      });
+    }
 
     st.forEach((s, i) => {
       let fx = 0, fy = 0;
@@ -78,15 +93,21 @@ export default function FloatingNav() {
       fx += (item.homeX * w - s.x) * spring;
       fy += (item.homeY * h - s.y) * spring;
 
-      // Cursor attraction (items move TOWARD cursor)
       if (inside) {
         const dx = mx - s.x;
         const dy = my - s.y;
         const dist = Math.sqrt(dx * dx + dy * dy) || 1;
-        if (dist < attractRadius) {
+
+        if (i === closestIdx && dist < attractRadius) {
+          // Closest item: attract toward cursor
           const strength = (1 - dist / attractRadius) * attractForce / dist;
           fx += dx * strength;
           fy += dy * strength;
+        } else if (i !== closestIdx && dist < repelRadius) {
+          // Other items: gently repel away from cursor
+          const strength = (1 - dist / repelRadius) * repelForce / dist;
+          fx -= dx * strength;
+          fy -= dy * strength;
         }
       }
 
