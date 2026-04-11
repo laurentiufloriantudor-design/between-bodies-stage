@@ -60,9 +60,9 @@ const ResidencyTeaser = () => {
 
           <AttentionElement seed={37} radius={400} maxShift={5} opacityFloor={0.55}>
             <div className={`mt-8 flex flex-wrap gap-3 font-display text-xs tracking-[0.2em] ${visible ? 'animate-reveal-up animate-delay-4' : ''}`}>
-              <span className="bg-navy-light text-cream/60 px-3 py-1.5 border border-cream/10">7 Days</span>
-              <span className="bg-navy-light text-cream/60 px-3 py-1.5 border border-cream/10">Turin, IT</span>
-              <span className="bg-navy-light text-cream/60 px-3 py-1.5 border border-cream/10">29.06 – 06.07.2026</span>
+              <span className="bg-transparent text-cream px-3 py-1.5 border border-cream/40">7 Days</span>
+              <span className="bg-transparent text-cream px-3 py-1.5 border border-cream/40">Turin, IT</span>
+              <span className="bg-transparent text-cream px-3 py-1.5 border border-cream/40">29.06 – 06.07.2026</span>
             </div>
           </AttentionElement>
         </div>
