@@ -23,9 +23,9 @@ interface BodyState {
 const NAV_ITEMS: NavItem[] = [
   { label: "Workshop",            href: "#workshop",              size: 22, homeX: 0.48, homeY: 0.06 },
   { label: "About",               href: "#about",                 size: 18, homeX: 0.70, homeY: 0.06 },
-  { label: "Apply",               href: "#apply",                 size: 24, homeX: 0.55, homeY: 0.82 },
-  { label: "Notes from the Room", href: "/notes-from-the-room",   size: 16, homeX: 0.30, homeY: 0.90 },
-  { label: "Partner with Us",     href: "/partner",               size: 18, homeX: 0.75, homeY: 0.90 },
+  { label: "Apply",               href: "#apply",                 size: 24, homeX: 0.18, homeY: 0.82 },
+  { label: "Notes from the Room", href: "/notes-from-the-room",   size: 16, homeX: 0.18, homeY: 0.90 },
+  { label: "Partner with Us",     href: "/partner",               size: 18, homeX: 0.42, homeY: 0.86 },
 ];
 
 const PHYSICS = {
