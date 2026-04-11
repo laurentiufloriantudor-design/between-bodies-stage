@@ -17,7 +17,7 @@ const articles = [
     title: "Three Stories at Once",
     subtitle: "On the first Between Bodies laboratory in Turin, and what happens when bodies begin to listen.",
     location: "Turin",
-    date: "March 2025",
+    date: "March 2026",
     tag: "Laboratory",
   },
 ];
