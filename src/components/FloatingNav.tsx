@@ -16,9 +16,12 @@ interface BodyState {
   y: number;
   vx: number;
   vy: number;
-  // per-item organic delay & personality
-  responseDelay: number;   // 0-1, how quickly this item reacts
-  influence: number;       // current interpolated influence (0 = idle, 1 = full effect)
+  responseDelay: number;
+  influence: number;
+  // Temporal color depth: delayed color transition (lags behind influence)
+  colorInfluence: number;
+  // Timestamp when this item first sensed proximity (for delayed onset)
+  proximityStarted: number;
 }
 
 // ─── Config ───────────────────────────────────────────────────────────────────
@@ -31,7 +34,6 @@ const NAV_ITEMS: NavItem[] = [
   { label: "Partner with Us",     href: "/partner",               size: 32, homeX: 0.56, homeY: 0.70 },
 ];
 
-// Idle drift parameters per item — desynchronized organic floating
 const IDLE_DRIFT = [
   { xAmp: 6,  yAmp: 4,  period: 5200, phase: 0 },
   { xAmp: 4,  yAmp: 7,  period: 6100, phase: 1200 },
@@ -40,31 +42,32 @@ const IDLE_DRIFT = [
   { xAmp: 3,  yAmp: 6,  period: 6500, phase: 2000 },
 ];
 
-// Per-item personality: reaction speed varies so movement feels desynchronized
 const ITEM_PERSONALITY = [
-  { responseLag: 0.06, jitterAmp: 0.3 },   // Workshop — moderate
-  { responseLag: 0.07, jitterAmp: 0.5 },   // About — slightly varied
-  { responseLag: 0.05, jitterAmp: 0.2 },   // Apply — quicker
-  { responseLag: 0.08, jitterAmp: 0.6 },   // Notes — slowest, most organic
-  { responseLag: 0.065, jitterAmp: 0.4 },   // Partner — moderate
+  { responseLag: 0.06, jitterAmp: 0.3, colorDelay: 140 },   // Workshop
+  { responseLag: 0.07, jitterAmp: 0.5, colorDelay: 180 },   // About
+  { responseLag: 0.05, jitterAmp: 0.2, colorDelay: 120 },   // Apply
+  { responseLag: 0.08, jitterAmp: 0.6, colorDelay: 200 },   // Notes — slowest
+  { responseLag: 0.065, jitterAmp: 0.4, colorDelay: 160 },  // Partner
 ];
 
+// Color easing rate — how fast colorInfluence catches up (lower = slower, more organic)
+const COLOR_EASE_IN = 0.035;
+const COLOR_EASE_OUT = 0.025;
+
+// Base colors
+const NAVY = { r: 26, g: 39, b: 68 };
+const TEAL = { r: 10, g: 186, b: 181 };
+const CORAL = { r: 232, g: 114, b: 90 };
+
 const PHYSICS = {
-  // How close cursor must be to "activate" the isolation behavior
   activationRadius: 220,
-  // The focused item: how strongly it anchors in place
   anchorSpring: 0.12,
-  // Non-focused items: attraction toward each other (clustering)
   clusterForce: 1.4,
-  // Non-focused items: repulsion away from the focused item
   avoidFocusForce: 5.0,
   avoidFocusRadius: 300,
-  // Inter-item minimum distance (prevent overlap within the cluster)
   interMinDist: 90,
   interRepelForce: 4000,
-  // Home spring — pulls items back to rest when idle
   homeSpring: 0.035,
-  // Damping and limits
   damping: 0.88,
   maxSpeed: 5,
   wallPad: 40,
@@ -93,6 +96,8 @@ export default function FloatingNav() {
       vy: 0,
       responseDelay: ITEM_PERSONALITY[i].responseLag,
       influence: 0,
+      colorInfluence: 0,
+      proximityStarted: 0,
     }));
   }, []);
 
@@ -111,7 +116,7 @@ export default function FloatingNav() {
 
     const now = Date.now();
 
-    // Find which item is closest to cursor
+    // Find closest item
     let closestIdx = -1;
     let closestDist = Infinity;
     if (inside) {
@@ -121,20 +126,16 @@ export default function FloatingNav() {
         const dist = Math.sqrt(dx * dx + dy * dy);
         if (dist < closestDist) { closestDist = dist; closestIdx = i; }
       });
-      // Only activate if cursor is close enough
       if (closestDist > activationRadius * 1.5) closestIdx = -1;
     }
 
-    // Store for visual feedback
     focusedRef.current = closestIdx;
 
-    // Compute cluster centroid of non-focused items (their current average position)
+    // Cluster centroid
     let cx = 0, cy = 0, count = 0;
     st.forEach((s, i) => {
       if (i === closestIdx) return;
-      cx += s.x;
-      cy += s.y;
-      count++;
+      cx += s.x; cy += s.y; count++;
     });
     if (count > 0) { cx /= count; cy /= count; }
 
@@ -144,52 +145,66 @@ export default function FloatingNav() {
       const drift = IDLE_DRIFT[i];
       const personality = ITEM_PERSONALITY[i];
 
-      // Determine target influence (0 = no effect, 1 = full isolation behavior)
+      // ─── Physics influence (movement) ───
       const targetInfluence = closestIdx >= 0 ? 1 : 0;
-      // Ease influence with per-item response lag
-      const lag = personality.responseLag;
-      s.influence += (targetInfluence - s.influence) * lag;
-
-      // Clamp tiny values
+      s.influence += (targetInfluence - s.influence) * personality.responseLag;
       if (s.influence < 0.001) s.influence = 0;
 
-      // Idle drift — always present, subtle organic floating
+      // ─── Color influence with temporal delay ───
+      // Track when proximity first begins
+      const isActive = closestIdx >= 0;
+      if (isActive && s.proximityStarted === 0) {
+        s.proximityStarted = now;
+      } else if (!isActive) {
+        s.proximityStarted = 0;
+      }
+
+      // Color only begins transitioning after the per-item delay has elapsed
+      const elapsed = s.proximityStarted > 0 ? now - s.proximityStarted : 0;
+      const colorAllowed = elapsed > personality.colorDelay;
+
+      if (isActive && colorAllowed) {
+        // Ease in with a slow, non-linear ramp
+        s.colorInfluence += (1 - s.colorInfluence) * COLOR_EASE_IN;
+      } else if (!isActive) {
+        // Ease out even more slowly
+        s.colorInfluence += (0 - s.colorInfluence) * COLOR_EASE_OUT;
+      }
+      // else: delay hasn't elapsed yet, color stays where it is
+
+      if (s.colorInfluence < 0.001) s.colorInfluence = 0;
+      if (s.colorInfluence > 0.999) s.colorInfluence = 1;
+
+      // ─── Idle drift ───
       const driftX = Math.sin((now + drift.phase) / drift.period) * drift.xAmp * 0.008;
       const driftY = Math.cos((now + drift.phase * 1.3) / (drift.period * 0.8)) * drift.yAmp * 0.008;
       fx += driftX;
       fy += driftY;
 
-      // Per-item micro-jitter for organic imperfection
+      // Micro-jitter
       const jx = Math.sin(now * 0.0013 + i * 2.1) * personality.jitterAmp * s.influence * 0.15;
       const jy = Math.cos(now * 0.0017 + i * 3.7) * personality.jitterAmp * s.influence * 0.15;
       fx += jx;
       fy += jy;
 
       if (i === closestIdx) {
-        // ─── FOCUSED ITEM: anchor in place, become grounded ───
         const homeX = item.homeX * w;
         const homeY = item.homeY * h;
         fx += (homeX - s.x) * anchorSpring * (1 + s.influence * 2);
         fy += (homeY - s.y) * anchorSpring * (1 + s.influence * 2);
       } else {
-        // ─── NON-FOCUSED ITEMS: cluster together, avoid the focused one ───
-
-        // Home spring (weaker when influence is high — items are free to drift into cluster)
         const homeFactor = homeSpring * (1 - s.influence * 0.7);
         fx += (item.homeX * w - s.x) * homeFactor;
         fy += (item.homeY * h - s.y) * homeFactor;
 
         if (closestIdx >= 0 && s.influence > 0.01) {
           const focused = st[closestIdx];
-
-          // 1) Gentle attraction toward cluster centroid
           const toCx = cx - s.x;
           const toCy = cy - s.y;
           const toCDist = Math.sqrt(toCx * toCx + toCy * toCy) || 1;
           fx += (toCx / toCDist) * clusterForce * s.influence;
           fy += (toCy / toCDist) * clusterForce * s.influence;
 
-          // 2) Repulsion away from the focused item
           const awayX = s.x - focused.x;
           const awayY = s.y - focused.y;
           const awayDist = Math.sqrt(awayX * awayX + awayY * awayY) || 1;
@@ -201,7 +216,7 @@ export default function FloatingNav() {
         }
       }
 
-      // Inter-item repulsion (prevent overlap, always active)
+      // Inter-item repulsion
       st.forEach((other, j) => {
         if (i === j) return;
         const dx = s.x - other.x;
@@ -231,29 +246,48 @@ export default function FloatingNav() {
       if (s.y < wallPad) s.vy += (wallPad - s.y) * 0.4;
       if (s.y > h - wallPad) s.vy -= (s.y - h + wallPad) * 0.4;
 
-      // Apply position
+      // ─── Apply position & living color ───
       const el = linkRefs.current[i];
       if (el) {
         el.style.left = `${s.x}px`;
         el.style.top = `${s.y}px`;
 
-        // Visual: focused item gets slightly more opaque/present, others recede
         const label = el.querySelector<HTMLSpanElement>(".bb-label");
         if (label) {
+          const ci = s.colorInfluence;
+
           if (i === closestIdx) {
-            label.style.opacity = "1";
-            label.style.color = "#E8725A";
-          } else if (closestIdx >= 0) {
-            const o = 1 - s.influence * 0.15;
-            label.style.opacity = `${o}`;
-            // Lerp color toward teal (#0ABAB5) based on influence
-            const r = Math.round(26 + (10 - 26) * s.influence);
-            const g = Math.round(39 + (186 - 39) * s.influence);
-            const b = Math.round(68 + (181 - 68) * s.influence);
+            // Focused: transition toward coral with living fluctuation
+            const shimmer = Math.sin(now * 0.002 + i * 1.7) * 0.04 + Math.sin(now * 0.0037) * 0.02;
+            const intensity = Math.min(1, ci + shimmer);
+            const r = Math.round(NAVY.r + (CORAL.r - NAVY.r) * intensity);
+            const g = Math.round(NAVY.g + (CORAL.g - NAVY.g) * intensity);
+            const b = Math.round(NAVY.b + (CORAL.b - NAVY.b) * intensity);
             label.style.color = `rgb(${r},${g},${b})`;
-          } else {
             label.style.opacity = "1";
-            label.style.color = "#1A2744";
+          } else if (closestIdx >= 0) {
+            // Non-focused: transition toward teal with micro-variation
+            // Each item gets a unique shimmer phase so they never match exactly
+            const shimmer = Math.sin(now * 0.0019 + i * 2.3) * 0.05
+                          + Math.cos(now * 0.0031 + i * 4.1) * 0.03;
+            const intensity = Math.max(0, Math.min(1, ci + shimmer));
+            const r = Math.round(NAVY.r + (TEAL.r - NAVY.r) * intensity);
+            const g = Math.round(NAVY.g + (TEAL.g - NAVY.g) * intensity);
+            const b = Math.round(NAVY.b + (TEAL.b - NAVY.b) * intensity);
+            label.style.color = `rgb(${r},${g},${b})`;
+            const o = 1 - ci * 0.15;
+            label.style.opacity = `${o}`;
+          } else {
+            // Idle: fade back to navy (colorInfluence handles the easing)
+            if (ci > 0.001) {
+              const r = Math.round(NAVY.r + (TEAL.r - NAVY.r) * ci);
+              const g = Math.round(NAVY.g + (TEAL.g - NAVY.g) * ci);
+              const b = Math.round(NAVY.b + (TEAL.b - NAVY.b) * ci);
+              label.style.color = `rgb(${r},${g},${b})`;
+            } else {
+              label.style.color = `rgb(${NAVY.r},${NAVY.g},${NAVY.b})`;
+            }
+            label.style.opacity = "1";
           }
         }
       }
@@ -315,17 +349,30 @@ export default function FloatingNav() {
     };
   }, [initState, tick, startBreathing]);
 
-  const handleClick = (e: React.MouseEvent, href: string) => {
+  const handleClick = (e: React.MouseEvent, href: string, idx: number) => {
     e.preventDefault();
     e.stopPropagation();
-    if (href.startsWith("#")) {
-      const el = document.getElementById(href.slice(1));
-      if (el) {
-        el.scrollIntoView({ behavior: "smooth" });
-      }
-    } else {
-      navigate(href);
+
+    // Micro-pause: hold the moment before committing to navigation
+    const el = linkRefs.current[idx];
+    const label = el?.querySelector<HTMLSpanElement>(".bb-label");
+
+    // Slight intensification during the pause
+    if (label) {
+      label.style.textShadow = `0 0 12px rgba(${CORAL.r},${CORAL.g},${CORAL.b},0.3)`;
     }
+
+    const pauseDuration = 180 + Math.random() * 80; // 180–260ms, slightly unpredictable
+
+    setTimeout(() => {
+      if (label) label.style.textShadow = "none";
+      if (href.startsWith("#")) {
+        const target = document.getElementById(href.slice(1));
+        if (target) target.scrollIntoView({ behavior: "smooth" });
+      } else {
+        navigate(href);
+      }
+    }, pauseDuration);
   };
 
   return (
@@ -337,7 +384,7 @@ export default function FloatingNav() {
         <button
           key={item.label}
           ref={(el) => { linkRefs.current[i] = el; }}
-          onClick={(e) => handleClick(e, item.href)}
+          onClick={(e) => handleClick(e, item.href, i)}
           className="pointer-events-auto"
           style={{
             position: "absolute",
@@ -350,15 +397,15 @@ export default function FloatingNav() {
             padding: "10px 4px",
           }}
           onMouseEnter={(e) => {
-            const label = e.currentTarget.querySelector<HTMLSpanElement>(".bb-label");
             const dot = e.currentTarget.querySelector<HTMLSpanElement>(".bb-dot");
-            if (label) { label.style.color = "#E8725A"; label.style.letterSpacing = "0.20em"; }
+            const label = e.currentTarget.querySelector<HTMLSpanElement>(".bb-label");
+            if (label) label.style.letterSpacing = "0.20em";
             if (dot) { dot.style.opacity = "1"; dot.style.transform = "scale(1)"; }
           }}
           onMouseLeave={(e) => {
-            const label = e.currentTarget.querySelector<HTMLSpanElement>(".bb-label");
             const dot = e.currentTarget.querySelector<HTMLSpanElement>(".bb-dot");
-            if (label) { label.style.color = "#1A2744"; label.style.letterSpacing = "0.16em"; }
+            const label = e.currentTarget.querySelector<HTMLSpanElement>(".bb-label");
+            if (label) label.style.letterSpacing = "0.16em";
             if (dot) { dot.style.opacity = "0"; dot.style.transform = "scale(0)"; }
           }}
         >
@@ -382,9 +429,9 @@ export default function FloatingNav() {
               fontSize: item.size,
               letterSpacing: "0.16em",
               textTransform: "uppercase",
-              color: "#1A2744",
+              color: `rgb(${NAVY.r},${NAVY.g},${NAVY.b})`,
               whiteSpace: "nowrap",
-              transition: "color 0.2s ease, letter-spacing 0.3s ease, opacity 0.6s ease",
+              transition: "letter-spacing 0.3s ease, opacity 0.6s ease, text-shadow 0.3s ease",
             }}
           >
             {item.label}
