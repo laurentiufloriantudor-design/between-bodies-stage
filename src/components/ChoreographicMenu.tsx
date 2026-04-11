@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, useCallback } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const navLinks = [
@@ -33,10 +33,6 @@ const ChoreographicMenu = ({ isOpen, onClose }: Props) => {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const [entered, setEntered] = useState(false);
   const [itemsVisible, setItemsVisible] = useState<boolean[]>(new Array(navLinks.length).fill(false));
-  const cursorRef = useRef<HTMLDivElement>(null);
-  const cursorPos = useRef({ x: 0, y: 0 });
-  const cursorTarget = useRef({ x: 0, y: 0 });
-  const animFrame = useRef<number>(0);
   const containerRef = useRef<HTMLDivElement>(null);
   const breathLineRefs = useRef<(HTMLDivElement | null)[]>([]);
 
@@ -65,35 +61,6 @@ const ChoreographicMenu = ({ isOpen, onClose }: Props) => {
     }
   }, [isOpen]);
 
-  // Custom cursor with lag
-  const updateCursor = useCallback(() => {
-    const dx = cursorTarget.current.x - cursorPos.current.x;
-    const dy = cursorTarget.current.y - cursorPos.current.y;
-    cursorPos.current.x += dx * 0.12;
-    cursorPos.current.y += dy * 0.12;
-
-    if (cursorRef.current) {
-      cursorRef.current.style.transform = `translate(${cursorPos.current.x - 20}px, ${cursorPos.current.y - 20}px)`;
-    }
-
-    animFrame.current = requestAnimationFrame(updateCursor);
-  }, []);
-
-  useEffect(() => {
-    if (isOpen) {
-      const handleMouseMove = (e: MouseEvent) => {
-        cursorTarget.current = { x: e.clientX, y: e.clientY };
-      };
-      window.addEventListener("mousemove", handleMouseMove);
-      animFrame.current = requestAnimationFrame(updateCursor);
-
-      return () => {
-        window.removeEventListener("mousemove", handleMouseMove);
-        cancelAnimationFrame(animFrame.current);
-      };
-    }
-  }, [isOpen, updateCursor]);
-
   const handleClick = (href: string) => {
     onClose();
     if (href.startsWith("#")) {
@@ -111,7 +78,6 @@ const ChoreographicMenu = ({ isOpen, onClose }: Props) => {
     <div
       ref={containerRef}
       className="fixed inset-0 z-50 flex items-center justify-center"
-      style={{ cursor: "none" }}
     >
       {/* Background */}
       <div
@@ -120,30 +86,16 @@ const ChoreographicMenu = ({ isOpen, onClose }: Props) => {
         onClick={onClose}
       />
 
-      {/* Custom cursor ring */}
-      <div
-        ref={cursorRef}
-        className="fixed top-0 left-0 pointer-events-none z-[60] mix-blend-difference"
-        style={{ width: 40, height: 40 }}
-      >
-        <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
-          <circle cx="20" cy="20" r="17" stroke="currentColor" strokeWidth="1.5" className="text-teal/60" />
-          <circle cx="20" cy="20" r="5" stroke="currentColor" strokeWidth="1.2" className="text-teal/60" />
-          <circle cx="20" cy="7" r="2" fill="currentColor" className="text-teal/60" />
-        </svg>
-      </div>
-
       {/* Close button */}
       <button
         onClick={onClose}
         className="absolute top-6 right-6 md:right-12 z-[55] text-cream/60 hover:text-cream transition-colors duration-500 font-display text-sm tracking-[0.3em]"
-        style={{ cursor: "none" }}
       >
         Close
       </button>
 
       {/* Menu items */}
-      <nav className="relative z-[55] flex flex-col items-start gap-2 md:gap-3 px-8 md:px-16 w-full max-w-3xl" style={{ cursor: "none" }}>
+      <nav className="relative z-[55] flex flex-col items-start gap-2 md:gap-3 px-8 md:px-16 w-full max-w-3xl">
         {navLinks.map((link, i) => {
           const tremor = tremors[i];
           const isHovered = hoveredIndex === i;
@@ -188,7 +140,6 @@ const ChoreographicMenu = ({ isOpen, onClose }: Props) => {
                 onClick={() => handleClick(link.href)}
                 className="relative block w-full text-left py-2 md:py-3 overflow-visible"
                 style={{
-                  cursor: "none",
                   opacity: itemsVisible[i] ? (someoneHovered && !isHovered ? 0.25 : 1) : 0,
                   transform: itemsVisible[i]
                     ? "none"
