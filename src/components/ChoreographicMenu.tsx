@@ -33,10 +33,6 @@ const ChoreographicMenu = ({ isOpen, onClose }: Props) => {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const [entered, setEntered] = useState(false);
   const [itemsVisible, setItemsVisible] = useState<boolean[]>(new Array(navLinks.length).fill(false));
-  const cursorRef = useRef<HTMLDivElement>(null);
-  const cursorPos = useRef({ x: 0, y: 0 });
-  const cursorTarget = useRef({ x: 0, y: 0 });
-  const animFrame = useRef<number>(0);
   const containerRef = useRef<HTMLDivElement>(null);
   const breathLineRefs = useRef<(HTMLDivElement | null)[]>([]);
 
@@ -64,35 +60,6 @@ const ChoreographicMenu = ({ isOpen, onClose }: Props) => {
       setItemsVisible(new Array(navLinks.length).fill(false));
     }
   }, [isOpen]);
-
-  // Custom cursor with lag
-  const updateCursor = useCallback(() => {
-    const dx = cursorTarget.current.x - cursorPos.current.x;
-    const dy = cursorTarget.current.y - cursorPos.current.y;
-    cursorPos.current.x += dx * 0.12;
-    cursorPos.current.y += dy * 0.12;
-
-    if (cursorRef.current) {
-      cursorRef.current.style.transform = `translate(${cursorPos.current.x - 20}px, ${cursorPos.current.y - 20}px)`;
-    }
-
-    animFrame.current = requestAnimationFrame(updateCursor);
-  }, []);
-
-  useEffect(() => {
-    if (isOpen) {
-      const handleMouseMove = (e: MouseEvent) => {
-        cursorTarget.current = { x: e.clientX, y: e.clientY };
-      };
-      window.addEventListener("mousemove", handleMouseMove);
-      animFrame.current = requestAnimationFrame(updateCursor);
-
-      return () => {
-        window.removeEventListener("mousemove", handleMouseMove);
-        cancelAnimationFrame(animFrame.current);
-      };
-    }
-  }, [isOpen, updateCursor]);
 
   const handleClick = (href: string) => {
     onClose();
