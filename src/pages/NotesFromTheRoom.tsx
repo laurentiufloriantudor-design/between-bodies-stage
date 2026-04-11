@@ -37,7 +37,7 @@ type LightState = {
 
 const NEUTRAL_LIGHT: LightState = { cyan: 0.25, magenta: 0.18, intensity: 1, bgHue: 220, bgSat: 5 };
 
-const GLITCH_TEXT = "N0TΞS FROM THΞ R00M";
+const GLITCH_TEXT = "Notes from the Room";
 
 // Lerp helper
 const lerp = (a: number, b: number, t: number) => a + (b - a) * t;
