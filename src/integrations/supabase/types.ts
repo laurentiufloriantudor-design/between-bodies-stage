@@ -14,6 +14,27 @@ export type Database = {
   }
   public: {
     Tables: {
+      article_poll_responses: {
+        Row: {
+          article_slug: string
+          created_at: string | null
+          id: string
+          response: string
+        }
+        Insert: {
+          article_slug: string
+          created_at?: string | null
+          id?: string
+          response: string
+        }
+        Update: {
+          article_slug?: string
+          created_at?: string | null
+          id?: string
+          response?: string
+        }
+        Relationships: []
+      }
       newsletter_subscribers: {
         Row: {
           confirmation_token: string | null
