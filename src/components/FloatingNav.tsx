@@ -18,10 +18,17 @@ interface BodyState {
   vy: number;
   responseDelay: number;
   influence: number;
-  // Temporal color depth: delayed color transition (lags behind influence)
   colorInfluence: number;
-  // Timestamp when this item first sensed proximity (for delayed onset)
   proximityStarted: number;
+  // After-effect: residual warmth that lingers after interaction ends
+  residualWarmth: number;
+  // Positional memory: slight offset that fades slowly
+  memoryOffsetX: number;
+  memoryOffsetY: number;
+  // Last time this item was the focused one
+  lastFocusedTime: number;
+  // Was this item recently focused (not just nearby)?
+  wasFocused: boolean;
 }
 
 // ─── Config ───────────────────────────────────────────────────────────────────
@@ -43,16 +50,20 @@ const IDLE_DRIFT = [
 ];
 
 const ITEM_PERSONALITY = [
-  { responseLag: 0.06, jitterAmp: 0.3, colorDelay: 140 },   // Workshop
-  { responseLag: 0.07, jitterAmp: 0.5, colorDelay: 180 },   // About
-  { responseLag: 0.05, jitterAmp: 0.2, colorDelay: 120 },   // Apply
-  { responseLag: 0.08, jitterAmp: 0.6, colorDelay: 200 },   // Notes — slowest
-  { responseLag: 0.065, jitterAmp: 0.4, colorDelay: 160 },  // Partner
+  { responseLag: 0.06,  jitterAmp: 0.3, colorDelay: 140, warmthDecay: 0.012, isRebel: false },
+  { responseLag: 0.07,  jitterAmp: 0.5, colorDelay: 180, warmthDecay: 0.010, isRebel: false },
+  { responseLag: 0.05,  jitterAmp: 0.2, colorDelay: 120, warmthDecay: 0.014, isRebel: false },
+  // "Notes from the Room" — the rebel: longer delays, slower decay, resists grouping
+  { responseLag: 0.12,  jitterAmp: 0.8, colorDelay: 320, warmthDecay: 0.006, isRebel: true },
+  { responseLag: 0.065, jitterAmp: 0.4, colorDelay: 160, warmthDecay: 0.011, isRebel: false },
 ];
 
-// Color easing rate — how fast colorInfluence catches up (lower = slower, more organic)
+// Color easing rate
 const COLOR_EASE_IN = 0.035;
 const COLOR_EASE_OUT = 0.025;
+
+// Residual warmth: a fading memory color (warm coral tint that lingers)
+const WARMTH_COLOR = { r: 180, g: 90, b: 78 }; // muted terracotta
 
 // Base colors
 const NAVY = { r: 26, g: 39, b: 68 };
@@ -80,6 +91,8 @@ export default function FloatingNav() {
   const heroRef = useRef<HTMLDivElement>(null);
   const stateRef = useRef<BodyState[]>([]);
   const mouseRef = useRef({ x: -9999, y: -9999, inside: false });
+  const velocityRef = useRef({ speed: 0, smoothSpeed: 0 });
+  const prevMouseRef = useRef({ x: -9999, y: -9999, time: 0 });
   const rafRef = useRef<number>(0);
   const linkRefs = useRef<(HTMLElement | null)[]>([]);
   const breatheRafs = useRef<number[]>([]);
@@ -98,6 +111,11 @@ export default function FloatingNav() {
       influence: 0,
       colorInfluence: 0,
       proximityStarted: 0,
+      residualWarmth: 0,
+      memoryOffsetX: 0,
+      memoryOffsetY: 0,
+      lastFocusedTime: 0,
+      wasFocused: false,
     }));
   }, []);
 
@@ -107,6 +125,7 @@ export default function FloatingNav() {
     const { offsetWidth: w, offsetHeight: h } = hero;
     const { x: mx, y: my, inside } = mouseRef.current;
     const st = stateRef.current;
+    const vel = velocityRef.current;
     const {
       activationRadius, anchorSpring,
       clusterForce, avoidFocusForce, avoidFocusRadius,
@@ -115,6 +134,26 @@ export default function FloatingNav() {
     } = PHYSICS;
 
     const now = Date.now();
+
+    // ─── Cursor velocity tracking ───
+    const prev = prevMouseRef.current;
+    if (inside && prev.time > 0) {
+      const dt = now - prev.time;
+      if (dt > 0 && dt < 100) {
+        const dx = mx - prev.x;
+        const dy = my - prev.y;
+        const instantSpeed = Math.sqrt(dx * dx + dy * dy) / dt; // px/ms
+        vel.speed = instantSpeed;
+        // Smooth it — slow movements converge faster
+        vel.smoothSpeed += (instantSpeed - vel.smoothSpeed) * 0.15;
+      }
+    } else if (!inside) {
+      vel.smoothSpeed *= 0.95; // decay when cursor leaves
+    }
+    prevMouseRef.current = { x: mx, y: my, time: now };
+
+    // Cursor agitation: 0 = calm, 1 = very fast/erratic
+    const agitation = Math.min(1, vel.smoothSpeed / 1.8);
 
     // Find closest item
     let closestIdx = -1;
@@ -129,7 +168,21 @@ export default function FloatingNav() {
       if (closestDist > activationRadius * 1.5) closestIdx = -1;
     }
 
+    const prevFocused = focusedRef.current;
     focusedRef.current = closestIdx;
+
+    // Track focus transitions for after-effect
+    if (prevFocused >= 0 && prevFocused !== closestIdx) {
+      const s = st[prevFocused];
+      s.wasFocused = true;
+      s.lastFocusedTime = now;
+      // Stamp residual warmth from current color intensity
+      s.residualWarmth = Math.max(s.residualWarmth, s.colorInfluence * 0.6);
+      // Stamp positional memory
+      const item = NAV_ITEMS[prevFocused];
+      s.memoryOffsetX = (s.x - item.homeX * w) * 0.3;
+      s.memoryOffsetY = (s.y - item.homeY * h) * 0.3;
+    }
 
     // Cluster centroid
     let cx = 0, cy = 0, count = 0;
@@ -145,13 +198,26 @@ export default function FloatingNav() {
       const drift = IDLE_DRIFT[i];
       const personality = ITEM_PERSONALITY[i];
 
+      // ─── Agitation-modulated response lag ───
+      // Fast cursor = slower/less precise response
+      const effectiveLag = personality.responseLag * (1 - agitation * 0.4);
+
       // ─── Physics influence (movement) ───
       const targetInfluence = closestIdx >= 0 ? 1 : 0;
-      s.influence += (targetInfluence - s.influence) * personality.responseLag;
+      s.influence += (targetInfluence - s.influence) * effectiveLag;
       if (s.influence < 0.001) s.influence = 0;
 
+      // ─── Residual warmth decay ───
+      s.residualWarmth *= (1 - personality.warmthDecay);
+      if (s.residualWarmth < 0.005) s.residualWarmth = 0;
+
+      // ─── Memory offset decay (very slow) ───
+      s.memoryOffsetX *= 0.992;
+      s.memoryOffsetY *= 0.992;
+      if (Math.abs(s.memoryOffsetX) < 0.1) s.memoryOffsetX = 0;
+      if (Math.abs(s.memoryOffsetY) < 0.1) s.memoryOffsetY = 0;
+
       // ─── Color influence with temporal delay ───
-      // Track when proximity first begins
       const isActive = closestIdx >= 0;
       if (isActive && s.proximityStarted === 0) {
         s.proximityStarted = now;
@@ -159,18 +225,18 @@ export default function FloatingNav() {
         s.proximityStarted = 0;
       }
 
-      // Color only begins transitioning after the per-item delay has elapsed
       const elapsed = s.proximityStarted > 0 ? now - s.proximityStarted : 0;
-      const colorAllowed = elapsed > personality.colorDelay;
+      // Rebel item has longer delay; agitation adds extra delay
+      const effectiveColorDelay = personality.colorDelay + agitation * 80;
+      const colorAllowed = elapsed > effectiveColorDelay;
 
       if (isActive && colorAllowed) {
-        // Ease in with a slow, non-linear ramp
         s.colorInfluence += (1 - s.colorInfluence) * COLOR_EASE_IN;
       } else if (!isActive) {
-        // Ease out even more slowly
-        s.colorInfluence += (0 - s.colorInfluence) * COLOR_EASE_OUT;
+        // Slower fade-out for after-effect feel
+        const fadeRate = COLOR_EASE_OUT * (personality.isRebel ? 0.5 : 0.8);
+        s.colorInfluence += (0 - s.colorInfluence) * fadeRate;
       }
-      // else: delay hasn't elapsed yet, color stays where it is
 
       if (s.colorInfluence < 0.001) s.colorInfluence = 0;
       if (s.colorInfluence > 0.999) s.colorInfluence = 1;
@@ -181,9 +247,10 @@ export default function FloatingNav() {
       fx += driftX;
       fy += driftY;
 
-      // Micro-jitter
-      const jx = Math.sin(now * 0.0013 + i * 2.1) * personality.jitterAmp * s.influence * 0.15;
-      const jy = Math.cos(now * 0.0017 + i * 3.7) * personality.jitterAmp * s.influence * 0.15;
+      // Micro-jitter — amplified by agitation
+      const jitterScale = 1 + agitation * 2.5;
+      const jx = Math.sin(now * 0.0013 + i * 2.1) * personality.jitterAmp * s.influence * 0.15 * jitterScale;
+      const jy = Math.cos(now * 0.0017 + i * 3.7) * personality.jitterAmp * s.influence * 0.15 * jitterScale;
       fx += jx;
       fy += jy;
 
@@ -193,17 +260,26 @@ export default function FloatingNav() {
         fx += (homeX - s.x) * anchorSpring * (1 + s.influence * 2);
         fy += (homeY - s.y) * anchorSpring * (1 + s.influence * 2);
       } else {
+        // Home spring target includes positional memory offset
+        const targetX = item.homeX * w + s.memoryOffsetX;
+        const targetY = item.homeY * h + s.memoryOffsetY;
         const homeFactor = homeSpring * (1 - s.influence * 0.7);
-        fx += (item.homeX * w - s.x) * homeFactor;
-        fy += (item.homeY * h - s.y) * homeFactor;
+        fx += (targetX - s.x) * homeFactor;
+        fy += (targetY - s.y) * homeFactor;
 
         if (closestIdx >= 0 && s.influence > 0.01) {
           const focused = st[closestIdx];
+
+          // Rebel resists grouping — weaker cluster pull
+          const rebelFactor = personality.isRebel ? 0.35 : 1;
+
           const toCx = cx - s.x;
           const toCy = cy - s.y;
           const toCDist = Math.sqrt(toCx * toCx + toCy * toCy) || 1;
-          fx += (toCx / toCDist) * clusterForce * s.influence;
-          fy += (toCy / toCDist) * clusterForce * s.influence;
+          // Agitation makes grouping less precise
+          const clusterPrecision = 1 - agitation * 0.3;
+          fx += (toCx / toCDist) * clusterForce * s.influence * rebelFactor * clusterPrecision;
+          fy += (toCy / toCDist) * clusterForce * s.influence * rebelFactor * clusterPrecision;
 
           const awayX = s.x - focused.x;
           const awayY = s.y - focused.y;
@@ -255,10 +331,14 @@ export default function FloatingNav() {
         const label = el.querySelector<HTMLSpanElement>(".bb-label");
         if (label) {
           const ci = s.colorInfluence;
+          const warmth = s.residualWarmth;
+
+          // Agitation adds color instability
+          const agitationShimmer = agitation * (Math.sin(now * 0.003 + i * 5.3) * 0.08);
 
           if (i === closestIdx) {
             // Focused: transition toward coral with living fluctuation
-            const shimmer = Math.sin(now * 0.002 + i * 1.7) * 0.04 + Math.sin(now * 0.0037) * 0.02;
+            const shimmer = Math.sin(now * 0.002 + i * 1.7) * 0.04 + Math.sin(now * 0.0037) * 0.02 + agitationShimmer;
             const intensity = Math.min(1, ci + shimmer);
             const r = Math.round(NAVY.r + (CORAL.r - NAVY.r) * intensity);
             const g = Math.round(NAVY.g + (CORAL.g - NAVY.g) * intensity);
@@ -266,20 +346,34 @@ export default function FloatingNav() {
             label.style.color = `rgb(${r},${g},${b})`;
             label.style.opacity = "1";
           } else if (closestIdx >= 0) {
-            // Non-focused: transition toward teal with micro-variation
-            // Each item gets a unique shimmer phase so they never match exactly
+            // Non-focused: transition toward teal
             const shimmer = Math.sin(now * 0.0019 + i * 2.3) * 0.05
-                          + Math.cos(now * 0.0031 + i * 4.1) * 0.03;
+                          + Math.cos(now * 0.0031 + i * 4.1) * 0.03
+                          + agitationShimmer;
             const intensity = Math.max(0, Math.min(1, ci + shimmer));
-            const r = Math.round(NAVY.r + (TEAL.r - NAVY.r) * intensity);
-            const g = Math.round(NAVY.g + (TEAL.g - NAVY.g) * intensity);
-            const b = Math.round(NAVY.b + (TEAL.b - NAVY.b) * intensity);
+            // Rebel has more unstable color
+            const rebelFlutter = personality.isRebel
+              ? Math.sin(now * 0.0047 + 7.3) * 0.12 + Math.cos(now * 0.0023) * 0.06
+              : 0;
+            const finalIntensity = Math.max(0, Math.min(1, intensity + rebelFlutter));
+            const r = Math.round(NAVY.r + (TEAL.r - NAVY.r) * finalIntensity);
+            const g = Math.round(NAVY.g + (TEAL.g - NAVY.g) * finalIntensity);
+            const b = Math.round(NAVY.b + (TEAL.b - NAVY.b) * finalIntensity);
             label.style.color = `rgb(${r},${g},${b})`;
             const o = 1 - ci * 0.15;
             label.style.opacity = `${o}`;
           } else {
-            // Idle: fade back to navy (colorInfluence handles the easing)
-            if (ci > 0.001) {
+            // Idle: fade back, but with residual warmth
+            if (warmth > 0.005) {
+              // Blend navy toward a muted warm tone based on residual warmth
+              const baseR = ci > 0.001 ? NAVY.r + (TEAL.r - NAVY.r) * ci : NAVY.r;
+              const baseG = ci > 0.001 ? NAVY.g + (TEAL.g - NAVY.g) * ci : NAVY.g;
+              const baseB = ci > 0.001 ? NAVY.b + (TEAL.b - NAVY.b) * ci : NAVY.b;
+              const r = Math.round(baseR + (WARMTH_COLOR.r - baseR) * warmth);
+              const g = Math.round(baseG + (WARMTH_COLOR.g - baseG) * warmth);
+              const b = Math.round(baseB + (WARMTH_COLOR.b - baseB) * warmth);
+              label.style.color = `rgb(${r},${g},${b})`;
+            } else if (ci > 0.001) {
               const r = Math.round(NAVY.r + (TEAL.r - NAVY.r) * ci);
               const g = Math.round(NAVY.g + (TEAL.g - NAVY.g) * ci);
               const b = Math.round(NAVY.b + (TEAL.b - NAVY.b) * ci);
@@ -353,16 +447,14 @@ export default function FloatingNav() {
     e.preventDefault();
     e.stopPropagation();
 
-    // Micro-pause: hold the moment before committing to navigation
     const el = linkRefs.current[idx];
     const label = el?.querySelector<HTMLSpanElement>(".bb-label");
 
-    // Slight intensification during the pause
     if (label) {
       label.style.textShadow = `0 0 12px rgba(${CORAL.r},${CORAL.g},${CORAL.b},0.3)`;
     }
 
-    const pauseDuration = 180 + Math.random() * 80; // 180–260ms, slightly unpredictable
+    const pauseDuration = 180 + Math.random() * 80;
 
     setTimeout(() => {
       if (label) label.style.textShadow = "none";
