@@ -50,6 +50,9 @@ const WorkshopSection = () => {
             <p className="font-body text-sm leading-relaxed text-muted-foreground max-w-xs" style={{ textWrap: 'pretty' }}>
               Subscribe to our newsletter to be the first to know when applications open for the Turin laboratory.
             </p>
+            <a href="#newsletter" className="inline-block mt-6 font-display text-sm tracking-[0.2em] text-coral hover:text-teal transition-colors" onClick={(e) => { e.preventDefault(); document.getElementById("newsletter")?.scrollIntoView({ behavior: "smooth" }); }}>
+              Subscribe →
+            </a>
           </div>
         </div>
       </div>
