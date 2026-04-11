@@ -23,7 +23,7 @@ const AboutSection = () => {
         <div className={`relative ${visible ? 'animate-reveal-left' : 'opacity-0'}`}>
           <div className="w-full aspect-square blob-2 overflow-hidden max-w-[320px]">
             <img
-              src={heroImage}
+              src={aboutPerformers}
               alt="Performer silhouette — documentary detail"
               className="w-full h-full object-cover photo-hover scale-125"
             />
