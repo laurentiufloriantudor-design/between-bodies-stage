@@ -1,5 +1,6 @@
 import { ArrowLeft } from "lucide-react";
 import { Link } from "react-router-dom";
+import DancingText from "@/components/DancingText";
 
 const ArticleHero = () => {
   return (
@@ -26,7 +27,7 @@ const ArticleHero = () => {
 
         {/* Title */}
         <h1 className="font-display text-[clamp(2.2rem,5vw,3.8rem)] leading-[1.05] text-cream max-w-[760px] mx-auto mb-5">
-          When the Body Knows First
+          <DancingText>When the Body Knows First</DancingText>
         </h1>
 
         {/* Subtitle */}

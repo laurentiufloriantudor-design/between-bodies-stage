@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import FooterSection from "@/components/FooterSection";
 import { ArrowLeft } from "lucide-react";
 import { Link } from "react-router-dom";
+import DancingText from "@/components/DancingText";
 
 const ArticleHero = () => (
   <section className="relative bg-navy overflow-hidden">
@@ -23,7 +24,7 @@ const ArticleHero = () => (
       </span>
 
       <h1 className="font-display text-[clamp(2.2rem,5vw,3.8rem)] leading-[1.05] text-cream max-w-[760px] mx-auto mb-5">
-        Three Stories at Once
+        <DancingText>Three Stories at Once</DancingText>
       </h1>
 
       <p className="font-body text-base md:text-lg text-cream/65 max-w-[600px] mx-auto mb-10 font-light leading-relaxed">

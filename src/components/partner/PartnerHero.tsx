@@ -1,4 +1,5 @@
 import logo from "@/assets/logo-betweenbodies.png";
+import DancingText from "@/components/DancingText";
 
 const PartnerHero = () => {
   return (
@@ -26,9 +27,9 @@ const PartnerHero = () => {
             Partner with us
           </span>
           <h1 className="text-[2.8rem] md:text-[5rem] lg:text-[7rem] leading-[0.88] mb-8 animate-reveal-up animate-delay-1">
-            Bring Between<br />
-            <span className="text-coral">Bodies</span> to<br />
-            your city
+            <DancingText>Bring Between</DancingText><br />
+            <span className="text-coral"><DancingText>Bodies</DancingText></span>{" "}<DancingText>to</DancingText><br />
+            <DancingText>your city</DancingText>
           </h1>
           <p
             className="font-body text-sm md:text-base leading-relaxed text-cream/60 max-w-lg animate-reveal-up animate-delay-3"
