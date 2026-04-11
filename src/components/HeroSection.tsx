@@ -3,6 +3,7 @@ import { Menu, X } from "lucide-react";
 import logo from "@/assets/logo-betweenbodies.png";
 import heroImage from "@/assets/hero-theater.jpg";
 import ChoreographicMenu from "./ChoreographicMenu";
+import FloatingNav from "./FloatingNav";
 
 const HeroSection = () => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -13,7 +14,10 @@ const HeroSection = () => {
       <div className="absolute bottom-24 left-[5%] w-48 h-48 bg-teal animate-drift" style={{ clipPath: 'polygon(30% 0%, 70% 0%, 100% 30%, 95% 65%, 80% 100%, 40% 95%, 10% 80%, 0% 50%, 5% 20%)' }} />
       <div className="absolute top-[40%] right-[15%] w-20 h-20 bg-navy rounded-full animate-drift-reverse" />
 
-      <nav className="relative z-10 flex items-center justify-between px-6 md:px-12 py-6">
+      {/* Floating physics-based nav */}
+      <FloatingNav />
+
+      <nav className="relative z-30 flex items-center justify-between px-6 md:px-12 py-6">
         <img src={logo} alt="BetweenBodies logo" className="h-40 w-auto" />
         <button
           onClick={() => setMenuOpen(!menuOpen)}
