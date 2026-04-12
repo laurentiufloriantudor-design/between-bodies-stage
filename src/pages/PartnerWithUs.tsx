@@ -14,6 +14,7 @@ const PartnerWithUs = () => {
       <PartnerHero />
       <WhatWeOffer />
       <WhatWeNeed />
+      <HowItWorks />
       <PastEditions />
       <PdfDownload />
       <PartnerContact />
