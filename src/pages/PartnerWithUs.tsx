@@ -1,6 +1,7 @@
 import PartnerHero from "@/components/partner/PartnerHero";
 import WhatWeOffer from "@/components/partner/WhatWeOffer";
 import WhatWeNeed from "@/components/partner/WhatWeNeed";
+import HowItWorks from "@/components/partner/HowItWorks";
 import PastEditions from "@/components/partner/PastEditions";
 import PdfDownload from "@/components/partner/PdfDownload";
 import NewsletterSection from "@/components/NewsletterSection";
@@ -13,6 +14,7 @@ const PartnerWithUs = () => {
       <PartnerHero />
       <WhatWeOffer />
       <WhatWeNeed />
+      <HowItWorks />
       <PastEditions />
       <PdfDownload />
       <PartnerContact />
