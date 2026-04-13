@@ -1,13 +1,14 @@
 import logo from "@/assets/logo-betweenbodies.png";
 import DancingText from "@/components/DancingText";
+import AttentionElement from "@/components/AttentionElement";
 
 const PartnerHero = () => {
   return (
     <section className="relative min-h-[90vh] overflow-hidden flex flex-col">
       {/* Accent shapes */}
-      <div className="absolute top-16 right-[10%] w-32 h-32 bg-coral rounded-full opacity-40 animate-drift-slow" />
-      <div className="absolute bottom-20 left-[6%] w-48 h-48 bg-teal/15 blob-1 animate-drift" />
-      <div className="absolute top-[55%] right-[20%] w-5 h-28 bg-coral/60 animate-drift-reverse" />
+      <AttentionElement seed={1} radius={600} maxShift={18} opacityFloor={0.3} className="absolute top-16 right-[10%] w-32 h-32 bg-coral rounded-full opacity-40 animate-drift-slow" />
+      <AttentionElement seed={2} radius={700} maxShift={24} opacityFloor={0.2} className="absolute bottom-20 left-[6%] w-48 h-48 bg-teal/15 blob-1 animate-drift" />
+      <AttentionElement seed={3} radius={500} maxShift={14} opacityFloor={0.4} className="absolute top-[55%] right-[20%] w-5 h-28 bg-coral/60 animate-drift-reverse" />
 
       {/* Nav */}
       <nav className="relative z-10 flex items-center justify-between px-6 md:px-12 py-6">

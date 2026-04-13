@@ -49,20 +49,35 @@ const HowItWorks = () => {
         </h2>
 
         <div className="relative grid grid-cols-1 md:grid-cols-4 gap-12 md:gap-8">
-          {/* Connecting line — desktop only */}
+          {/* Animated connecting line — desktop only */}
           <div className="hidden md:block absolute top-[1.1rem] left-0 right-0 h-[1px] bg-cream/10" />
+
+          {visible && (
+            <div
+              className="hidden md:block absolute top-[1.1rem] left-0 h-[1px] bg-teal/40"
+              style={{ animation: "drawLine 2s ease-out forwards" }}
+            />
+          )}
 
           {steps.map((step, i) => (
             <div
               key={step.number}
-              className={`relative ${visible ? `animate-reveal-up animate-delay-${i + 2}` : ''}`}
+              className="relative"
+              style={visible ? {
+                animation: `revealStep 0.6s ease-out ${0.4 + i * 0.35}s both`,
+              } : { opacity: 0 }}
             >
               {/* Number with dot */}
               <div className="flex items-center gap-3 mb-4">
                 <span className="font-display text-xs tracking-[0.3em] text-coral">
                   {step.number}
                 </span>
-                <div className="w-2 h-2 rounded-full bg-teal" />
+                <div
+                  className="w-2 h-2 rounded-full bg-teal"
+                  style={visible ? {
+                    animation: `popDot 0.3s ease-out ${0.6 + i * 0.35}s both`,
+                  } : { transform: "scale(0)" }}
+                />
               </div>
 
               <h3 className="text-[1.4rem] md:text-[1.6rem] leading-[0.95] mb-3">
@@ -76,6 +91,21 @@ const HowItWorks = () => {
           ))}
         </div>
       </div>
+
+      <style>{`
+  @keyframes drawLine {
+    from { width: 0; }
+    to { width: 100%; }
+  }
+  @keyframes revealStep {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes popDot {
+    from { transform: scale(0); }
+    to { transform: scale(1); }
+  }
+`}</style>
     </section>
   );
 };
