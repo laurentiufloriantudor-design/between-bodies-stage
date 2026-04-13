@@ -44,7 +44,7 @@ const PartnerHero = () => {
         </div>
 
         <div className="relative animate-reveal-up animate-delay-2">
-          <div className="aspect-[3/4] overflow-hidden">
+          <div className="blob-3 overflow-hidden">
             <img
               src={partnerStudio}
               alt="Workshop in motion"
