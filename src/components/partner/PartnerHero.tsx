@@ -1,6 +1,7 @@
 import logo from "@/assets/logo-betweenbodies.png";
 import DancingText from "@/components/DancingText";
 import AttentionElement from "@/components/AttentionElement";
+import partnerStudio from "@/assets/partner-studio.jpg";
 
 const PartnerHero = () => {
   return (
@@ -22,8 +23,8 @@ const PartnerHero = () => {
       </nav>
 
       {/* Content */}
-      <div className="relative z-10 flex-1 flex flex-col justify-center px-6 md:px-12 pb-16">
-        <div className="max-w-4xl">
+      <div className="relative z-10 flex-1 grid grid-cols-1 md:grid-cols-2 gap-12 items-center px-6 md:px-12 pb-16">
+        <div>
           <span className="font-display text-sm tracking-[0.3em] text-teal block mb-8 animate-reveal-up">
             Partner with us
           </span>
@@ -40,6 +41,16 @@ const PartnerHero = () => {
             adapt to your community, and build an intensive experience together.
             You provide the ground — we bring the practice.
           </p>
+        </div>
+
+        <div className="relative animate-reveal-up animate-delay-2">
+          <div className="aspect-[3/4] overflow-hidden">
+            <img
+              src={partnerStudio}
+              alt="Workshop in motion"
+              className="w-full h-full object-cover grayscale contrast-125"
+            />
+          </div>
         </div>
       </div>
 
