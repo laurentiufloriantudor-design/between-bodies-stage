@@ -52,11 +52,11 @@ export default function ArticlePoll({ articleSlug, question, options }: ArticleP
 
   return (
     <div style={{ marginTop: "3rem", paddingTop: "2.5rem", borderTop: "1px solid rgba(22,40,54,0.12)" }}>
-      <span className="font-display" style={{ fontSize: "0.65rem", letterSpacing: "0.14em", textTransform: "uppercase", color: "rgba(22,40,54,0.4)" }}>
+      <span className="font-display" style={{ fontSize: "1.3rem", letterSpacing: "0.14em", textTransform: "uppercase", color: "rgba(22,40,54,0.4)" }}>
         Before you leave
       </span>
 
-      <p className="font-display" style={{ fontSize: "1.35rem", lineHeight: 1.3, marginTop: "0.6rem", marginBottom: "1.5rem", color: "#162836" }}>
+      <p className="font-display" style={{ fontSize: "2.7rem", lineHeight: 1.3, marginTop: "0.6rem", marginBottom: "1.5rem", color: "#162836" }}>
         {question}
       </p>
 
@@ -92,7 +92,7 @@ export default function ArticlePoll({ articleSlug, question, options }: ArticleP
                   }}
                 />
               )}
-              <span className="font-body" style={{ position: "relative", fontSize: "0.9rem", color: "#162836", display: "flex", justifyContent: "space-between" }}>
+              <span className="font-body" style={{ position: "relative", fontSize: "1.8rem", color: "#162836", display: "flex", justifyContent: "space-between" }}>
                 {opt.label}
                 {submitted && (
                   <span style={{ fontVariantNumeric: "tabular-nums", marginLeft: "1rem", color: "rgba(22,40,54,0.5)" }}>
@@ -112,7 +112,7 @@ export default function ArticlePoll({ articleSlug, question, options }: ArticleP
           className="font-display"
           style={{
             marginTop: "1rem",
-            fontSize: "0.75rem",
+            fontSize: "1.5rem",
             letterSpacing: "0.12em",
             textTransform: "uppercase",
             background: "none",
@@ -126,7 +126,7 @@ export default function ArticlePoll({ articleSlug, question, options }: ArticleP
           {loading ? "…" : "Submit →"}
         </button>
       ) : (
-        <p className="font-body" style={{ marginTop: "1rem", fontSize: "0.8rem", color: "rgba(22,40,54,0.45)" }}>
+        <p className="font-body" style={{ marginTop: "1rem", fontSize: "1.6rem", color: "rgba(22,40,54,0.45)" }}>
           Thank you. {total} {total === 1 ? "person" : "people"} have responded.
         </p>
       )}
