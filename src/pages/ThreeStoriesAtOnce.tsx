@@ -9,12 +9,12 @@ import turinStanding from "@/assets/turin-standing.jpg";
 import turinCircle from "@/assets/turin-circle.jpg";
 
 const ArticleImage = ({ src, alt, caption }: { src: string; alt: string; caption?: string }) => (
-  <figure className="my-12 mx-0 md:-mx-8">
+  <figure className="my-12 mx-auto max-w-[85%] md:max-w-[75%]">
     <div className="blob-3 overflow-hidden">
       <img src={src} alt={alt} className="w-full h-auto grayscale contrast-125" />
     </div>
     {caption && (
-      <figcaption className="font-display text-[0.7rem] tracking-[0.08em] text-muted-foreground/60 mt-3 text-center italic">
+      <figcaption className="font-display text-[0.8rem] tracking-[0.06em] text-muted-foreground mt-3 text-center italic">
         {caption}
       </figcaption>
     )}
