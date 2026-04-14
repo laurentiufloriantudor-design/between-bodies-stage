@@ -77,7 +77,7 @@ const ArticleBody = () => (
   <article className="max-w-[680px] mx-auto px-6 md:px-8 py-16 md:py-20">
     <p className="font-body text-base leading-[1.85] text-foreground mb-6 first-letter:font-display first-letter:text-[3.8rem] first-letter:float-left first-letter:leading-[0.8] first-letter:mr-[0.1em] first-letter:mt-[0.12em] first-letter:text-coral">
       There is a particular quality of attention that a room holds before anything
-      has been asked of it. Turin, early March. Eleven people. A space. The first
+      has been asked of it. Turin, early March. The bodies. A space. The first
       moments of a laboratory that had not yet found its shape. What I felt in that
       room was curiosity, the open kind, not the kind that tests, but the kind that
       arrives already leaning toward something it cannot yet name.
