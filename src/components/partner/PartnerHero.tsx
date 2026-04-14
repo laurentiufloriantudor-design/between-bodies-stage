@@ -59,7 +59,7 @@ const PartnerHero = () => {
         <div className="flex items-center gap-6 animate-reveal-up animate-delay-5">
           <div className="w-12 h-[2px] bg-cream/30" />
           <span className="font-display text-xs tracking-[0.3em] text-cream/30">
-            For theatres · Schools · Festivals · Cultural centres
+            Schools · Cultural Centres · Independent Companies · Festivals
           </span>
           <div className="flex-1 h-[2px] bg-cream/10" />
         </div>
