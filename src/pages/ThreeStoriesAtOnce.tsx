@@ -4,6 +4,22 @@ import { ArrowLeft } from "lucide-react";
 import { Link } from "react-router-dom";
 import DancingText from "@/components/DancingText";
 import ArticlePoll from "@/components/ArticlePoll";
+import turinFloor from "@/assets/turin-floor.jpg";
+import turinStanding from "@/assets/turin-standing.jpg";
+import turinCircle from "@/assets/turin-circle.jpg";
+
+const ArticleImage = ({ src, alt, caption }: { src: string; alt: string; caption?: string }) => (
+  <figure className="my-12 mx-0 md:-mx-8">
+    <div className="blob-3 overflow-hidden">
+      <img src={src} alt={alt} className="w-full h-auto grayscale contrast-125" />
+    </div>
+    {caption && (
+      <figcaption className="font-display text-[0.7rem] tracking-[0.08em] text-muted-foreground/60 mt-3 text-center italic">
+        {caption}
+      </figcaption>
+    )}
+  </figure>
+);
 
 const ArticleHero = () => (
   <section className="relative bg-navy overflow-hidden">
@@ -96,6 +112,8 @@ const ArticleBody = () => (
       Most groups rush through the looking. This one slowed down.
     </p>
 
+    <ArticleImage src={turinCircle} alt="Participants sitting in a circle during the Turin laboratory" caption="Turin, March 2025. The circle before the first exercise." />
+
     <SectionHeading>Stay. Leave. I cannot.</SectionHeading>
 
     <p className="font-body text-base leading-[1.85] text-foreground mb-6">
@@ -124,6 +142,8 @@ const ArticleBody = () => (
       and staying at the same time. The group found this not through analysis but
       through accumulation. They kept doing it until the doing became something else.
     </p>
+
+    <ArticleImage src={turinStanding} alt="Participants exploring movement in the workshop space" caption="Negotiating space, breath, and intention." />
 
     <p className="font-body text-base leading-[1.85] text-foreground mb-6">
       At that point I brought two of the participants to the side of the room and
@@ -164,6 +184,8 @@ const ArticleBody = () => (
       material to be shaped. The other treats it as a guest, unexpected,
       informative, worth listening to.
     </p>
+
+    <ArticleImage src={turinFloor} alt="Participants in floor work during the laboratory" caption="Floor work. Bodies finding weight and direction." />
 
     <SectionHeading>What the three days asked of me</SectionHeading>
 
