@@ -185,6 +185,8 @@ const ArticleBody = () => (
       informative, worth listening to.
     </p>
 
+    <ArticleImage src={turinFloor} alt="Participants in floor work during the laboratory" caption="Floor work. Bodies finding weight and direction." />
+
     <SectionHeading>What the three days asked of me</SectionHeading>
 
     <p className="font-body text-base leading-[1.85] text-foreground mb-6">
