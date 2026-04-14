@@ -112,6 +112,8 @@ const ArticleBody = () => (
       Most groups rush through the looking. This one slowed down.
     </p>
 
+    <ArticleImage src={turinCircle} alt="Participants sitting in a circle during the Turin laboratory" caption="Turin, March 2025. The circle before the first exercise." />
+
     <SectionHeading>Stay. Leave. I cannot.</SectionHeading>
 
     <p className="font-body text-base leading-[1.85] text-foreground mb-6">
