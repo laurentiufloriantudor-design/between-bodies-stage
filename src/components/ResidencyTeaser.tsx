@@ -67,13 +67,25 @@ const ResidencyTeaser = () => {
           </AttentionElement>
         </div>
 
-        <AttentionElement seed={38} radius={550} maxShift={16} opacityFloor={0.55} scaleRange={[0.98, 1.01]}>
-          <div className={`w-full md:w-80 lg:w-96 flex-shrink-0 ${visible ? 'animate-reveal-right animate-delay-2' : ''}`}>
-            <div className="blob-3 overflow-hidden">
-              <img src={residencyImg} alt="Two bodies in motion, dissolved into gesture and light" loading="lazy" width={1920} height={1080} className="w-full h-full object-cover grayscale contrast-[1.2]" />
+        <div className={`flex flex-col gap-8 ${visible ? 'animate-reveal-right animate-delay-2' : ''}`}>
+          <AttentionElement seed={38} radius={550} maxShift={16} opacityFloor={0.55} scaleRange={[0.98, 1.01]}>
+            <div className="w-full md:w-80 lg:w-96 flex-shrink-0">
+              <div className="blob-3 overflow-hidden">
+                <img src={residencyImg} alt="Two bodies in motion, dissolved into gesture and light" loading="lazy" width={1920} height={1080} className="w-full h-full object-cover grayscale contrast-[1.2]" />
+              </div>
             </div>
-          </div>
-        </AttentionElement>
+          </AttentionElement>
+
+          <AttentionElement seed={39} radius={450} maxShift={12} opacityFloor={0.6}>
+            <div className="flex flex-col items-start gap-4">
+              <p className="font-display text-xs tracking-[0.2em] text-cream/50">In collaboration with</p>
+              <div className="flex flex-col gap-4">
+                <img src="/images/nesta-logo.png" alt="Museo Nesta" className="h-16 w-auto object-contain" />
+                <img src="/images/partner-banner.avif" alt="Libere Gabbie A.P.S." className="h-12 w-auto object-contain" />
+              </div>
+            </div>
+          </AttentionElement>
+        </div>
       </div>
     </section>
   );
