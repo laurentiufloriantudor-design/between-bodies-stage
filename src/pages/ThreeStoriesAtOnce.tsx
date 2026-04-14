@@ -4,6 +4,22 @@ import { ArrowLeft } from "lucide-react";
 import { Link } from "react-router-dom";
 import DancingText from "@/components/DancingText";
 import ArticlePoll from "@/components/ArticlePoll";
+import turinFloor from "@/assets/turin-floor.jpg";
+import turinStanding from "@/assets/turin-standing.jpg";
+import turinCircle from "@/assets/turin-circle.jpg";
+
+const ArticleImage = ({ src, alt, caption }: { src: string; alt: string; caption?: string }) => (
+  <figure className="my-12 mx-0 md:-mx-8">
+    <div className="blob-3 overflow-hidden">
+      <img src={src} alt={alt} className="w-full h-auto grayscale contrast-125" />
+    </div>
+    {caption && (
+      <figcaption className="font-display text-[0.7rem] tracking-[0.08em] text-muted-foreground/60 mt-3 text-center italic">
+        {caption}
+      </figcaption>
+    )}
+  </figure>
+);
 
 const ArticleHero = () => (
   <section className="relative bg-navy overflow-hidden">
