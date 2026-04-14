@@ -143,6 +143,8 @@ const ArticleBody = () => (
       through accumulation. They kept doing it until the doing became something else.
     </p>
 
+    <ArticleImage src={turinStanding} alt="Participants exploring movement in the workshop space" caption="Negotiating space, breath, and intention." />
+
     <p className="font-body text-base leading-[1.85] text-foreground mb-6">
       At that point I brought two of the participants to the side of the room and
       gave them a text. A repetitive monologue, I had not broken it into lines, had
