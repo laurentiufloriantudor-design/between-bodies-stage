@@ -35,7 +35,8 @@ export default function GlobalCursor() {
     };
   }, []);
 
-  const isDark = location.pathname !== "/";
+  const lightPages = ["/", "/workshop", "/about", "/apply"];
+  const isDark = !lightPages.includes(location.pathname);
   const strokeColor = isDark ? "#E7E9DA" : "#162836";
 
   return (
