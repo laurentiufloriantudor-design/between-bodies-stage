@@ -39,7 +39,7 @@ const PartnerHero = () => {
           >
             Between Bodies is a travelling workshop format. We come to your space,
             adapt to your community, and build an intensive experience together.
-            You provide the ground — we bring the practice.
+            You provide the ground; we bring the practice.
           </p>
         </div>
 

@@ -54,10 +54,10 @@ const FacilitatorSection = () => {
           <AttentionElement seed={45} radius={450} maxShift={6} opacityFloor={0.6}>
             <div className="max-w-xl">
               <p className="font-body text-sm leading-relaxed text-muted-foreground mb-5" style={{ textWrap: 'pretty' }}>
-                Theatre director and acting trainer with over 16 years of experience, working across institutional theatres, independent companies, and international collaborations — including with artists such as Declan Donnellan and Robert Wilson.
+                Theatre director and acting trainer with over 16 years of experience, working across institutional theatres, independent companies, and international collaborations, including with artists such as Declan Donnellan and Robert Wilson.
               </p>
               <p className="font-body text-sm leading-relaxed text-muted-foreground mb-5" style={{ textWrap: 'pretty' }}>
-                His current work focuses on the relationship between the body, impulse, and direct experience. Rather than following a fixed method, he builds processes that emerge from the encounter between people in the room — shifting the focus from analysis to presence, from performing well to responding to what is actually happening.
+                His current work focuses on the relationship between the body, impulse, and direct experience. Rather than following a fixed method, he builds processes that emerge from the encounter between people in the room, shifting the focus from analysis to presence, from performing well to responding to what is actually happening.
               </p>
               <p className="font-body text-sm leading-relaxed text-muted-foreground" style={{ textWrap: 'pretty' }}>
                 Drawing on physical expression and somatic awareness, he creates non-hierarchical environments where vulnerability is part of the work, habits are questioned, and instinct is given space to lead.

@@ -9,7 +9,7 @@ const steps = [
   {
     number: "02",
     title: "First conversation",
-    desc: "A call to understand your context — who the participants are, what format makes sense, what the collaboration could look like.",
+    desc: "A call to understand your context, who the participants are, what format makes sense, what the collaboration could look like.",
   },
   {
     number: "03",
