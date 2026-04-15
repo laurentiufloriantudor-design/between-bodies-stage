@@ -20,10 +20,12 @@ const PartnerContact = () => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setError(false);
+    setSubmitting(true);
     const form = e.currentTarget;
     const data = new FormData(form);
     try {
-      await supabase.functions.invoke("send-contact-email", {
+      const { error: fnError } = await supabase.functions.invoke("send-contact-email", {
         body: {
           type: "partner",
           name: data.get("name"),
@@ -33,9 +35,13 @@ const PartnerContact = () => {
           message: data.get("message"),
         },
       });
+      if (fnError) throw fnError;
       setSubmitted(true);
     } catch (err) {
       console.error("Contact form error:", err);
+      setError(true);
+    } finally {
+      setSubmitting(false);
     }
   };
 
