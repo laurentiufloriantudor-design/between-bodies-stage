@@ -28,7 +28,7 @@ const ApplySection = () => {
               What's<br />Next
             </h2>
             <p className="font-body text-sm leading-relaxed text-muted-foreground mb-6" style={{ textWrap: 'pretty' }}>
-              The Torino Intensive — April 2026 — is now complete. Thirty participants, two days, one room.
+              The Torino Intensive, April 2026, is now complete. Thirty participants, two days, one room.
             </p>
           </div>
         </AttentionElement>

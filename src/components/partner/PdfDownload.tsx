@@ -27,7 +27,7 @@ const PdfDownload = () => {
           </h2>
           <p className="font-body text-sm leading-relaxed text-cream/50 max-w-md mb-8" style={{ textWrap: 'pretty' }}>
             Workshop format, partnership structure, past editions, artistic vision,
-            and contact details — everything you need to present Between Bodies
+            and contact details, everything you need to present Between Bodies
             to your team or board.
           </p>
           <a href="/between-bodies-proposal.pdf" download>

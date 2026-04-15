@@ -45,7 +45,7 @@ const ResidencyTeaser = () => {
           <AttentionElement seed={35} radius={450} maxShift={6} opacityFloor={0.6}>
             <div className={`space-y-5 font-body text-sm leading-relaxed text-cream/70 max-w-xl ${visible ? 'animate-reveal-up animate-delay-2' : ''}`} style={{ textWrap: 'pretty' }}>
               <p>Seven days of intensive daily work at Ecomuseo Nesta in Turin, in collaboration with Libere Gabbie A.P.S. We bring together actors and performers from different countries and training backgrounds for a process oriented toward research, presence, and the development of original performative material.</p>
-              <p>The work focuses on stage presence and quality of attention, relational awareness, improvisation as a compositional tool, and the integration of body, voice, and imagination. Participants are not required to perform well — they are invited to remain present, attentive, and responsive to what emerges in the room.</p>
+              <p>The work focuses on stage presence and quality of attention, relational awareness, improvisation as a compositional tool, and the integration of body, voice, and imagination. Participants are not required to perform well; they are invited to remain present, attentive, and responsive to what emerges in the room.</p>
               <p>The programme includes individual feedback sessions, development of a scene or original performative material, professional video documentation of the developed work, a professional photo session for casting purposes, and a certificate of participation.</p>
             </div>
           </AttentionElement>

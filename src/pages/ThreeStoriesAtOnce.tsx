@@ -263,9 +263,9 @@ const ArticleBody = () => (
       articleSlug="three-stories-at-once"
       question="What happens when you genuinely listen to someone with your whole body?"
       options={[
-        { label: "Something shifts — in me, not just in them", value: "shift" },
+        { label: "Something shifts, in me, not just in them", value: "shift" },
         { label: "I lose track of what I was going to say", value: "lost" },
-        { label: "I rarely get that far — something pulls me back", value: "rarely" },
+        { label: "I rarely get that far, something pulls me back", value: "rarely" },
         { label: "I'm not sure I've ever done it fully", value: "never" },
       ]}
     />

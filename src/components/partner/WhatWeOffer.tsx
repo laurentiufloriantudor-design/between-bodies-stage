@@ -5,25 +5,25 @@ const tabs = [
     id: "schools",
     label: "Schools & Training Centres",
     title: "Guest teacher,\nyour space",
-    body: "Between Bodies comes as a guest teacher — for a two-day introduction, a week-long intensive, or a series of sessions across a semester. The format adapts to your programme, your students, and what you're looking to explore together. A shorter collaboration can be a starting point — a way to see whether the work resonates with your pedagogical values before committing to something longer. For week-long or semester collaborations, the work closes with an open session: colleagues, faculty, and guests of the institution are invited to witness what the group has built.",
+    body: "Between Bodies comes as a guest teacher, for a two-day introduction, a week-long intensive, or a series of sessions across a semester. The format adapts to your programme, your students, and what you're looking to explore together. A shorter collaboration can be a starting point, a way to see whether the work resonates with your pedagogical values before committing to something longer. For week-long or semester collaborations, the work closes with an open session: colleagues, faculty, and guests of the institution are invited to witness what the group has built.",
   },
   {
     id: "cultural",
     label: "Cultural Centres",
     title: "International practice,\nlocal ground",
-    body: "A two or three-day workshop open to actors, performers, and practitioners from different backgrounds. You handle local promotion and participant recruitment — we bring the practice. What your community gains is access to an international working methodology in their own city, in their own space.",
+    body: "A two or three-day workshop open to actors, performers, and practitioners from different backgrounds. You handle local promotion and participant recruitment; we bring the practice. What your community gains is access to an international working methodology in their own city, in their own space.",
   },
   {
     id: "companies",
     label: "Independent Companies",
     title: "Built around\nyour ensemble",
-    body: "A format built around your ensemble — closed, focused, and adapted to where your group is in its work. The starting point is a conversation about what your company needs right now. If this sounds relevant, let's talk about what it could look like.",
+    body: "A format built around your ensemble, closed, focused, and adapted to where your group is in its work. The starting point is a conversation about what your company needs right now. If this sounds relevant, let's talk about what it could look like.",
   },
   {
     id: "festivals",
     label: "Festivals",
     title: "Process alongside\nproduct",
-    body: "Between Bodies can be part of a festival programme as a workshop event — before, during, or alongside the main programme. If you're building a curatorial vision that includes process alongside product, we'd be interested in hearing about it.",
+    body: "Between Bodies can be part of a festival programme as a workshop event, before, during, or alongside the main programme. If you're building a curatorial vision that includes process alongside product, we'd be interested in hearing about it.",
   },
 ];
 

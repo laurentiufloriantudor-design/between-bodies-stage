@@ -50,13 +50,13 @@ const AboutSection = () => {
           <AttentionElement seed={55} radius={450} maxShift={6} opacityFloor={0.6}>
             <div className="columns-1 md:columns-2 gap-10 max-w-2xl">
               <p className="font-body text-sm leading-relaxed mb-5 text-muted-foreground" style={{ textWrap: 'pretty' }}>
-                Between Bodies starts from a simple observation: something happens in the body when two people genuinely begin to listen to each other. Not intellectually — physically. Weight shifts. Breath changes. The distance between them becomes active. This project investigates that space — not as metaphor, but as the actual site where theatre occurs.
+                Between Bodies starts from a simple observation: something happens in the body when two people genuinely begin to listen to each other. Not intellectually, physically. Weight shifts. Breath changes. The distance between them becomes active. This project investigates that space, not as metaphor, but as the actual site where theatre occurs.
               </p>
               <p className="font-body text-sm leading-relaxed mb-5 text-muted-foreground" style={{ textWrap: 'pretty' }}>
-                Each laboratory brings together performers from different backgrounds and traditions for intensive work focused on physical attention, impulse, and shared presence. We do not teach a fixed technique. We build conditions in which habits loosen, analysis steps back, and the body's direct intelligence has room to lead. The working environment is non-hierarchical by design — vulnerability is not a side effect of the process, it is the process.
+                Each laboratory brings together performers from different backgrounds and traditions for intensive work focused on physical attention, impulse, and shared presence. We do not teach a fixed technique. We build conditions in which habits loosen, analysis steps back, and the body's direct intelligence has room to lead. The working environment is non-hierarchical by design; vulnerability is not a side effect of the process, it is the process.
               </p>
               <p className="font-body text-sm leading-relaxed text-muted-foreground" style={{ textWrap: 'pretty' }}>
-                Between Bodies is currently developing a series of international laboratories and residencies across Europe, with a focus on sustained encounter — the kind of work that requires more than a weekend to reach. Each edition is different. The city changes, the group changes, the material that surfaces changes. What stays constant is the quality of attention we ask for, and the conviction that what happens between bodies on stage is worth investigating with full seriousness.
+                Between Bodies is currently developing a series of international laboratories and residencies across Europe, with a focus on sustained encounter, the kind of work that requires more than a weekend to reach. Each edition is different. The city changes, the group changes, the material that surfaces changes. What stays constant is the quality of attention we ask for, and the conviction that what happens between bodies on stage is worth investigating with full seriousness.
               </p>
             </div>
           </AttentionElement>

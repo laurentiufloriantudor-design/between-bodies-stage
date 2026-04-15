@@ -186,7 +186,7 @@ const ArticleBody = () => {
         articleSlug="when-the-body-knows-first"
         question="What do you do with the body's knowledge before the mind catches up?"
         options={[
-          { label: "I ignore it — I wait for clarity", value: "ignore" },
+          { label: "I ignore it, I wait for clarity", value: "ignore" },
           { label: "I follow it, even when I can't explain it", value: "follow" },
           { label: "I'm still learning to hear it", value: "learning" },
           { label: "I didn't know that was an option", value: "new" },
