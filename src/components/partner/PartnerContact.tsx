@@ -6,6 +6,8 @@ const PartnerContact = () => {
   const ref = useRef<HTMLElement>(null);
   const [visible, setVisible] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState(false);
 
   useEffect(() => {
     const obs = new IntersectionObserver(
@@ -18,10 +20,12 @@ const PartnerContact = () => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setError(false);
+    setSubmitting(true);
     const form = e.currentTarget;
     const data = new FormData(form);
     try {
-      await supabase.functions.invoke("send-contact-email", {
+      const { error: fnError } = await supabase.functions.invoke("send-contact-email", {
         body: {
           type: "partner",
           name: data.get("name"),
@@ -31,9 +35,13 @@ const PartnerContact = () => {
           message: data.get("message"),
         },
       });
+      if (fnError) throw fnError;
       setSubmitted(true);
     } catch (err) {
       console.error("Contact form error:", err);
+      setError(true);
+    } finally {
+      setSubmitting(false);
     }
   };
 
@@ -97,13 +105,22 @@ const PartnerContact = () => {
               placeholder="Your message"
               className="w-full bg-transparent border-b border-cream/20 py-3 font-body text-sm text-cream placeholder:text-cream/30 focus:outline-none focus:border-teal transition-colors duration-300 resize-none"
             />
+            {error && (
+              <p className="font-body text-sm text-coral">
+                Something didn't go through. Please try again, or write directly to{" "}
+                <a href="mailto:between.bconnections@gmail.com" className="underline hover:text-teal transition-colors">
+                  between.bconnections@gmail.com
+                </a>
+              </p>
+            )}
             <Button
               type="submit"
               variant="hero"
               size="lg"
-              className="bg-cream text-foreground hover:bg-teal hover:text-foreground border-0 transition-colors duration-500"
+              disabled={submitting}
+              className="bg-cream text-foreground hover:bg-teal hover:text-foreground border-0 transition-colors duration-500 disabled:opacity-60"
             >
-              Send message →
+              {submitting ? "Sending…" : "Send message →"}
             </Button>
           </form>
         )}
