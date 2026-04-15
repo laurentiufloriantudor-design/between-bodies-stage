@@ -6,6 +6,8 @@ const PartnerContact = () => {
   const ref = useRef<HTMLElement>(null);
   const [visible, setVisible] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState(false);
 
   useEffect(() => {
     const obs = new IntersectionObserver(
