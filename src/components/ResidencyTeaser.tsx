@@ -52,7 +52,7 @@ const ResidencyTeaser = () => {
 
           <AttentionElement seed={36} radius={350} maxShift={4} opacityFloor={0.7}>
             <div className={`mt-10 flex flex-wrap gap-4 ${visible ? 'animate-reveal-up animate-delay-3' : ''}`}>
-              <Button variant="outline" size="lg" className="border-cream/30 text-cream hover:bg-teal hover:text-foreground hover:border-teal" onClick={() => document.getElementById("newsletter")?.scrollIntoView({ behavior: "smooth" })}>
+              <Button variant="outline" size="lg" className="border-cream/40 !text-cream bg-transparent hover:bg-teal hover:!text-foreground hover:border-teal" onClick={() => document.getElementById("newsletter")?.scrollIntoView({ behavior: "smooth" })}>
                 Stay Updated →
               </Button>
             </div>
