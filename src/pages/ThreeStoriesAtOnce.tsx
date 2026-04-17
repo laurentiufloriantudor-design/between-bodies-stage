@@ -51,7 +51,7 @@ const ArticleHero = () => (
       <div className="flex items-center justify-center gap-4 md:gap-8 font-display text-[0.75rem] tracking-[0.06em] uppercase text-cream/45 flex-wrap">
         <span>Laurențiu Tudor</span>
         <span className="text-teal">·</span>
-        <span>March 2025</span>
+        <span>March 2026</span>
         <span className="text-teal">·</span>
         <span>Turin</span>
       </div>
@@ -112,7 +112,7 @@ const ArticleBody = () => (
       Most groups rush through the looking. This one slowed down.
     </p>
 
-    <ArticleImage src={turinCircle} alt="Participants sitting in a circle during the Turin laboratory" caption="Turin, March 2025. The circle before the first exercise." />
+    <ArticleImage src={turinCircle} alt="Participants sitting in a circle during the Turin laboratory" caption="Turin, March 2026. The circle before the first exercise." />
 
     <SectionHeading>Stay. Leave. I cannot.</SectionHeading>
 
