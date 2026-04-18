@@ -8,12 +8,16 @@ export default function GlobalCursor() {
   const rafRef = useRef<number>(0);
   const location = useLocation();
 
-  useEffect(() => {
-    document.body.style.cursor = "none";
-    return () => { document.body.style.cursor = ""; };
-  }, []);
+  const isTouch = typeof window !== "undefined" && (window.matchMedia("(hover: none)").matches || "ontouchstart" in window);
 
   useEffect(() => {
+    if (isTouch) return;
+    document.body.style.cursor = "none";
+    return () => { document.body.style.cursor = ""; };
+  }, [isTouch]);
+
+  useEffect(() => {
+    if (isTouch) return;
     const onMove = (e: MouseEvent) => {
       targetRef.current = { x: e.clientX, y: e.clientY };
     };
@@ -33,7 +37,10 @@ export default function GlobalCursor() {
       window.removeEventListener("mousemove", onMove);
       cancelAnimationFrame(rafRef.current);
     };
-  }, []);
+  }, [isTouch]);
+
+  if (isTouch) return null;
+
 
   const lightPages = ["/", "/workshop", "/about", "/apply"];
   const isDark = !lightPages.includes(location.pathname);
