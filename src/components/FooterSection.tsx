@@ -42,7 +42,7 @@ const FooterSection = () => {
 
       <div className="relative z-10 px-6 md:px-12 py-4 border-t border-cream/10">
         <p className="font-body text-[10px] opacity-30 tabular-nums">
-          © 2025 BetweenBodies. All rights reserved.
+          © 2026 BetweenBodies. All rights reserved.
         </p>
       </div>
     </footer>
