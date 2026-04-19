@@ -56,14 +56,14 @@ const VoicesFromTheRoom = () => {
       </div>
 
       <header className="px-6 md:px-12 pt-16 md:pt-24 pb-16 md:pb-24">
-        <div className="max-w-5xl mx-auto">
+        <div className="max-w-5xl mx-auto text-left">
           <p className="font-display text-xs tracking-[0.3em] text-teal mb-6">
             Voices
           </p>
-          <h1 className="font-display text-5xl md:text-7xl lg:text-8xl leading-[0.95] tracking-[0.02em] uppercase">
+          <h1 className="font-display text-5xl md:text-7xl lg:text-8xl leading-[0.95] tracking-[0.02em] uppercase text-left">
             Voices from<br />the Room
           </h1>
-          <p className="font-body text-base md:text-lg leading-relaxed text-cream/60 mt-10 max-w-2xl">
+          <p className="font-body text-base md:text-lg leading-relaxed text-cream/60 mt-10 max-w-2xl text-left">
             Their words, after the work.
           </p>
         </div>
