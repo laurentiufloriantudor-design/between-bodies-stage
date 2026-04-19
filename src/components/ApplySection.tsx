@@ -39,15 +39,16 @@ const ApplySection = () => {
               <p className="font-body text-sm leading-relaxed text-muted-foreground mb-8" style={{ textWrap: 'pretty' }}>
                 The next laboratory is in preparation. Location and dates to be announced. Subscribe to be the first to receive the open call.
               </p>
-              <a href="#newsletter">
-                <Button
-                  variant="hero"
-                  size="lg"
-                  className="bg-foreground text-background hover:bg-teal hover:text-foreground border-0 transition-colors duration-500 active:scale-[0.97]"
-                >
-                  Subscribe for Updates →
-                </Button>
-              </a>
+              <Button
+                variant="hero"
+                size="lg"
+                onClick={() => {
+                  document.getElementById("newsletter")?.scrollIntoView({ behavior: "smooth", block: "start" });
+                }}
+                className="bg-foreground text-background hover:bg-teal hover:text-foreground border-0 transition-colors duration-500 active:scale-[0.97]"
+              >
+                Subscribe for Updates →
+              </Button>
             </div>
           </div>
         </AttentionElement>
