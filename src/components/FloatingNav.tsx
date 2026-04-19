@@ -519,7 +519,7 @@ export default function FloatingNav() {
             userSelect: "none",
             background: "none",
             border: "none",
-            padding: "10px 4px",
+            padding: "18px 16px",
           }}
           onMouseEnter={(e) => {
             const dot = e.currentTarget.querySelector<HTMLSpanElement>(".bb-dot");
