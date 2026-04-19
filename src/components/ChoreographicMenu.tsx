@@ -7,6 +7,7 @@ const navLinks = [
   { label: "Apply", href: "/apply", entry: "slide-left-delayed" },
   { label: "Newsletter", href: "#newsletter", entry: "descend-slow" },
   { label: "Notes from the Room", href: "/notes-from-the-room", entry: "slide-left-sharp" },
+  { label: "Voices from the Room", href: "/voices-from-the-room", entry: "slide-left-delayed" },
   { label: "Partner with us", href: "/partner", entry: "descend-tremor" },
 ];
 
@@ -17,11 +18,12 @@ const tremors = [
   { duration: 3.8, delay: 1.3, xAmp: 1.0, yAmp: 0.6, rotAmp: 0.2 },
   { duration: 4.7, delay: 0.4, xAmp: 0.9, yAmp: 1.3, rotAmp: 0.4 },
   { duration: 5.5, delay: 1.0, xAmp: 1.1, yAmp: 0.7, rotAmp: 0.6 },
+  { duration: 4.6, delay: 1.5, xAmp: 1.0, yAmp: 0.9, rotAmp: 0.4 },
   { duration: 4.0, delay: 1.8, xAmp: 0.8, yAmp: 1.0, rotAmp: 0.3 },
 ];
 
 // Entry animation delays (staggered, non-uniform)
-const entryDelays = [0, 120, 280, 180, 400, 320];
+const entryDelays = [0, 120, 280, 180, 400, 240, 320];
 
 interface Props {
   isOpen: boolean;

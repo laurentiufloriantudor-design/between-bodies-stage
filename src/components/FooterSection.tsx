@@ -34,6 +34,7 @@ const FooterSection = () => {
               <a href="/about" className="hover:opacity-100 hover:text-teal transition-all duration-500">About</a>
               <a href="/apply" className="hover:opacity-100 hover:text-teal transition-all duration-500">Apply</a>
               <a href="/notes-from-the-room" className="hover:opacity-100 hover:text-teal transition-all duration-500">Notes from the Room</a>
+              <a href="/voices-from-the-room" className="hover:opacity-100 hover:text-teal transition-all duration-500">Voices from the Room</a>
               <a href="/partner" className="hover:opacity-100 hover:text-teal transition-all duration-500">Partner</a>
             </nav>
           </div>

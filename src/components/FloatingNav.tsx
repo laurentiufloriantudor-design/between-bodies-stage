@@ -36,11 +36,12 @@ interface BodyState {
 // ─── Config ───────────────────────────────────────────────────────────────────
 
 const NAV_ITEMS: NavItem[] = [
-  { label: "Workshop",            href: "/workshop",              size: 40, homeX: 0.62, homeY: 0.22 },
-  { label: "About",               href: "/about",                 size: 36, homeX: 0.72, homeY: 0.30 },
-  { label: "Apply",               href: "/apply",                 size: 44, homeX: 0.54, homeY: 0.38 },
-  { label: "Notes from the Room", href: "/notes-from-the-room",   size: 28, homeX: 0.49, homeY: 0.55 },
-  { label: "Partner with Us",     href: "/partner",               size: 32, homeX: 0.56, homeY: 0.70 },
+  { label: "Workshop",            href: "/workshop",              size: 40, homeX: 0.62, homeY: 0.20 },
+  { label: "About",               href: "/about",                 size: 36, homeX: 0.72, homeY: 0.28 },
+  { label: "Apply",               href: "/apply",                 size: 44, homeX: 0.54, homeY: 0.36 },
+  { label: "Notes from the Room", href: "/notes-from-the-room",   size: 28, homeX: 0.49, homeY: 0.50 },
+  { label: "Voices from the Room", href: "/voices-from-the-room", size: 28, homeX: 0.66, homeY: 0.60 },
+  { label: "Partner with Us",     href: "/partner",               size: 32, homeX: 0.56, homeY: 0.72 },
 ];
 
 const IDLE_DRIFT = [
@@ -48,6 +49,7 @@ const IDLE_DRIFT = [
   { xAmp: 4,  yAmp: 7,  period: 6100, phase: 1200 },
   { xAmp: 5,  yAmp: 3,  period: 4800, phase: 2800 },
   { xAmp: 7,  yAmp: 5,  period: 5700, phase: 800 },
+  { xAmp: 5,  yAmp: 6,  period: 5400, phase: 1600 },
   { xAmp: 3,  yAmp: 6,  period: 6500, phase: 2000 },
 ];
 
@@ -57,6 +59,7 @@ const ITEM_PERSONALITY = [
   { responseLag: 0.05,  jitterAmp: 0.2, colorDelay: 120, warmthDecay: 0.014, isRebel: false, fadeFloor: 0.35, fadeRate: 0.045 },
   // "Notes from the Room" — the rebel: fades less, resists disappearing
   { responseLag: 0.12,  jitterAmp: 0.8, colorDelay: 320, warmthDecay: 0.006, isRebel: true,  fadeFloor: 0.45, fadeRate: 0.02  },
+  { responseLag: 0.08,  jitterAmp: 0.4, colorDelay: 200, warmthDecay: 0.009, isRebel: false, fadeFloor: 0.32, fadeRate: 0.036 },
   { responseLag: 0.065, jitterAmp: 0.4, colorDelay: 160, warmthDecay: 0.011, isRebel: false, fadeFloor: 0.30, fadeRate: 0.038 },
 ];
 
