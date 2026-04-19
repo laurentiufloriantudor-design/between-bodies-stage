@@ -21,13 +21,13 @@ const HeroSection = () => {
         <FloatingNav />
       </div>
 
-      <nav className="relative z-30 flex items-center justify-between px-6 md:px-12 py-6">
+      <nav className="relative z-30 flex items-center justify-between px-6 md:px-12 py-6 pointer-events-none">
         <AttentionElement seed={3} radius={300} maxShift={4} opacityFloor={0.85} passive={false}>
-          <img src={logo} alt="BetweenBodies logo" className="h-40 w-auto" />
+          <img src={logo} alt="BetweenBodies logo" className="h-40 w-auto pointer-events-auto" />
         </AttentionElement>
         <button
           onClick={() => setMenuOpen(!menuOpen)}
-          className="relative z-50 w-10 h-10 flex items-center justify-center text-foreground hover:text-teal transition-colors duration-300 active:scale-95 lg:hidden"
+          className="relative z-50 w-10 h-10 flex items-center justify-center text-foreground hover:text-teal transition-colors duration-300 active:scale-95 lg:hidden pointer-events-auto"
           aria-label="Toggle menu"
         >
           {menuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
