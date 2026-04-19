@@ -55,20 +55,22 @@ const VoicesFromTheRoom = () => {
         </Link>
       </div>
 
-      <header className="px-6 md:px-12 pt-16 md:pt-24 pb-16 md:pb-24 max-w-5xl">
-        <p className="font-display text-xs tracking-[0.3em] text-teal mb-6">
-          Voices
-        </p>
-        <h1 className="font-display text-5xl md:text-7xl lg:text-8xl leading-[0.95] tracking-[0.02em] uppercase">
-          Voices from<br />the Room
-        </h1>
-        <p className="font-body text-base md:text-lg leading-relaxed text-cream/60 mt-10 max-w-2xl">
-          Reflections from participants, gathered after the work.
-        </p>
+      <header className="px-6 md:px-12 pt-16 md:pt-24 pb-16 md:pb-24">
+        <div className="max-w-5xl mx-auto">
+          <p className="font-display text-xs tracking-[0.3em] text-teal mb-6">
+            Voices
+          </p>
+          <h1 className="font-display text-5xl md:text-7xl lg:text-8xl leading-[0.95] tracking-[0.02em] uppercase">
+            Voices from<br />the Room
+          </h1>
+          <p className="font-body text-base md:text-lg leading-relaxed text-cream/60 mt-10 max-w-2xl">
+            Their words, after the work.
+          </p>
+        </div>
       </header>
 
       <section className="px-6 md:px-12 pb-32 md:pb-48">
-        <div className="max-w-3xl mx-auto flex flex-col gap-32 md:gap-48">
+        <div className="max-w-5xl mx-auto flex flex-col gap-32 md:gap-48">
           {voices.map((voice, i) => {
             const echoColorClass = voice.echoColor === "teal" ? "text-teal" : "text-coral";
             const alignRight = i % 2 === 1;
