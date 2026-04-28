@@ -14,6 +14,7 @@ import NotFound from "./pages/NotFound.tsx";
 import NotesFromTheRoom from "./pages/NotesFromTheRoom.tsx";
 import WhenTheBodyKnowsFirst from "./pages/WhenTheBodyKnowsFirst.tsx";
 import ThreeStoriesAtOnce from "./pages/ThreeStoriesAtOnce.tsx";
+import TheSpaceBetweenUs from "./pages/TheSpaceBetweenUs.tsx";
 import VoicesFromTheRoom from "./pages/VoicesFromTheRoom.tsx";
 
 const queryClient = new QueryClient();
@@ -35,6 +36,7 @@ const App = () => (
           <Route path="/notes-from-the-room" element={<NotesFromTheRoom />} />
           <Route path="/notes-from-the-room/when-the-body-knows-first" element={<WhenTheBodyKnowsFirst />} />
           <Route path="/notes-from-the-room/three-stories-at-once" element={<ThreeStoriesAtOnce />} />
+          <Route path="/notes-from-the-room/the-space-between-us" element={<TheSpaceBetweenUs />} />
           <Route path="/voices-from-the-room" element={<VoicesFromTheRoom />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
