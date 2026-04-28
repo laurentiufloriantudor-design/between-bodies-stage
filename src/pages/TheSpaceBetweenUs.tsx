@@ -66,7 +66,7 @@ const ArticleBody = () => (
     <SectionHeading>What the Body Already Knows</SectionHeading>
 
     <p className="font-body text-base leading-[1.85] text-foreground mb-6 first-letter:font-display first-letter:text-[3.8rem] first-letter:float-left first-letter:leading-[0.8] first-letter:mr-[0.1em] first-letter:mt-[0.12em] first-letter:text-coral">
-      There is a moment in rehearsal, and in workshops, and sometimes in performance, when you can see two things operating simultaneously in the same body.
+      There are times in rehearsal, and in workshops, and sometimes in performance, when you can see two things operating simultaneously in the same body.
     </p>
 
     <Para>
