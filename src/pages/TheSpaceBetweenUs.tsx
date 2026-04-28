@@ -4,6 +4,22 @@ import { Link } from "react-router-dom";
 import DancingText from "@/components/DancingText";
 import ArticlePoll from "@/components/ArticlePoll";
 import SEOHead from "@/components/SEOHead";
+import turinProximityCircle from "@/assets/turin-proximity-circle.jpg";
+import turinHandsContact from "@/assets/turin-hands-contact.jpg";
+import turinMovementEnsemble from "@/assets/turin-movement-ensemble.jpg";
+
+const ArticleImage = ({ src, alt, caption }: { src: string; alt: string; caption?: string }) => (
+  <figure className="my-12 mx-auto max-w-[85%] md:max-w-[75%]">
+    <div className="blob-3 overflow-hidden">
+      <img src={src} alt={alt} className="w-full h-auto grayscale contrast-125" />
+    </div>
+    {caption && (
+      <figcaption className="font-display text-[0.8rem] tracking-[0.06em] text-muted-foreground mt-3 text-center italic">
+        {caption}
+      </figcaption>
+    )}
+  </figure>
+);
 
 const ArticleHero = () => (
   <section className="relative bg-navy overflow-hidden">
@@ -99,6 +115,12 @@ const ArticleBody = () => (
       The intention to touch, or to move closer, or to stay, was legible in every person in the room. So was the question running underneath it: has this been permitted? Will I be too much? The social conditioning that usually operates invisibly was suddenly visible, written in the body's held breath, in the slight pause before a step forward.
     </Para>
 
+    <ArticleImage
+      src={turinProximityCircle}
+      alt="Participants standing in proximity, holding gaze across the space between them."
+      caption="The corridor between bodies, held by attention alone."
+    />
+
     <PullQuote>
       I feel like I can't walk through that space between you.
     </PullQuote>
@@ -129,6 +151,12 @@ const ArticleBody = () => (
       A two-day workshop cannot process this. It can only make it visible. What shifts in the room is not the fear itself but the relationship to it: from something to be hidden, to something that can be acknowledged, even briefly, even without resolution.
     </Para>
 
+    <ArticleImage
+      src={turinHandsContact}
+      alt="Hands lifted toward another body, the moment before contact is made."
+      caption="The instant before contact, where instinct meets permission."
+    />
+
     <Para>
       Several participants named this in the closing circle. The relief of a space without judgment. The discovery that the body could move differently when the internal committee quieted, even slightly. The recognition that this, presence without performance, contact without guarantee, is what they're actually trying to do when they work.
     </Para>
@@ -150,6 +178,12 @@ const ArticleBody = () => (
     <Para>
       Given enough space, and the right conditions, the body stops arguing, or argues less. The exercises were not designed to eliminate the committee but to give it less to work with: simpler structures, clearer physical tasks, music that moved in the room like another presence. When the mind runs out of things to assess, the body gets on with it.
     </Para>
+
+    <ArticleImage
+      src={turinMovementEnsemble}
+      alt="Performers moving together in dynamic ensemble, weight and gesture exchanged in the air."
+      caption="When the committee quiets, the body gets on with it."
+    />
 
     <Para>
       The corridor you cannot pass through, the space charged by proximity and breath and unspoken intention, is not an obstacle to the work. It is the work. What happens in that space, between two performers who are genuinely present with each other, is what theatre has always been trying to do.
