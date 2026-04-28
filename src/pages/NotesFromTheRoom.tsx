@@ -6,6 +6,16 @@ import FooterSection from "@/components/FooterSection";
 // Each article has a unique "light signature"
 const articles = [
   {
+    slug: "the-space-between-us",
+    title: "The Space Between Us",
+    subtitle: "Notes from a Between Bodies physical theatre workshop, on the gap between impulse and permission, and what becomes visible when a room makes space for it.",
+    location: "Turin",
+    date: "April 2026",
+    tag: "Workshop",
+    // Warm coral-leaning light
+    light: { cyan: 0.18, magenta: 0.38, intensity: 1.12, bgHue: 12, bgSat: 12 },
+  },
+  {
     slug: "when-the-body-knows-first",
     title: "When the Body Knows First",
     subtitle: "Notes from a physical theatre practice in three countries, on presence, impulse, and what happens when you stop performing Shakespeare and start inhabiting him.",
