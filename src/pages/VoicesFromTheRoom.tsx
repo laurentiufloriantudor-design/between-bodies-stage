@@ -1,6 +1,7 @@
 import { ArrowLeft } from "lucide-react";
 import { Link } from "react-router-dom";
 import FooterSection from "@/components/FooterSection";
+import SEOHead from "@/components/SEOHead";
 
 interface Voice {
   name: string;
