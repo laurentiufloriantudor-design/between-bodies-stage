@@ -46,6 +46,11 @@ const voices: Voice[] = [
 const VoicesFromTheRoom = () => {
   return (
     <div className="min-h-screen bg-navy text-cream">
+      <SEOHead
+        title="Voices from the Room | Between Bodies"
+        description="Participant testimonies from Between Bodies physical theatre workshops. Their words, after the work."
+        canonical="/voices-from-the-room"
+      />
       <div className="px-6 md:px-12 pt-6">
         <Link
           to="/"
