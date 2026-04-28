@@ -3,10 +3,16 @@ import { Link } from "react-router-dom";
 import AboutSection from "@/components/AboutSection";
 import FacilitatorSection from "@/components/FacilitatorSection";
 import FooterSection from "@/components/FooterSection";
+import SEOHead from "@/components/SEOHead";
 
 const About = () => {
   return (
     <div className="min-h-screen bg-background text-foreground">
+      <SEOHead
+        title="About Between Bodies & Laurențiu Tudor"
+        description="Between Bodies is a physical theatre practice grounded in attention, presence, and the space between performers. Led by director and pedagogue Laurențiu Tudor."
+        canonical="/about"
+      />
       <div className="px-6 md:px-12 pt-6">
         <Link
           to="/"

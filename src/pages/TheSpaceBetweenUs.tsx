@@ -1,9 +1,9 @@
-import { useEffect } from "react";
 import FooterSection from "@/components/FooterSection";
 import { ArrowLeft } from "lucide-react";
 import { Link } from "react-router-dom";
 import DancingText from "@/components/DancingText";
 import ArticlePoll from "@/components/ArticlePoll";
+import SEOHead from "@/components/SEOHead";
 
 const ArticleHero = () => (
   <section className="relative bg-navy overflow-hidden">
@@ -200,12 +200,13 @@ const ArticleBody = () => (
 );
 
 const TheSpaceBetweenUs = () => {
-  useEffect(() => {
-    document.title = "The Space Between Us | Between Bodies";
-  }, []);
-
   return (
     <div className="min-h-screen bg-background text-foreground">
+      <SEOHead
+        title="The Space Between Us: Notes from a Physical Theatre Workshop in Turin"
+        description="What happens in the body when two performers enter genuine proximity? Reflections from a Between Bodies physical theatre training workshop in Turin, April 2026."
+        canonical="/notes-from-the-room/the-space-between-us"
+      />
       <ArticleHero />
       <ArticleBody />
       <FooterSection />

@@ -1,5 +1,5 @@
-import { useEffect } from "react";
 import FooterSection from "@/components/FooterSection";
+import SEOHead from "@/components/SEOHead";
 import { ArrowLeft } from "lucide-react";
 import { Link } from "react-router-dom";
 import DancingText from "@/components/DancingText";
@@ -273,12 +273,13 @@ const ArticleBody = () => (
 );
 
 const ThreeStoriesAtOnce = () => {
-  useEffect(() => {
-    document.title = "Three Stories at Once | Between Bodies";
-  }, []);
-
   return (
     <div className="min-h-screen bg-background text-foreground">
+      <SEOHead
+        title="Three Stories at Once: Notes from the Turin Laboratory | Between Bodies"
+        description="On the first Between Bodies laboratory in Turin, March 2026, and what happens when bodies begin to listen to each other in the space between them."
+        canonical="/notes-from-the-room/three-stories-at-once"
+      />
       <ArticleHero />
       <ArticleBody />
       <FooterSection />

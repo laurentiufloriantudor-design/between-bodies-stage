@@ -2,6 +2,7 @@ import { useEffect, useRef, useState, useCallback } from "react";
 import { Link } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
 import FooterSection from "@/components/FooterSection";
+import SEOHead from "@/components/SEOHead";
 
 // Each article has a unique "light signature"
 const articles = [
@@ -190,6 +191,11 @@ const NotesFromTheRoom = () => {
 
   return (
     <div className="min-h-screen text-foreground relative" style={{ backgroundColor: ambientBg, transition: "background-color 0.05s linear" }}>
+      <SEOHead
+        title="Notes from the Room | Between Bodies"
+        description="Reflections on practice, presence, and the space between bodies. Editorial notes from Between Bodies physical theatre workshops and laboratories."
+        canonical="/notes-from-the-room"
+      />
       {/* Atmospheric grain overlay */}
       <div
         className="fixed inset-0 pointer-events-none z-50"
