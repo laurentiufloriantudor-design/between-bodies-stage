@@ -4,6 +4,22 @@ import { Link } from "react-router-dom";
 import DancingText from "@/components/DancingText";
 import ArticlePoll from "@/components/ArticlePoll";
 import SEOHead from "@/components/SEOHead";
+import turinProximityCircle from "@/assets/turin-proximity-circle.jpg";
+import turinHandsContact from "@/assets/turin-hands-contact.jpg";
+import turinMovementEnsemble from "@/assets/turin-movement-ensemble.jpg";
+
+const ArticleImage = ({ src, alt, caption }: { src: string; alt: string; caption?: string }) => (
+  <figure className="my-12 mx-auto max-w-[85%] md:max-w-[75%]">
+    <div className="blob-3 overflow-hidden">
+      <img src={src} alt={alt} className="w-full h-auto grayscale contrast-125" />
+    </div>
+    {caption && (
+      <figcaption className="font-display text-[0.8rem] tracking-[0.06em] text-muted-foreground mt-3 text-center italic">
+        {caption}
+      </figcaption>
+    )}
+  </figure>
+);
 
 const ArticleHero = () => (
   <section className="relative bg-navy overflow-hidden">
