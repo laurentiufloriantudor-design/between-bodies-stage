@@ -23,6 +23,14 @@ const FooterSection = () => {
             <p className="font-body text-xs leading-relaxed opacity-50">
               between.bconnections@gmail.com
             </p>
+            <a
+              href="https://www.instagram.com/between.bodies_?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw=="
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-block mt-3 font-display text-xs tracking-[0.2em] uppercase opacity-50 hover:opacity-100 hover:text-teal transition-all duration-500"
+            >
+              Instagram
+            </a>
           </div>
         </AttentionElement>
 
