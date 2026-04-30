@@ -1,3 +1,4 @@
+import { Instagram } from "lucide-react";
 import logo from "@/assets/logo-betweenbodies.jpeg";
 import AttentionElement from "./AttentionElement";
 
@@ -27,9 +28,11 @@ const FooterSection = () => {
               href="https://www.instagram.com/between.bodies_?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw=="
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-block mt-3 font-display text-xs tracking-[0.2em] uppercase opacity-50 hover:opacity-100 hover:text-teal transition-all duration-500"
+              aria-label="Between Bodies on Instagram"
+              className="inline-flex items-center gap-2 mt-3 font-display text-xs tracking-[0.2em] uppercase opacity-50 hover:opacity-100 hover:text-teal transition-all duration-500"
             >
-              Instagram
+              <Instagram className="w-4 h-4" strokeWidth={1.5} />
+              Between Bodies , Instagram
             </a>
           </div>
         </AttentionElement>
