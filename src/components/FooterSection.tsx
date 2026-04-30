@@ -25,7 +25,7 @@ const FooterSection = () => {
               between.bconnections@gmail.com
             </p>
             <a
-              href="https://www.instagram.com/between.bodies_?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw=="
+              href="https://www.instagram.com/between.bodies_/"
               target="_blank"
               rel="noopener noreferrer"
               aria-label="Between Bodies on Instagram"
