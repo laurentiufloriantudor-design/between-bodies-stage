@@ -1,3 +1,4 @@
+import { Instagram } from "lucide-react";
 import logo from "@/assets/logo-betweenbodies.jpeg";
 import AttentionElement from "./AttentionElement";
 
